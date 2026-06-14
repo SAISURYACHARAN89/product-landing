@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Product — The simplest way to ship your product",
-  description: "A landing page for your product. Edit this copy to describe what you sell.",
+  title: "Cursur — The simplest way to ship your product",
+  description: "A landing page for Cursur. Edit this copy to describe what you sell.",
 };
 
 export default function RootLayout({

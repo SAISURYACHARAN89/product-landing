@@ -58,8 +58,8 @@ export default function Home() {
       <header className="sticky top-0 z-30 border-b border-slate-100 bg-white/80 backdrop-blur">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-indigo-600 text-white">P</span>
-            Product
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-indigo-600 text-white">C</span>
+            Cursur
           </Link>
           <div className="hidden items-center gap-8 text-sm text-slate-600 sm:flex">
             <a href="#features" className="hover:text-slate-900">Features</a>
@@ -219,7 +219,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-slate-100">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-10 text-sm text-slate-500 sm:flex-row">
-          <span>© {new Date().getFullYear()} Product. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Cursur. All rights reserved.</span>
           <div className="flex gap-6">
             <a href="#" className="hover:text-slate-900">Privacy</a>
             <a href="#" className="hover:text-slate-900">Terms</a>
