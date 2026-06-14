@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# product-landing
 
-## Getting Started
+A **Next.js** product landing page set up for a **prompt → see live site → prompt again** loop you can run entirely from a phone — no laptop needed.
 
-First, run the development server:
+## The loop
+
+1. Open **[claude.ai/code](https://claude.ai/code)** on your phone → pick this repo → prompt
+   (e.g. *"change the headline to X"*, *"add a testimonials section"*).
+2. Claude edits the code and opens a Pull Request.
+3. **Vercel auto-builds** the PR and posts a **preview URL** — open it to see the change.
+4. Happy with it? **Merge the PR** (one tap in GitHub mobile) → it goes **live** on the production URL.
+5. Prompt again. 🔁
+
+## One-time setup
+
+**Connect Vercel (the deploy side):**
+1. Go to **[vercel.com](https://vercel.com)** → sign in with GitHub.
+2. **Add New → Project → Import** this repo → **Deploy**.
+3. Done. Vercel auto-detects Next.js and now deploys on every push:
+   `main` → production URL, every other branch/PR → a preview URL.
+
+**Connect Claude Code (the editing side):**
+1. Go to **[claude.ai/code](https://claude.ai/code)** → connect GitHub → grant access to this repo.
+2. Start a session on the repo and prompt away.
+
+## Local dev (optional, needs a computer)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where to edit
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `app/page.tsx` — the whole landing page (hero, features, pricing, FAQ, CTA, footer).
+- `app/layout.tsx` — page `<title>` / description (SEO).
+- `app/globals.css` — global styles / theme.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with Next.js 16 (App Router) + React 19 + Tailwind CSS v4.
