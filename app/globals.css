@@ -2,23 +2,11 @@
 
 :root {
   --font-inter: "Inter", system-ui, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
+  --font-display: "Instrument Serif", Georgia, serif;
 }
 
 body {
   font-family: var(--font-inter);
   background: #fff;
   color: #111;
-}
-
-.emotions-scroll {
-  overflow-y: auto;
-  scrollbar-width: none;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-}
-.emotions-scroll::-webkit-scrollbar {
-  display: none;
 }
