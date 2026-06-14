@@ -59,54 +59,54 @@ export default function Home() {
         </nav>
       </div>
 
-      {/* Content — no flex stretching, just natural flow */}
-      <div className="mx-auto px-6 pt-10 pb-12" style={{ maxWidth: 1100 }}>
-        <div className="flex flex-col lg:flex-row items-start gap-8">
+      {/* Content */}
+      <div className="mx-auto px-6 pt-8 pb-10" style={{ maxWidth: 1100 }}>
+        <div className="flex flex-col lg:flex-row items-stretch gap-10">
 
           {/* Hero */}
-          <div className="lg:w-[380px] flex-shrink-0 w-full">
+          <div className="lg:w-[440px] flex-shrink-0 w-full flex flex-col justify-center">
             <h1
-              className="text-[56px] leading-[1.06] tracking-[-0.01em] text-neutral-950 mb-5"
+              className="text-[66px] leading-[1.06] tracking-[-0.01em] text-neutral-950 mb-6"
               style={{ fontFamily: G, fontWeight: 500 }}
             >
               Your c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
               has <em>feelings.</em>
             </h1>
 
-            <p className="text-[15px] text-neutral-400 leading-relaxed mb-8 max-w-[290px]" style={{ fontFamily: I, fontWeight: 300 }}>
+            <p className="text-[16px] text-neutral-400 leading-relaxed mb-9 max-w-[310px]" style={{ fontFamily: I, fontWeight: 300 }}>
               Sunglasses while you watch. Sharp focus while you work. 70+ emotions, OS-level deep.
             </p>
 
             {/* Platform switcher */}
             <div
               className="inline-flex p-1 mb-5 gap-1"
-              style={{ fontFamily: I, background: "#f5f5f7", borderRadius: 12, border: "1px solid #e5e5e5" }}
+              style={{ fontFamily: I, background: "#f5f5f7", borderRadius: 13, border: "1px solid #e5e5e5" }}
             >
               <button
                 onClick={() => setPlatform("mac")}
-                className="flex items-center gap-2 px-5 py-2 text-[13px] font-semibold transition-all"
+                className="flex items-center gap-2 px-6 py-2.5 text-[14px] font-semibold transition-all"
                 style={{
-                  borderRadius: 9,
+                  borderRadius: 10,
                   background: isMac ? "#fff" : "transparent",
-                  color: isMac ? "#111" : "#999",
-                  boxShadow: isMac ? "0 1px 3px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06)" : "none",
+                  color: isMac ? "#111" : "#aaa",
+                  boxShadow: isMac ? "0 1px 4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.05)" : "none",
                 }}
               >
-                <svg viewBox="0 0 814 1000" style={{ width: 13, height: 13, fill: isMac ? "#111" : "#bbb" }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
+                <svg viewBox="0 0 814 1000" style={{ width: 14, height: 14, fill: isMac ? "#111" : "#ccc" }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
                 Mac
               </button>
               <button
                 onClick={() => setPlatform("windows")}
-                className="flex items-center gap-2 px-5 py-2 text-[13px] font-semibold transition-all"
+                className="flex items-center gap-2 px-6 py-2.5 text-[14px] font-semibold transition-all"
                 style={{
-                  borderRadius: 9,
+                  borderRadius: 10,
                   background: !isMac ? "#0078d4" : "transparent",
-                  color: !isMac ? "#fff" : "#999",
-                  boxShadow: !isMac ? "0 1px 3px rgba(0,120,212,0.4)" : "none",
+                  color: !isMac ? "#fff" : "#aaa",
+                  boxShadow: !isMac ? "0 1px 4px rgba(0,120,212,0.35)" : "none",
                 }}
               >
-                <svg viewBox="0 0 88 88" style={{ width: 13, height: 13 }}>
-                  <path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill={!isMac ? "white" : "#bbb"}/>
+                <svg viewBox="0 0 88 88" style={{ width: 14, height: 14 }}>
+                  <path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill={!isMac ? "white" : "#ccc"}/>
                 </svg>
                 Windows
               </button>
@@ -115,12 +115,21 @@ export default function Home() {
             <div>
               <a
                 href="#"
-                className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-semibold text-white transition-colors"
-                style={{ fontFamily: I, background: "#111", borderRadius: 10 }}
-                onMouseEnter={e => (e.currentTarget.style.background = "#333")}
-                onMouseLeave={e => (e.currentTarget.style.background = "#111")}
+                className="inline-flex items-center gap-2.5 text-[14px] font-medium transition-colors"
+                style={{
+                  fontFamily: I,
+                  color: isMac ? "#111" : "#0078d4",
+                  padding: "10px 0",
+                  borderBottom: `1.5px solid ${isMac ? "#d4d4d4" : "#93c5fd"}`,
+                  display: "inline-flex",
+                }}
               >
-                Download for {isMac ? "Mac" : "Windows"} →
+                {isMac ? (
+                  <svg viewBox="0 0 814 1000" style={{ width: 13, height: 13, fill: "#111" }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
+                ) : (
+                  <svg viewBox="0 0 88 88" style={{ width: 13, height: 13 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill="#0078d4"/></svg>
+                )}
+                Download for {isMac ? "Mac" : "Windows"}
               </a>
               <p className="mt-3 text-[11px] text-neutral-300" style={{ fontFamily: I }}>Free to try · No account needed</p>
             </div>
