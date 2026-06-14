@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,10 +8,10 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const instrumentSerif = Instrument_Serif({
+const playfair = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["700", "800", "900"],
   style: ["normal", "italic"],
 });
 
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} h-full`}>
       <body className="min-h-full bg-white text-neutral-900 antialiased">{children}</body>
     </html>
   );
