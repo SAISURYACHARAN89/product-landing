@@ -310,8 +310,8 @@ export default function Home() {
       {/* ── Laptop Demo ── */}
       <section className="px-6 pb-6">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          {/* Platform toggle ABOVE laptop */}
-          <div className="flex justify-center mb-5">
+          {/* Platform toggle + Download ABOVE laptop */}
+          <div className="flex items-center justify-center gap-3 mb-5">
             <div className="inline-flex p-1 gap-1" style={{ background: "#f5f5f7", borderRadius: 12, border: "1px solid #e8e8e8", fontFamily: I }}>
               {(["mac", "windows"] as const).map(p => (
                 <button
@@ -334,6 +334,18 @@ export default function Home() {
                 </button>
               ))}
             </div>
+            <a
+              href="#"
+              className="inline-flex items-center gap-2 text-[12px] font-semibold transition-all hover:opacity-75"
+              style={{ fontFamily: I, padding: "7px 18px", borderRadius: 9, background: isMac ? "#111" : "#0078d4", color: "#fff" }}
+            >
+              {isMac ? (
+                <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: "#fff" }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
+              ) : (
+                <svg viewBox="0 0 88 88" style={{ width: 11, height: 11 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill="white"/></svg>
+              )}
+              Download for {isMac ? "Mac" : "Windows"}
+            </a>
           </div>
 
           {isMac ? (
@@ -348,21 +360,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Download (below laptop) ── */}
-      <section className="flex justify-center pb-16 pt-4">
-        <a
-          href="#"
-          className="inline-flex items-center gap-2 text-[13px] font-semibold transition-all hover:opacity-75"
-          style={{ fontFamily: I, padding: "10px 22px", borderRadius: 10, background: isMac ? "#111" : "#0078d4", color: "#fff" }}
-        >
-          {isMac ? (
-            <svg viewBox="0 0 814 1000" style={{ width: 12, height: 12, fill: "#fff" }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
-          ) : (
-            <svg viewBox="0 0 88 88" style={{ width: 12, height: 12 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill="white"/></svg>
-          )}
-          Download for {isMac ? "Mac" : "Windows"}
-        </a>
-      </section>
 
       {/* ── Emotions scroll ── */}
       <section className="pb-16">
