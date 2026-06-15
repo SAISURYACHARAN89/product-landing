@@ -372,38 +372,33 @@ export default function Home() {
 
       {/* ── Emotions scroll ── */}
       <section className="pb-10">
-        <h2 className="text-center text-[42px] leading-[1.05] tracking-[-0.015em] text-neutral-950 mb-8 mt-4 px-6" style={{ fontFamily: G, fontWeight: 500, maxWidth: 640, margin: "16px auto 32px" }}>
-          Download c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r to see when you will get these reactions.
+        <h2 className="text-center text-[42px] leading-[1.05] tracking-[-0.015em] text-neutral-950 px-6" style={{ fontFamily: G, fontWeight: 500, maxWidth: 640, margin: "16px auto 32px" }}>
+          <span style={{
+            background: "linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #3b82f6)",
+            backgroundSize: "200% auto",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            animation: "shimmer 2.5s linear infinite",
+          }}>Animated</span> reactions, not just reactions.
         </h2>
+        <style>{`@keyframes shimmer { to { background-position: 200% center; } }`}</style>
         <div className="relative">
           <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
           <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
           <div className="flex gap-4 overflow-x-auto pb-3" style={{ paddingLeft: 40, paddingRight: 40, scrollbarWidth: "none" }}>
-            {[
-              { label: "Exploring",     img: "/cur-1.png" },
-              { label: "Photographer",  img: "/cur-2.png" },
-              { label: "Movie mode",    img: "/cur-3.png" },
-              { label: "Elder",         img: "/cur-4.png" },
-              { label: "Coffee break",  img: "/cur-5.png" },
-              { label: "Emotional",     img: "/cur-6.png" },
-              { label: "Music",         img: "/cur-7.png" },
-              { label: "Business",      img: "/cur-8.png" },
-              { label: "Surprised",     img: "/cur-9.png" },
-              { label: "Shopping",      img: "/cur-10.png" },
-            ].map(card => (
+            {["/cur-1.png","/cur-2.png","/cur-3.png","/cur-4.png","/cur-5.png","/cur-6.png","/cur-7.png","/cur-8.png","/cur-9.png","/cur-10.png"].map((img, idx) => (
               <div
-                key={card.label}
-                className="flex-shrink-0 flex flex-col items-center justify-center gap-3 transition-all cursor-default hover:border-neutral-200 hover:shadow-md hover:bg-white"
-                style={{ width: 220, height: 240, borderRadius: 22, background: "#fafafa", border: "1px solid #f0f0f0" }}
+                key={idx}
+                className="flex-shrink-0 flex items-center justify-center transition-all cursor-default hover:shadow-md"
+                style={{ width: 220, height: 220, borderRadius: 22, background: "#fff", border: "1px solid #f0f0f0" }}
               >
-                <img src={card.img} alt={card.label} style={{ width: 130, height: 130, objectFit: "contain" }} />
-                <span className="text-[13px] font-medium text-neutral-500" style={{ fontFamily: I }}>{card.label}</span>
+                <img src={img} alt="" style={{ width: 180, height: 180, objectFit: "contain" }} />
               </div>
             ))}
             {/* Mystery card */}
             <div
-              className="flex-shrink-0 flex flex-col items-center justify-center transition-all cursor-default hover:border-neutral-200 hover:shadow-md hover:bg-white"
-              style={{ width: 260, height: 240, borderRadius: 22, background: "#fafafa", border: "1px dashed #ddd", padding: "0 24px" }}
+              className="flex-shrink-0 flex items-center justify-center transition-all cursor-default hover:shadow-md"
+              style={{ width: 260, height: 220, borderRadius: 22, background: "#fff", border: "1px dashed #e0e0e0", padding: "0 28px" }}
             >
               <p className="text-[14px] font-medium text-neutral-400 text-center leading-relaxed" style={{ fontFamily: I }}>
                 There&apos;s tons more. We just don&apos;t wanna spoil the surprise before you download.
