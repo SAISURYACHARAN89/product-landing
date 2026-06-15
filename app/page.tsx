@@ -347,11 +347,11 @@ export default function Home() {
       {/* ── Nav ── */}
       <div className="sticky top-0 z-50 flex justify-center px-6 pt-5 pb-3">
         <nav className="w-full flex items-center justify-between px-5 py-2.5" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.65)", backdropFilter: "blur(28px) saturate(180%)", WebkitBackdropFilter: "blur(28px) saturate(180%)", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-          <div className="flex items-center gap-2">
-            <span className="text-[22px] font-semibold leading-none" style={{ fontFamily: G }}>
+          <div className="flex items-center gap-1">
+            <span className="text-[18px] font-medium leading-none" style={{ fontFamily: G }}>
               c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
             </span>
-            <img src="/logo.png" alt="cursur logo" style={{ width: 28, height: 28, objectFit: "contain" }} />
+            <img src="/logo.png" alt="cursur logo" style={{ width: 26, height: 26, objectFit: "contain" }} />
           </div>
           <div className="flex items-center gap-5 text-[13px] text-neutral-400" style={{ fontFamily: I }}>
             <a href="#free" className="hover:text-neutral-800 transition-colors">Get it free</a>
