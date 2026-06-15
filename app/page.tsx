@@ -360,11 +360,15 @@ export default function Home() {
             <svg viewBox="0 0 88 88" style={{ width: 12, height: 12 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill="white"/></svg>
           )}
           Download for {isMac ? "Mac" : "Windows"}
+          <span style={{ opacity: 0.65, fontWeight: 400, marginLeft: 6 }}>$4.99</span>
         </a>
       </section>
 
       {/* ── Emotions scroll ── */}
       <section className="pb-16">
+        <h2 className="text-center text-[42px] leading-[1.05] tracking-[-0.015em] text-neutral-950 mb-8" style={{ fontFamily: G, fontWeight: 500 }}>
+          Reacts to <em>everything.</em>
+        </h2>
         <div className="relative">
           <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
           <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
