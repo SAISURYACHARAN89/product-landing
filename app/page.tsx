@@ -310,8 +310,18 @@ export default function Home() {
       {/* ── Laptop Demo ── */}
       <section className="px-6 pb-12">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          {/* Expandable OS icon buttons above laptop */}
-          <div className="flex justify-center gap-2 mb-6">
+          {isMac ? (
+            <MacBook>
+              <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={false} />
+            </MacBook>
+          ) : (
+            <WindowsLaptop>
+              <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={true} />
+            </WindowsLaptop>
+          )}
+
+          {/* Expandable OS icon buttons below laptop */}
+          <div className="flex justify-center gap-2 mt-6">
             {(["mac", "windows"] as const).map(p => {
               const active = platform === p;
               return (
@@ -349,21 +359,14 @@ export default function Home() {
               );
             })}
           </div>
-
-          {isMac ? (
-            <MacBook>
-              <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={false} />
-            </MacBook>
-          ) : (
-            <WindowsLaptop>
-              <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={true} />
-            </WindowsLaptop>
-          )}
         </div>
       </section>
 
       {/* ── Emotions scroll ── */}
       <section className="pb-10">
+        <h2 className="text-center text-[42px] leading-[1.05] tracking-[-0.015em] text-neutral-950 mb-8 mt-4" style={{ fontFamily: G, fontWeight: 500 }}>
+          Reacts to <em>everything.</em>
+        </h2>
         <div className="relative">
           <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
           <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
@@ -380,9 +383,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <h2 className="text-center text-[42px] leading-[1.05] tracking-[-0.015em] text-neutral-950 mt-10 mb-6" style={{ fontFamily: G, fontWeight: 500 }}>
-          Reacts to <em>everything.</em>
-        </h2>
       </section>
 
       {/* ── Footer ── */}
