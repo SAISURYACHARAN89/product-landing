@@ -380,14 +380,14 @@ export default function Home() {
       <section className="px-6 pb-12">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <MacBook>
-            <div style={{ width: "100%", height: "100%", background: "#000", overflow: "hidden", position: "relative" }}>
-              <iframe
-                src="https://platform.twitter.com/embed/Tweet.html?id=2066427199058854305&theme=dark&chrome=nofooter%20noborders%20transparent&hideCard=true&hideThread=true"
-                style={{ width: "100%", height: "100%", border: "none" }}
-                allow="autoplay; fullscreen"
-                title="Cursur demo"
-              />
-            </div>
+            <video
+              src="/demo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
           </MacBook>
 
           {/* Buttons below laptop */}
