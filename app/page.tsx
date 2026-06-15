@@ -386,31 +386,36 @@ export default function Home() {
       </section>
 
       {/* ── Get Cursur for free ── */}
-      <section className="px-6 py-20">
-        <div className="mx-auto text-center" style={{ maxWidth: 560 }}>
-          <h2 className="text-[52px] leading-[1.02] tracking-[-0.02em] text-neutral-950 mb-5" style={{ fontFamily: G, fontWeight: 500 }}>
+      <section className="px-6 py-24" style={{ background: "#f9f9f9", borderTop: "1px solid #f0f0f0", borderBottom: "1px solid #f0f0f0" }}>
+        <div className="mx-auto" style={{ maxWidth: 600 }}>
+          <p className="text-[12px] font-semibold tracking-widest uppercase text-blue-500 mb-4 text-center" style={{ fontFamily: I, letterSpacing: "0.12em" }}>For creators</p>
+          <h2 className="text-[56px] leading-[1.02] tracking-[-0.02em] text-neutral-950 mb-8 text-center" style={{ fontFamily: G, fontWeight: 500 }}>
             Get c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
             for <em>free.</em>
           </h2>
-          <p className="text-[15px] text-neutral-400 leading-relaxed mb-10" style={{ fontFamily: I, fontWeight: 300 }}>
-            Post a reel about cursur on Instagram, TikTok, or YouTube Shorts.
-            Hit <span className="text-neutral-700 font-medium">10,000 views</span> on any one of them — and we'll refund you in full. No catch.
-          </p>
-          <div className="flex justify-center gap-3 flex-wrap">
-            {[
-              { name: "Instagram", icon: "📸" },
-              { name: "TikTok", icon: "🎵" },
-              { name: "YouTube Shorts", icon: "▶️" },
-            ].map(p => (
-              <div key={p.name} className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-neutral-500 font-medium" style={{ fontFamily: I, background: "#f5f5f7", borderRadius: 10, border: "1px solid #ebebeb" }}>
-                <span>{p.icon}</span>
-                {p.name}
+          <div className="flex flex-col gap-5" style={{ fontFamily: I }}>
+            <div className="flex items-start gap-4 p-5" style={{ background: "#fff", borderRadius: 16, border: "1px solid #ebebeb" }}>
+              <span className="text-[28px] leading-none mt-0.5">①</span>
+              <div>
+                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Buy cursur for $4.99</p>
+                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Download it, use it, make it yours.</p>
               </div>
-            ))}
+            </div>
+            <div className="flex items-start gap-4 p-5" style={{ background: "#fff", borderRadius: 16, border: "1px solid #ebebeb" }}>
+              <span className="text-[28px] leading-none mt-0.5">②</span>
+              <div>
+                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Post a reel about it</p>
+                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Instagram, TikTok, or YouTube Shorts. Show it off however you want.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4 p-5" style={{ background: "#fff", borderRadius: 16, border: "1px solid #ebebeb" }}>
+              <span className="text-[28px] leading-none mt-0.5">③</span>
+              <div>
+                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Hit 10,000 views and get fully refunded</p>
+                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Send us the link once it hits 10k on any platform. We will refund you immediately.</p>
+              </div>
+            </div>
           </div>
-          <p className="text-[11px] text-neutral-300 mt-6" style={{ fontFamily: I }}>
-            Just send us the link once it hits 10k — we'll handle the rest.
-          </p>
         </div>
       </section>
 
