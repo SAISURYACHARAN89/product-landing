@@ -348,7 +348,7 @@ export default function Home() {
       <div className="sticky top-0 z-50 flex justify-center px-6 pt-5 pb-3">
         <nav className="w-full flex items-center justify-between px-5 py-2.5" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.65)", backdropFilter: "blur(28px) saturate(180%)", WebkitBackdropFilter: "blur(28px) saturate(180%)", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <span style={{ fontFamily: G, fontSize: 22, fontWeight: 500, lineHeight: 1, display: "flex", alignItems: "center" }}>
+            <span style={{ fontFamily: G, fontSize: 22, fontWeight: 500, lineHeight: 1, position: "relative", top: -1 }}>
               c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
             </span>
             <img src="/logo.png" alt="cursur logo" style={{ width: 26, height: 26, objectFit: "contain", display: "block" }} />
