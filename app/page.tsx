@@ -295,6 +295,7 @@ export default function Home() {
           </span>
           <div className="flex items-center gap-5 text-[13px] text-neutral-400" style={{ fontFamily: I }}>
             <a href="#free" className="hover:text-neutral-800 transition-colors">Get it free</a>
+            <a href="#" className="hover:text-neutral-800 transition-colors">Recovery Key</a>
             <a href="#" className="hover:text-neutral-800 transition-colors">Privacy</a>
             <a
               href="#"
@@ -475,7 +476,7 @@ export default function Home() {
               <span className="text-[28px] leading-none mt-0.5">③</span>
               <div>
                 <p className="text-[14px] font-semibold text-neutral-800 mb-1">Send us the clip once it hits 10k views</p>
-                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">We will refund you in full. No questions asked.</p>
+                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">We will refund you in full. No questions asked. Send the link to <a href="mailto:cursurapp@gmail.com" className="text-neutral-600 hover:underline">c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>rapp@gmail.com</a></p>
               </div>
             </div>
           </div>
