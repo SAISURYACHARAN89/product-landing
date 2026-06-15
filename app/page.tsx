@@ -372,12 +372,9 @@ export default function Home() {
 
       {/* ── Emotions scroll ── */}
       <section className="pb-10">
-        <h2 className="text-center text-[48px] leading-[1.02] tracking-[-0.02em] text-neutral-950 px-6" style={{ fontFamily: G, fontWeight: 500, maxWidth: 640, margin: "16px auto 12px" }}>
-          Your cursor reads the room.
+        <h2 className="text-center text-[48px] leading-[1.02] tracking-[-0.02em] text-neutral-950 px-6" style={{ fontFamily: G, fontWeight: 500, maxWidth: 640, margin: "16px auto 28px" }}>
+          It reads the room.
         </h2>
-        <p className="text-center text-[11px] text-neutral-300 mb-8" style={{ fontFamily: I, fontWeight: 300 }}>
-          All reactions are animated. It moves like it&apos;s alive.
-        </p>
         <div className="relative">
           <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
           <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
@@ -393,15 +390,22 @@ export default function Home() {
             ))}
             {/* Mystery card */}
             <div
-              className="flex-shrink-0 flex items-center justify-center transition-all cursor-default hover:shadow-md"
-              style={{ width: 260, height: 220, borderRadius: 22, background: "#fff", border: "1px dashed #e0e0e0", padding: "0 28px" }}
+              className="flex-shrink-0 flex flex-col items-center justify-center gap-2 transition-all cursor-default hover:shadow-md"
+              style={{ width: 280, height: 220, borderRadius: 22, background: "#fff", border: "1px dashed #d0d0d0", padding: "0 28px" }}
             >
-              <p className="text-[14px] font-medium text-neutral-400 text-center leading-relaxed" style={{ fontFamily: I }}>
-                There&apos;s tons more. We just don&apos;t wanna spoil the surprise before you download.
+              <span style={{ fontSize: 28 }}>✦</span>
+              <p className="text-[16px] font-medium text-neutral-700 text-center leading-snug" style={{ fontFamily: G, fontWeight: 500 }}>
+                There&apos;s tons more in store.
+              </p>
+              <p className="text-[12px] text-neutral-400 text-center" style={{ fontFamily: I, fontWeight: 300 }}>
+                We don&apos;t wanna spoil it before you download.
               </p>
             </div>
           </div>
         </div>
+        <p className="text-center text-[12px] text-neutral-400 mt-6 px-6" style={{ fontFamily: I, fontWeight: 300, maxWidth: 500, margin: "24px auto 0" }}>
+          c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r knows what you&apos;re doing and gives you a relatable animation — like it&apos;s alive and doing it with you.
+        </p>
       </section>
 
       {/* ── Get Cursur for free ── */}
