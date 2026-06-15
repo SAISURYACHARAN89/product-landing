@@ -2,6 +2,29 @@
 
 import { useState, useRef, forwardRef } from "react";
 
+const emotionCards = [
+  { emoji: "😎", label: "Watching" },
+  { emoji: "🎯", label: "Focused" },
+  { emoji: "😴", label: "Tired" },
+  { emoji: "🤩", label: "Excited" },
+  { emoji: "😤", label: "Grinding" },
+  { emoji: "🧘", label: "Calm" },
+  { emoji: "🤔", label: "Thinking" },
+  { emoji: "🎉", label: "Celebrating" },
+  { emoji: "😤", label: "Frustrated" },
+  { emoji: "🥳", label: "Hyped" },
+  { emoji: "😬", label: "Nervous" },
+  { emoji: "😌", label: "Peaceful" },
+  { emoji: "🤓", label: "Nerding out" },
+  { emoji: "😏", label: "Mischievous" },
+  { emoji: "🥱", label: "Bored" },
+  { emoji: "😢", label: "Sad" },
+  { emoji: "🔥", label: "On fire" },
+  { emoji: "🫠", label: "Melting" },
+  { emoji: "🤯", label: "Mind blown" },
+  { emoji: "😇", label: "Chill" },
+];
+
 const zones = [
   { id: "video", label: "Watching 😎", top: "10%",  left: "5%",  width: "42%", height: "44%" },
   { id: "work",  label: "Focused 🎯",  top: "10%",  left: "53%", width: "42%", height: "44%" },
@@ -172,6 +195,30 @@ export default function Home() {
 
         </div>
       </div>
+
+      {/* Emotions scroll section */}
+      <div className="pb-14 pt-2" style={{ maxWidth: 1100, margin: "0 auto", padding: "0 0 56px" }}>
+        <div className="px-6 mb-5 flex items-center justify-between">
+          <p className="text-[13px] font-medium text-neutral-400" style={{ fontFamily: I }}>70+ emotions</p>
+          <p className="text-[12px] text-neutral-300" style={{ fontFamily: I }}>scroll to explore →</p>
+        </div>
+        <div
+          className="flex gap-4 overflow-x-auto pb-3"
+          style={{ paddingLeft: 24, paddingRight: 24, scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {emotionCards.map((card) => (
+            <div
+              key={card.label}
+              className="flex-shrink-0 flex flex-col items-center justify-center gap-3 bg-neutral-50 border border-neutral-100 hover:border-neutral-300 hover:bg-white transition-all cursor-default"
+              style={{ width: 200, height: 160, borderRadius: 16 }}
+            >
+              <span style={{ fontSize: 36 }}>{card.emoji}</span>
+              <span className="text-[13px] font-medium text-neutral-600" style={{ fontFamily: I }}>{card.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }
