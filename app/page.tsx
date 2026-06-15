@@ -385,6 +385,35 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Get Cursur for free ── */}
+      <section className="px-6 py-20">
+        <div className="mx-auto text-center" style={{ maxWidth: 560 }}>
+          <h2 className="text-[52px] leading-[1.02] tracking-[-0.02em] text-neutral-950 mb-5" style={{ fontFamily: G, fontWeight: 500 }}>
+            Get c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
+            for <em>free.</em>
+          </h2>
+          <p className="text-[15px] text-neutral-400 leading-relaxed mb-10" style={{ fontFamily: I, fontWeight: 300 }}>
+            Post a reel about cursur on Instagram, TikTok, or YouTube Shorts.
+            Hit <span className="text-neutral-700 font-medium">10,000 views</span> on any one of them — and we'll refund you in full. No catch.
+          </p>
+          <div className="flex justify-center gap-3 flex-wrap">
+            {[
+              { name: "Instagram", icon: "📸" },
+              { name: "TikTok", icon: "🎵" },
+              { name: "YouTube Shorts", icon: "▶️" },
+            ].map(p => (
+              <div key={p.name} className="flex items-center gap-2 px-4 py-2.5 text-[13px] text-neutral-500 font-medium" style={{ fontFamily: I, background: "#f5f5f7", borderRadius: 10, border: "1px solid #ebebeb" }}>
+                <span>{p.icon}</span>
+                {p.name}
+              </div>
+            ))}
+          </div>
+          <p className="text-[11px] text-neutral-300 mt-6" style={{ fontFamily: I }}>
+            Just send us the link once it hits 10k — we'll handle the rest.
+          </p>
+        </div>
+      </section>
+
       {/* ── Footer ── */}
       <footer className="border-t border-neutral-100 py-6">
         <div className="flex justify-center gap-5 text-[12px] text-neutral-300" style={{ fontFamily: I }}>
