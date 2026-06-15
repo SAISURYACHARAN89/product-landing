@@ -380,7 +380,9 @@ export default function Home() {
       <section className="px-6 pb-12">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <MacBook>
-            <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={false} />
+            <div style={{ width: "100%", height: "100%", background: "#111", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ color: "#444", fontSize: 13, fontFamily: "var(--font-inter)" }}>Drop demo video here</span>
+            </div>
           </MacBook>
 
           {/* Buttons below laptop */}
