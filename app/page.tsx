@@ -384,6 +384,7 @@ export default function Home() {
               src="/demo.mp4"
               autoPlay
               loop
+              muted
               playsInline
               controls
               style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
