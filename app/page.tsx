@@ -2,27 +2,43 @@
 
 import { useState, useRef, forwardRef } from "react";
 
-const emotionCards = [
-  { emoji: "😎", label: "Watching" },
-  { emoji: "🎯", label: "Focused" },
-  { emoji: "😴", label: "Tired" },
-  { emoji: "🤩", label: "Excited" },
-  { emoji: "😤", label: "Grinding" },
-  { emoji: "🧘", label: "Calm" },
-  { emoji: "🤔", label: "Thinking" },
-  { emoji: "🎉", label: "Celebrating" },
-  { emoji: "😬", label: "Nervous" },
-  { emoji: "🥳", label: "Hyped" },
-  { emoji: "😌", label: "Peaceful" },
-  { emoji: "🤓", label: "Nerding out" },
-  { emoji: "😏", label: "Mischievous" },
-  { emoji: "🥱", label: "Bored" },
-  { emoji: "😢", label: "Sad" },
-  { emoji: "🔥", label: "On fire" },
-  { emoji: "🫠", label: "Melting" },
-  { emoji: "🤯", label: "Mind blown" },
-  { emoji: "😇", label: "Chill" },
-  { emoji: "😈", label: "Devious" },
+// Each card: cursor SVG + accessory overlay
+function CursorSkin({ accessory, color = "#fff" }: { accessory: React.ReactNode; color?: string }) {
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: 80, height: 88 }}>
+      {/* Base cursor */}
+      <svg width="52" height="62" viewBox="0 0 52 62" fill="none" style={{ position: "absolute", left: 0, top: 0 }}>
+        <path d="M6 4L46 28L29 34L22 56L6 4Z" fill={color} stroke="#1a1a1a" strokeWidth="3" strokeLinejoin="round"/>
+      </svg>
+      {/* Accessory pinned near cursor tip */}
+      <div style={{ position: "absolute", left: 30, top: 2, fontSize: 26, lineHeight: 1 }}>
+        {accessory}
+      </div>
+    </div>
+  );
+}
+
+const emotionCards: { label: string; bg: string; accessory: string }[] = [
+  { label: "Watching",     bg: "#fafafa", accessory: "😎" },
+  { label: "Focused",      bg: "#fafafa", accessory: "🎯" },
+  { label: "Tired",        bg: "#fafafa", accessory: "😴" },
+  { label: "Excited",      bg: "#fafafa", accessory: "🤩" },
+  { label: "Grinding",     bg: "#fafafa", accessory: "😤" },
+  { label: "Calm",         bg: "#fafafa", accessory: "🧘" },
+  { label: "Thinking",     bg: "#fafafa", accessory: "🤔" },
+  { label: "Celebrating",  bg: "#fafafa", accessory: "🎉" },
+  { label: "Nervous",      bg: "#fafafa", accessory: "😬" },
+  { label: "Hyped",        bg: "#fafafa", accessory: "🥳" },
+  { label: "Peaceful",     bg: "#fafafa", accessory: "😌" },
+  { label: "Nerding out",  bg: "#fafafa", accessory: "🤓" },
+  { label: "Mischievous",  bg: "#fafafa", accessory: "😏" },
+  { label: "Bored",        bg: "#fafafa", accessory: "🥱" },
+  { label: "Sad",          bg: "#fafafa", accessory: "😢" },
+  { label: "On fire",      bg: "#fafafa", accessory: "🔥" },
+  { label: "Melting",      bg: "#fafafa", accessory: "🫠" },
+  { label: "Mind blown",   bg: "#fafafa", accessory: "🤯" },
+  { label: "Chill",        bg: "#fafafa", accessory: "😇" },
+  { label: "Devious",      bg: "#fafafa", accessory: "😈" },
 ];
 
 const zones = [
@@ -202,15 +218,15 @@ export default function Home() {
         <div className="relative">
           <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-24 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
           <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-24 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
-          <div className="flex gap-3 overflow-x-auto pb-3" style={{ paddingLeft: 24, paddingRight: 24, scrollbarWidth: "none" }}>
+          <div className="flex gap-4 overflow-x-auto pb-3" style={{ paddingLeft: 24, paddingRight: 24, scrollbarWidth: "none" }}>
             {emotionCards.map(card => (
               <div
                 key={card.label}
-                className="flex-shrink-0 flex flex-col items-center justify-center gap-2.5 transition-all cursor-default hover:bg-white"
-                style={{ width: 160, height: 130, borderRadius: 14, background: "#fafafa", border: "1px solid #efefef" }}
+                className="flex-shrink-0 flex flex-col items-center justify-center gap-3 transition-all cursor-default hover:border-neutral-300 hover:shadow-sm"
+                style={{ width: 200, height: 190, borderRadius: 18, background: card.bg, border: "1px solid #efefef" }}
               >
-                <span style={{ fontSize: 30 }}>{card.emoji}</span>
-                <span className="text-[12px] font-medium text-neutral-500" style={{ fontFamily: I }}>{card.label}</span>
+                <CursorSkin accessory={card.accessory} />
+                <span className="text-[13px] font-medium text-neutral-500" style={{ fontFamily: I }}>{card.label}</span>
               </div>
             ))}
           </div>
