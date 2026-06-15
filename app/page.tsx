@@ -379,16 +379,16 @@ export default function Home() {
       {/* ── Laptop Demo ── */}
       <section className="px-6 pb-12">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <MacBook>
+          <div style={{ borderRadius: 16, overflow: "hidden", background: "#000", boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08)" }}>
             <video
               src="/demo.mp4"
               autoPlay
               loop
-              muted
               playsInline
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              controls
+              style={{ width: "100%", display: "block" }}
             />
-          </MacBook>
+          </div>
 
           {/* Buttons below laptop */}
           <div className="flex justify-center gap-2 mt-6">
