@@ -379,14 +379,14 @@ export default function Home() {
       {/* ── Laptop Demo ── */}
       <section className="px-6 pb-12">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <div style={{ borderRadius: 16, overflow: "hidden", background: "#000", boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08)" }}>
+          <div style={{ borderRadius: 16, overflow: "hidden", background: "#000", boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08)", aspectRatio: "16 / 10", position: "relative" }}>
             <video
               src="/demo.mp4"
               autoPlay
               loop
               playsInline
               controls
-              style={{ width: "100%", display: "block" }}
+              style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
             />
           </div>
 
