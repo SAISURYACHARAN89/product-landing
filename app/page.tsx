@@ -320,9 +320,16 @@ export default function Home() {
               <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={false} />
             </MacBook>
           ) : (
-            <WindowsLaptop>
-              <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={true} />
-            </WindowsLaptop>
+            <div style={{ position: "relative", userSelect: "none" }}>
+              <div style={{ filter: "blur(6px)", opacity: 0.5, pointerEvents: "none" }}>
+                <WindowsLaptop>
+                  <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={true} />
+                </WindowsLaptop>
+              </div>
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span className="text-[18px] font-semibold text-neutral-700" style={{ fontFamily: I }}>Coming soon</span>
+              </div>
+            </div>
           )}
 
           {/* Expandable OS icon buttons below laptop */}
@@ -340,7 +347,7 @@ export default function Home() {
                     fontSize: 13,
                     padding: active ? "9px 20px" : "9px 14px",
                     borderRadius: 10,
-                    background: active ? (p === "windows" ? "#0078d4" : "#111") : "#f5f5f7",
+                    background: active ? (p === "windows" ? "#888" : "#111") : "#f5f5f7",
                     color: active ? "#fff" : "#999",
                     border: active ? "none" : "1px solid #e8e8e8",
                     cursor: "pointer",
@@ -355,9 +362,7 @@ export default function Home() {
                     <svg viewBox="0 0 88 88" style={{ width: 14, height: 14, flexShrink: 0 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill={active ? "white" : "#bbb"}/></svg>
                   )}
                   {active && (
-                    <>
-                      Download for {p === "mac" ? "Mac" : "Windows"}
-                    </>
+                    <>{p === "mac" ? "Download for Mac" : "Coming soon"}</>
                   )}
                 </a>
               );
