@@ -260,6 +260,7 @@ export default function Home() {
   const [windowsNotified, setWindowsNotified] = useState(() =>
     typeof window !== "undefined" && localStorage.getItem("windows-notify") === "1"
   );
+  const [windowsFading, setWindowsFading] = useState(false);
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [inside, setInside] = useState(false);
@@ -344,36 +345,25 @@ export default function Home() {
               <svg viewBox="0 0 814 1000" style={{ width: 14, height: 14, fill: platform === "mac" ? "#fff" : "#bbb", flexShrink: 0 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
               {platform === "mac" && "Download for Mac"}
             </a>
-            {/* Windows — coming soon, mockup never changes */}
-            <button
-              onClick={() => setPlatform("windows")}
-              className="inline-flex items-center gap-2 font-semibold transition-all overflow-hidden"
-              style={{
-                fontFamily: I, fontSize: 13,
-                padding: platform === "windows" ? "9px 20px" : "9px 14px",
-                borderRadius: 10,
-                background: platform === "windows" ? "#888" : "#f5f5f7",
-                color: platform === "windows" ? "#fff" : "#999",
-                border: platform === "windows" ? "none" : "1px solid #e8e8e8",
-                whiteSpace: "nowrap", transition: "all 0.25s ease",
-                maxWidth: platform === "windows" ? 200 : 44, cursor: "pointer",
-              }}
-            >
-              <svg viewBox="0 0 88 88" style={{ width: 14, height: 14, flexShrink: 0 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill={platform === "windows" ? "white" : "#bbb"}/></svg>
-              {platform === "windows" && "Coming soon"}
-            </button>
-            {/* Notify for Windows — disappears once pressed, tracked in localStorage */}
+            {/* Notify for Windows — fades to thanks, then disappears, tracked in localStorage */}
             {!windowsNotified && (
               <button
-                onClick={() => { localStorage.setItem("windows-notify", "1"); setWindowsNotified(true); }}
-                className="inline-flex items-center text-[12px] font-medium transition-all hover:border-neutral-400 hover:text-neutral-600"
+                onClick={() => {
+                  setWindowsFading(true);
+                  setTimeout(() => { localStorage.setItem("windows-notify", "1"); setWindowsNotified(true); setWindowsFading(false); }, 1800);
+                }}
+                className="inline-flex items-center text-[12px] font-medium"
                 style={{
                   fontFamily: I, padding: "9px 14px", borderRadius: 10,
-                  background: "transparent", color: "#bbb",
-                  border: "1px dashed #ddd", whiteSpace: "nowrap", cursor: "pointer",
+                  background: "transparent", color: windowsFading ? "#aaa" : "#bbb",
+                  border: `1px dashed ${windowsFading ? "transparent" : "#ddd"}`,
+                  whiteSpace: "nowrap", cursor: "pointer",
+                  transition: "opacity 1.2s ease, color 0.4s ease, border-color 0.4s ease",
+                  opacity: windowsFading ? 0 : 1,
+                  pointerEvents: windowsFading ? "none" : "auto",
                 }}
               >
-                Notify me for Windows
+                {windowsFading ? "Thanks for the feedback!" : "Notify me for Windows"}
               </button>
             )}
           </div>
