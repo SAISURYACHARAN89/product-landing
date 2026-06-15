@@ -3,15 +3,15 @@
 import { useState, useRef, forwardRef } from "react";
 
 // Each card: cursor SVG + accessory overlay
-function CursorSkin({ accessory, color = "#fff" }: { accessory: React.ReactNode; color?: string }) {
+function CursorSkin({ accessory, color = "#fff", size = 52 }: { accessory: React.ReactNode; color?: string; size?: number }) {
+  const h = size * 1.2;
+  const emojiSize = size * 0.55;
   return (
-    <div className="relative flex items-center justify-center" style={{ width: 80, height: 88 }}>
-      {/* Base cursor */}
-      <svg width="52" height="62" viewBox="0 0 52 62" fill="none" style={{ position: "absolute", left: 0, top: 0 }}>
+    <div className="relative" style={{ width: size + emojiSize * 0.8, height: h }}>
+      <svg width={size} height={h} viewBox="0 0 52 62" fill="none" style={{ position: "absolute", left: 0, top: 0 }}>
         <path d="M6 4L46 28L29 34L22 56L6 4Z" fill={color} stroke="#1a1a1a" strokeWidth="3" strokeLinejoin="round"/>
       </svg>
-      {/* Accessory pinned near cursor tip */}
-      <div style={{ position: "absolute", left: 30, top: 2, fontSize: 26, lineHeight: 1 }}>
+      <div style={{ position: "absolute", left: size * 0.55, top: 0, fontSize: emojiSize, lineHeight: 1 }}>
         {accessory}
       </div>
     </div>
@@ -104,15 +104,14 @@ export default function Home() {
           className="text-[72px] leading-[1.04] tracking-[-0.015em] text-neutral-950 mb-5"
           style={{ fontFamily: G, fontWeight: 500, maxWidth: 700 }}
         >
-          Your c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
-          has <em>feelings.</em>
+          Give your c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
+          a <em>personality.</em>
         </h1>
         <p
           className="text-[16px] text-neutral-400 leading-relaxed mb-10"
           style={{ fontFamily: I, fontWeight: 300, maxWidth: 380 }}
         >
-          Sunglasses while you watch. Sharp focus while you work.
-          70+ emotions, baked right into your OS.
+          An OS level integration, so it will work anywhere on your screen.
         </p>
 
         {/* Download buttons */}
@@ -209,24 +208,18 @@ export default function Home() {
 
       {/* ── Emotions scroll ── */}
       <section className="pb-16">
-        <div style={{ maxWidth: 960, margin: "0 auto" }}>
-          <div className="flex items-center justify-between px-6 mb-4">
-            <p className="text-[12px] font-medium text-neutral-400 uppercase tracking-widest" style={{ fontFamily: I }}>Emotions</p>
-            <p className="text-[11px] text-neutral-300" style={{ fontFamily: I }}>scroll →</p>
-          </div>
-        </div>
         <div className="relative">
-          <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-24 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-24 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
-          <div className="flex gap-4 overflow-x-auto pb-3" style={{ paddingLeft: 24, paddingRight: 24, scrollbarWidth: "none" }}>
+          <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
+          <div className="flex gap-4 overflow-x-auto pb-3" style={{ paddingLeft: 40, paddingRight: 40, scrollbarWidth: "none" }}>
             {emotionCards.map(card => (
               <div
                 key={card.label}
-                className="flex-shrink-0 flex flex-col items-center justify-center gap-3 transition-all cursor-default hover:border-neutral-300 hover:shadow-sm"
-                style={{ width: 200, height: 190, borderRadius: 18, background: card.bg, border: "1px solid #efefef" }}
+                className="flex-shrink-0 flex flex-col items-center justify-center gap-4 transition-all cursor-default hover:border-neutral-200 hover:shadow-md hover:bg-white"
+                style={{ width: 230, height: 220, borderRadius: 22, background: "#fafafa", border: "1px solid #f0f0f0" }}
               >
-                <CursorSkin accessory={card.accessory} />
-                <span className="text-[13px] font-medium text-neutral-500" style={{ fontFamily: I }}>{card.label}</span>
+                <CursorSkin accessory={card.accessory} size={64} />
+                <span className="text-[14px] font-medium text-neutral-500" style={{ fontFamily: I }}>{card.label}</span>
               </div>
             ))}
           </div>
