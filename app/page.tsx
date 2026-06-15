@@ -395,16 +395,13 @@ export default function Home() {
             >
               <span style={{ fontSize: 28 }}>✦</span>
               <p className="text-[16px] font-medium text-neutral-700 text-center leading-snug" style={{ fontFamily: G, fontWeight: 500 }}>
-                There&apos;s tons more in store.
-              </p>
-              <p className="text-[12px] text-neutral-400 text-center" style={{ fontFamily: I, fontWeight: 300 }}>
-                We don&apos;t wanna spoil it before you download.
+                There&apos;s tons more reaction animations. We don&apos;t wanna spoil it before you download.
               </p>
             </div>
           </div>
         </div>
         <p className="text-center text-[12px] text-neutral-400 mt-6 px-6" style={{ fontFamily: I, fontWeight: 300, maxWidth: 500, margin: "24px auto 0" }}>
-          c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r knows what you&apos;re doing and gives you a relatable animation — like it&apos;s alive and doing it with you.
+          c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r knows what you&apos;re doing and gives you a relatable animation, like it&apos;s alive and doing it with you.
         </p>
       </section>
 
