@@ -282,8 +282,8 @@ export default function Home() {
     <div className="bg-white" style={{ cursor: inside ? "none" : "auto" }}>
 
       {/* ── Nav ── */}
-      <div className="sticky top-0 z-50 flex justify-center px-6 pt-5 pb-3" style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)" }}>
-        <nav className="w-full flex items-center justify-between px-5 py-2.5" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid #e8e8e8", background: "rgba(255,255,255,0.9)" }}>
+      <div className="sticky top-0 z-50 flex justify-center px-6 pt-5 pb-3">
+        <nav className="w-full flex items-center justify-between px-5 py-2.5" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.65)", backdropFilter: "blur(28px) saturate(180%)", WebkitBackdropFilter: "blur(28px) saturate(180%)", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
           <span className="text-[16px] font-semibold" style={{ fontFamily: G }}>
             c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
           </span>
