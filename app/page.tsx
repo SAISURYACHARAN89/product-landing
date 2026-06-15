@@ -295,59 +295,18 @@ export default function Home() {
       </div>
 
       {/* ── Hero ── */}
-      <section className="flex flex-col items-center text-center px-6 pt-20 pb-12">
-        <h1 className="text-[80px] leading-[1.0] tracking-[-0.02em] text-neutral-950 mb-6" style={{ fontFamily: G, fontWeight: 500, maxWidth: 700 }}>
+      <section className="flex flex-col items-center text-center px-6 pt-20 pb-10">
+        <h1 className="text-[96px] leading-[1.0] tracking-[-0.025em] text-neutral-950" style={{ fontFamily: G, fontWeight: 500, maxWidth: 780 }}>
           Give your{" "}
           c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
           <br />
           a <em>personality.</em>
         </h1>
-        <p className="text-[15px] text-neutral-400 leading-relaxed" style={{ fontFamily: I, fontWeight: 300, maxWidth: 340 }}>
-          An OS-level integration — works everywhere on your screen.
-        </p>
       </section>
 
       {/* ── Laptop Demo ── */}
       <section className="px-6 pb-6">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          {/* Platform toggle + Download ABOVE laptop */}
-          <div className="flex items-center justify-center gap-3 mb-5">
-            <div className="inline-flex p-1 gap-1" style={{ background: "#f5f5f7", borderRadius: 12, border: "1px solid #e8e8e8", fontFamily: I }}>
-              {(["mac", "windows"] as const).map(p => (
-                <button
-                  key={p}
-                  onClick={() => setPlatform(p)}
-                  className="flex items-center gap-1.5 text-[12px] font-semibold transition-all"
-                  style={{
-                    padding: "7px 18px", borderRadius: 9,
-                    background: platform === p ? (p === "windows" ? "#0078d4" : "#fff") : "transparent",
-                    color: platform === p ? (p === "windows" ? "#fff" : "#111") : "#aaa",
-                    boxShadow: platform === p && p === "mac" ? "0 1px 4px rgba(0,0,0,0.1)" : "none",
-                  }}
-                >
-                  {p === "mac" ? (
-                    <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: platform === "mac" ? "#111" : "#ccc" }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
-                  ) : (
-                    <svg viewBox="0 0 88 88" style={{ width: 11, height: 11 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill={platform === "windows" ? "white" : "#ccc"}/></svg>
-                  )}
-                  {p === "mac" ? "Mac" : "Windows"}
-                </button>
-              ))}
-            </div>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 text-[12px] font-semibold transition-all hover:opacity-75"
-              style={{ fontFamily: I, padding: "7px 18px", borderRadius: 9, background: isMac ? "#111" : "#0078d4", color: "#fff" }}
-            >
-              {isMac ? (
-                <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: "#fff" }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
-              ) : (
-                <svg viewBox="0 0 88 88" style={{ width: 11, height: 11 }}><path d="M0 12.4l35.7-4.9v34.4H0zm39.9-5.5L87.3 0v41.5H39.9zM0 45.9h35.7v34.4L0 75.5zm39.9.4h47.4v41.3l-47.4-6.6z" fill="white"/></svg>
-              )}
-              Download for {isMac ? "Mac" : "Windows"}
-            </a>
-          </div>
-
           {isMac ? (
             <MacBook>
               <DemoArea ref={demoRef} onMove={onMove} onEnter={() => setInside(true)} onLeave={() => { setInside(false); setActiveZone(null); }} activeZone={activeZone} inside={inside} pos={cursorPos} label={activeLabel} isWin={false} />
