@@ -380,8 +380,13 @@ export default function Home() {
       <section className="px-6 pb-12">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <MacBook>
-            <div style={{ width: "100%", height: "100%", background: "#111", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ color: "#444", fontSize: 13, fontFamily: "var(--font-inter)" }}>Drop demo video here</span>
+            <div style={{ width: "100%", height: "100%", background: "#000", overflow: "hidden", position: "relative" }}>
+              <iframe
+                src="https://platform.twitter.com/embed/Tweet.html?id=2066427199058854305&theme=dark&chrome=nofooter%20noborders%20transparent&hideCard=true&hideThread=true"
+                style={{ width: "100%", height: "100%", border: "none" }}
+                allow="autoplay; fullscreen"
+                title="Cursur demo"
+              />
             </div>
           </MacBook>
 
