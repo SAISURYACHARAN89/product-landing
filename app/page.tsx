@@ -297,13 +297,18 @@ export default function Home() {
       </div>
 
       {/* ── Hero ── */}
-      <section className="flex flex-col items-center text-center px-6 pt-16 pb-14">
-        <h1 className="text-[72px] leading-[1.04] tracking-[-0.015em] text-neutral-950 mb-5" style={{ fontFamily: G, fontWeight: 500, maxWidth: 680 }}>
-          Give your c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
+      <section className="flex flex-col items-center text-center px-6 pt-20 pb-12">
+        <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full text-[11px] font-medium tracking-widest uppercase text-neutral-400" style={{ fontFamily: I, background: "#f5f5f7", border: "1px solid #e8e8e8", letterSpacing: "0.1em" }}>
+          Available for Mac &amp; Windows
+        </div>
+        <h1 className="text-[80px] leading-[1.0] tracking-[-0.02em] text-neutral-950 mb-6" style={{ fontFamily: G, fontWeight: 500, maxWidth: 700 }}>
+          Give your{" "}
+          c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
+          <br />
           a <em>personality.</em>
         </h1>
-        <p className="text-[16px] text-neutral-400 leading-relaxed" style={{ fontFamily: I, fontWeight: 300, maxWidth: 360 }}>
-          An OS level integration, so it will work anywhere on your screen.
+        <p className="text-[15px] text-neutral-400 leading-relaxed" style={{ fontFamily: I, fontWeight: 300, maxWidth: 340 }}>
+          An OS-level integration — works everywhere on your screen.
         </p>
       </section>
 
