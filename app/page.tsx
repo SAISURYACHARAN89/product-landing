@@ -65,17 +65,6 @@ function MacBook({ children }: { children: React.ReactNode }) {
         boxShadow: "0 0 0 1px #1c1c1e, inset 0 1px 0 rgba(255,255,255,0.08)",
         position: "relative",
       }}>
-        {/* Notch */}
-        <div style={{
-          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-          width: 110, height: 12, background: "#1c1c1e",
-          borderRadius: "0 0 10px 10px", zIndex: 2,
-        }} />
-        {/* Webcam dot */}
-        <div style={{
-          position: "absolute", top: 4, left: "50%", transform: "translateX(-50%)",
-          width: 6, height: 6, borderRadius: "50%", background: "#2a2a2c", zIndex: 3,
-        }} />
         {/* Screen bezel + content */}
         <div style={{
           background: "#000",
@@ -85,6 +74,15 @@ function MacBook({ children }: { children: React.ReactNode }) {
           position: "relative",
         }}>
           {children}
+          {/* Notch overlaid on top of screen */}
+          <div style={{
+            position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+            width: "22%", height: "7%", background: "#1c1c1e",
+            borderRadius: "0 0 12px 12px", zIndex: 10,
+            display: "flex", alignItems: "center", justifyContent: "center",
+          }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#3a3a3c" }} />
+          </div>
         </div>
       </div>
       {/* Hinge shadow line */}
@@ -282,8 +280,8 @@ export default function Home() {
     <div className="bg-white" style={{ cursor: inside ? "none" : "auto" }}>
 
       {/* ── Nav ── */}
-      <div className="sticky top-0 z-50 flex justify-center px-6 pt-5 pb-3" style={{ background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)" }}>
-        <nav className="w-full flex items-center justify-between px-5 py-2.5" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid #e8e8e8", background: "rgba(255,255,255,0.9)" }}>
+      <div className="sticky top-0 z-50 flex justify-center px-6 pt-5 pb-3">
+        <nav className="w-full flex items-center justify-between px-5 py-2.5" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.72)", backdropFilter: "blur(24px) saturate(180%)", WebkitBackdropFilter: "blur(24px) saturate(180%)", boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 0 0 0.5px rgba(0,0,0,0.04)" }}>
           <span className="text-[16px] font-semibold" style={{ fontFamily: G }}>
             c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
           </span>
@@ -298,9 +296,6 @@ export default function Home() {
 
       {/* ── Hero ── */}
       <section className="flex flex-col items-center text-center px-6 pt-20 pb-12">
-        <div className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full text-[11px] font-medium tracking-widest uppercase text-neutral-400" style={{ fontFamily: I, background: "#f5f5f7", border: "1px solid #e8e8e8", letterSpacing: "0.1em" }}>
-          Available for Mac &amp; Windows
-        </div>
         <h1 className="text-[80px] leading-[1.0] tracking-[-0.02em] text-neutral-950 mb-6" style={{ fontFamily: G, fontWeight: 500, maxWidth: 700 }}>
           Give your{" "}
           c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
