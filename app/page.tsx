@@ -379,16 +379,36 @@ export default function Home() {
           <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
           <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
           <div className="flex gap-4 overflow-x-auto pb-3" style={{ paddingLeft: 40, paddingRight: 40, scrollbarWidth: "none" }}>
-            {emotionCards.map(card => (
+            {[
+              { label: "Exploring",     img: "/cur-1.png" },
+              { label: "Photographer",  img: "/cur-2.png" },
+              { label: "Movie mode",    img: "/cur-3.png" },
+              { label: "Elder",         img: "/cur-4.png" },
+              { label: "Coffee break",  img: "/cur-5.png" },
+              { label: "Emotional",     img: "/cur-6.png" },
+              { label: "Music",         img: "/cur-7.png" },
+              { label: "Business",      img: "/cur-8.png" },
+              { label: "Surprised",     img: "/cur-9.png" },
+              { label: "Shopping",      img: "/cur-10.png" },
+            ].map(card => (
               <div
                 key={card.label}
-                className="flex-shrink-0 flex flex-col items-center justify-center gap-4 transition-all cursor-default hover:border-neutral-200 hover:shadow-md hover:bg-white"
-                style={{ width: 220, height: 210, borderRadius: 22, background: "#fafafa", border: "1px solid #f0f0f0" }}
+                className="flex-shrink-0 flex flex-col items-center justify-center gap-3 transition-all cursor-default hover:border-neutral-200 hover:shadow-md hover:bg-white"
+                style={{ width: 220, height: 240, borderRadius: 22, background: "#fafafa", border: "1px solid #f0f0f0" }}
               >
-                <CursorSkin accessory={card.accessory} size={64} />
+                <img src={card.img} alt={card.label} style={{ width: 130, height: 130, objectFit: "contain" }} />
                 <span className="text-[13px] font-medium text-neutral-500" style={{ fontFamily: I }}>{card.label}</span>
               </div>
             ))}
+            {/* Mystery card */}
+            <div
+              className="flex-shrink-0 flex flex-col items-center justify-center transition-all cursor-default hover:border-neutral-200 hover:shadow-md hover:bg-white"
+              style={{ width: 260, height: 240, borderRadius: 22, background: "#fafafa", border: "1px dashed #ddd", padding: "0 24px" }}
+            >
+              <p className="text-[14px] font-medium text-neutral-400 text-center leading-relaxed" style={{ fontFamily: I }}>
+                There&apos;s tons more. We just don&apos;t wanna spoil the surprise before you download.
+              </p>
+            </div>
           </div>
         </div>
       </section>
