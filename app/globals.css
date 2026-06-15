@@ -2,7 +2,8 @@
 
 * { box-sizing: border-box; }
 
-body {
+html, body {
   background: #fff;
   color: #111;
+  overscroll-behavior: none;
 }
