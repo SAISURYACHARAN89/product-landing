@@ -257,6 +257,9 @@ const DemoArea = forwardRef<HTMLDivElement, {
 // ─── Page ─────────────────────────────────────────────────────────
 export default function Home() {
   const [platform, setPlatform] = useState<"mac" | "windows">("mac");
+  const [recoveryOpen, setRecoveryOpen] = useState(false);
+  const [recoveryEmail, setRecoveryEmail] = useState("");
+  const [recoverySubmitted, setRecoverySubmitted] = useState(false);
   const [windowsNotified, setWindowsNotified] = useState(() =>
     typeof window !== "undefined" && localStorage.getItem("windows-notify") === "1"
   );
@@ -287,6 +290,60 @@ export default function Home() {
   return (
     <div className="bg-white" style={{ cursor: inside ? "none" : "auto" }}>
 
+      {/* ── Recovery Key Modal ── */}
+      {recoveryOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]"
+          style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)" }}
+          onClick={e => { if (e.target === e.currentTarget) { setRecoveryOpen(false); } }}
+        >
+          <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 420, boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I }}>
+            <button onClick={() => setRecoveryOpen(false)} style={{ position: "absolute", top: 0, right: 0, opacity: 0 }} aria-label="close" />
+            {!recoverySubmitted ? (
+              <>
+                <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 8 }}>Recover your key</h2>
+                <p style={{ fontSize: 13, color: "#aaa", fontWeight: 300, marginBottom: 28, lineHeight: 1.6 }}>Enter the email you used to purchase cursur and we will send your license key to it.</p>
+                <form onSubmit={e => { e.preventDefault(); setRecoverySubmitted(true); }}>
+                  <input
+                    autoFocus
+                    type="email"
+                    required
+                    placeholder="your@email.com"
+                    value={recoveryEmail}
+                    onChange={e => setRecoveryEmail(e.target.value)}
+                    style={{
+                      width: "100%", padding: "11px 14px", borderRadius: 10,
+                      border: "1px solid #e0e0e0", fontSize: 14, color: "#111",
+                      background: "#fafafa", outline: "none", fontFamily: I,
+                      marginBottom: 14, boxSizing: "border-box",
+                    }}
+                  />
+                  <button type="submit" style={{
+                    width: "100%", padding: "11px", borderRadius: 10,
+                    background: "#111", color: "#fff", fontSize: 14,
+                    fontWeight: 600, fontFamily: I, cursor: "pointer", border: "none",
+                  }}>
+                    Send recovery email
+                  </button>
+                </form>
+              </>
+            ) : (
+              <div style={{ textAlign: "center", padding: "16px 0" }}>
+                <div style={{ fontSize: 36, marginBottom: 16 }}>✉️</div>
+                <h2 style={{ fontFamily: G, fontSize: 24, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 10 }}>Check your inbox</h2>
+                <p style={{ fontSize: 13, color: "#888", fontWeight: 300, lineHeight: 1.7 }}>
+                  Your confirmation email will be sent to<br />
+                  <span style={{ color: "#111", fontWeight: 500 }}>{recoveryEmail}</span>
+                </p>
+                <button onClick={() => setRecoveryOpen(false)} style={{ marginTop: 24, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I }}>
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* ── Nav ── */}
       <div className="sticky top-0 z-50 flex justify-center px-6 pt-5 pb-3">
         <nav className="w-full flex items-center justify-between px-5 py-2.5" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.65)", backdropFilter: "blur(28px) saturate(180%)", WebkitBackdropFilter: "blur(28px) saturate(180%)", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
@@ -295,7 +352,7 @@ export default function Home() {
           </span>
           <div className="flex items-center gap-5 text-[13px] text-neutral-400" style={{ fontFamily: I }}>
             <a href="#free" className="hover:text-neutral-800 transition-colors">Get it free</a>
-            <a href="#" className="hover:text-neutral-800 transition-colors">Recovery Key</a>
+            <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "inherit", padding: 0 }}>Recovery Key</button>
             <a
               href="#"
               className="inline-flex items-center gap-1.5 text-[12px] font-semibold transition-all hover:opacity-75"
