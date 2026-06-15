@@ -393,9 +393,8 @@ export default function Home() {
               style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
               ref={el => {
                 if (!el) return;
-                const unmute = () => { el.muted = false; window.removeEventListener("click", unmute); window.removeEventListener("scroll", unmute); };
-                window.addEventListener("click", unmute, { once: true });
-                window.addEventListener("scroll", unmute, { once: true });
+                el.addEventListener("click", () => { el.muted = false; }, { once: true });
+                el.addEventListener("pause", () => { if (!el.ended) el.play(); });
               }}
             />
           </div>
