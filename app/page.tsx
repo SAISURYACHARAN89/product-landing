@@ -365,10 +365,7 @@ export default function Home() {
       </section>
 
       {/* ── Emotions scroll ── */}
-      <section className="pb-16">
-        <h2 className="text-center text-[42px] leading-[1.05] tracking-[-0.015em] text-neutral-950 mb-8" style={{ fontFamily: G, fontWeight: 500 }}>
-          Reacts to <em>everything.</em>
-        </h2>
+      <section className="pb-10">
         <div className="relative">
           <div className="pointer-events-none absolute left-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to right, #fff, transparent)" }} />
           <div className="pointer-events-none absolute right-0 top-0 bottom-3 w-28 z-10" style={{ background: "linear-gradient(to left, #fff, transparent)" }} />
@@ -385,6 +382,9 @@ export default function Home() {
             ))}
           </div>
         </div>
+        <h2 className="text-center text-[42px] leading-[1.05] tracking-[-0.015em] text-neutral-950 mt-10 mb-6" style={{ fontFamily: G, fontWeight: 500 }}>
+          Reacts to <em>everything.</em>
+        </h2>
       </section>
 
       {/* ── Footer ── */}
