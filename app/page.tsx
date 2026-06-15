@@ -352,7 +352,6 @@ export default function Home() {
                   {active && (
                     <>
                       Download for {p === "mac" ? "Mac" : "Windows"}
-                      <span style={{ opacity: 0.6, fontWeight: 400 }}>$4.99</span>
                     </>
                   )}
                 </a>
@@ -390,29 +389,29 @@ export default function Home() {
         <div className="mx-auto" style={{ maxWidth: 600 }}>
           <p className="text-[12px] font-semibold tracking-widest uppercase text-blue-500 mb-4 text-center" style={{ fontFamily: I, letterSpacing: "0.12em" }}>For creators</p>
           <h2 className="text-[56px] leading-[1.02] tracking-[-0.02em] text-neutral-950 mb-8 text-center" style={{ fontFamily: G, fontWeight: 500 }}>
-            Get c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
+            c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
             for <em>free.</em>
           </h2>
           <div className="flex flex-col gap-5" style={{ fontFamily: I }}>
             <div className="flex items-start gap-4 p-5" style={{ background: "#fff", borderRadius: 16, border: "1px solid #ebebeb" }}>
               <span className="text-[28px] leading-none mt-0.5">①</span>
               <div>
-                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Buy cursur for $4.99</p>
-                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Download it, use it, make it yours.</p>
+                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Download cursur and use it</p>
+                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Get it on your Mac or Windows machine and make it yours.</p>
               </div>
             </div>
             <div className="flex items-start gap-4 p-5" style={{ background: "#fff", borderRadius: 16, border: "1px solid #ebebeb" }}>
               <span className="text-[28px] leading-none mt-0.5">②</span>
               <div>
-                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Post a reel about it</p>
-                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Instagram, TikTok, or YouTube Shorts. Show it off however you want.</p>
+                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Shoot a video about it</p>
+                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Post a reel on Instagram, TikTok, or YouTube Shorts. Show it off however you want.</p>
               </div>
             </div>
             <div className="flex items-start gap-4 p-5" style={{ background: "#fff", borderRadius: 16, border: "1px solid #ebebeb" }}>
               <span className="text-[28px] leading-none mt-0.5">③</span>
               <div>
-                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Hit 10,000 views and get fully refunded</p>
-                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">Send us the link once it hits 10k on any platform. We will refund you immediately.</p>
+                <p className="text-[14px] font-semibold text-neutral-800 mb-1">Send us the clip once it hits 10k views</p>
+                <p className="text-[13px] text-neutral-400 font-light leading-relaxed">We will refund you in full. No questions asked.</p>
               </div>
             </div>
           </div>
