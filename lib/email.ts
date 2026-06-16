@@ -3,7 +3,7 @@ import { Resend } from "resend";
 export async function sendLicenseEmail(to: string, licenseKey: string) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   await resend.emails.send({
-    from: "cursur <support@cursur.app>",
+    from: process.env.EMAIL_FROM || "onboarding@resend.dev",
     to,
     subject: "Your cursur license key",
     html: `
