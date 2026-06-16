@@ -327,16 +327,26 @@ export default function Home() {
           style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)" }}
           onClick={e => { if (e.target === e.currentTarget) setBuyOpen(false); }}
         >
-          <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 420, boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I }}>
-            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 28 }}>Get cursur</h2>
+          <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 380, boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I, textAlign: "center" }}>
+            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 32 }}>Get cursur</h2>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-              <form ref={razorpayFormRef} style={{ display: "flex", justifyContent: "center", width: "100%" }} />
-              <span style={{ fontSize: 12, color: "#ccc", fontWeight: 300 }}>or</span>
-              <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%" }} />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
+              <div style={{ width: "100%", height: 41, display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden" }}>
+                <form ref={razorpayFormRef} style={{ display: "flex", justifyContent: "center" }} />
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", width: "100%", gap: 10 }}>
+                <div style={{ flex: 1, height: 1, background: "#eee" }} />
+                <span style={{ fontSize: 12, color: "#ccc", fontWeight: 300 }}>or</span>
+                <div style={{ flex: 1, height: 1, background: "#eee" }} />
+              </div>
+
+              <div style={{ width: "100%", maxWidth: 280, display: "flex", justifyContent: "center" }}>
+                <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%" }} />
+              </div>
             </div>
 
-            <button onClick={() => setBuyOpen(false)} style={{ marginTop: 24, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I, display: "block", width: "100%", textAlign: "center" }}>
+            <button onClick={() => setBuyOpen(false)} style={{ marginTop: 28, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I, display: "block", width: "100%", textAlign: "center" }}>
               Close
             </button>
           </div>
