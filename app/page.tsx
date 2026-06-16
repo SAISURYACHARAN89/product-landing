@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, forwardRef } from "react";
+import { useState, useRef, useEffect, forwardRef } from "react";
+import Script from "next/script";
 
 // ─── Emotion cards ───────────────────────────────────────────────
 function CursorSkin({ accessory, size = 52 }: { accessory: string; size?: number }) {
@@ -269,6 +270,16 @@ export default function Home() {
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [inside, setInside] = useState(false);
+  const [buyOpen, setBuyOpen] = useState(false);
+  const [paypalReady, setPaypalReady] = useState(false);
+
+  useEffect(() => {
+    if (buyOpen && paypalReady && (window as any).paypal) {
+      const container = document.getElementById("paypal-container-92LU4XERGJRJA");
+      if (container) container.innerHTML = "";
+      (window as any).paypal.HostedButtons({ hostedButtonId: "92LU4XERGJRJA" }).render("#paypal-container-92LU4XERGJRJA");
+    }
+  }, [buyOpen, paypalReady]);
   const demoRef = useRef<HTMLDivElement>(null);
   const isMac = platform === "mac";
 
@@ -289,6 +300,43 @@ export default function Home() {
 
   return (
     <div className="bg-white" style={{ cursor: inside ? "none" : "auto" }}>
+
+      <Script
+        src="https://www.paypal.com/sdk/js?client-id=BAANxjkoW5d8mHCzlsIBMPCua8xdTB9HvNVpyqtNP3KWc35bMFmIL9B7FSX_nT3SrKg2FFnZmMch23LUwk&components=hosted-buttons&disable-funding=venmo&currency=USD"
+        crossOrigin="anonymous"
+        strategy="lazyOnload"
+        onLoad={() => setPaypalReady(true)}
+      />
+
+      {/* ── Buy Modal ── */}
+      {buyOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]"
+          style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)" }}
+          onClick={e => { if (e.target === e.currentTarget) setBuyOpen(false); }}
+        >
+          <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 420, boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I }}>
+            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 8 }}>Get cursur</h2>
+            <p style={{ fontSize: 13, color: "#aaa", fontWeight: 300, marginBottom: 28, lineHeight: 1.6 }}>Choose a payment method. In India, pay with Razorpay — everywhere else, pay with PayPal.</p>
+
+            <div style={{ marginBottom: 18 }}>
+              <p style={{ fontSize: 12, color: "#bbb", marginBottom: 8, fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase" }}>India</p>
+              <form style={{ display: "block" }}>
+                <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_T2H7ZUOXU80U9I" async />
+              </form>
+            </div>
+
+            <div>
+              <p style={{ fontSize: 12, color: "#bbb", marginBottom: 8, fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase" }}>Rest of the world</p>
+              <div id="paypal-container-92LU4XERGJRJA" />
+            </div>
+
+            <button onClick={() => setBuyOpen(false)} style={{ marginTop: 24, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I, display: "block", width: "100%", textAlign: "center" }}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── Recovery Key Modal ── */}
       {recoveryOpen && (
@@ -356,14 +404,14 @@ export default function Home() {
           <div className="flex items-center gap-5 text-[13px] text-neutral-400" style={{ fontFamily: I }}>
             <a href="#free" className="hover:text-neutral-800 transition-colors">Get it free</a>
             <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "inherit", padding: 0 }}>Recovery Key</button>
-            <a
-              href="#"
+            <button
+              onClick={() => setBuyOpen(true)}
               className="inline-flex items-center gap-1.5 text-[12px] font-semibold transition-all hover:opacity-75"
-              style={{ padding: "7px 16px", borderRadius: 9, background: "#111", color: "#fff" }}
+              style={{ padding: "7px 16px", borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I }}
             >
               <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: "#fff", display: "block", marginBottom: 1 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
-              Download
-            </a>
+              Buy
+            </button>
           </div>
         </nav>
       </div>
