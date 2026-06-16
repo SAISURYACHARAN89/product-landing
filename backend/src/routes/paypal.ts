@@ -62,16 +62,21 @@ router.post("/", async (req, res) => {
   // it has to be looked up via the related order.
   let email = event.resource?.payer?.email_address ?? event.resource?.payer?.email;
   const orderId = event.resource?.supplementary_data?.related_ids?.order_id;
+  const captureId = event.resource?.id;
   if (!email && orderId) {
     try {
       email = await getOrderPayerEmail(orderId, accessToken);
     } catch (err) {
-      console.error("PayPal webhook: failed to look up order payer email", err);
+      console.error(`PayPal webhook: order lookup failed for order ${orderId} (capture ${captureId}) — will retry`, err);
+      return res.status(500).send("Order lookup failed");
     }
   }
 
   if (!email) {
-    console.warn(`PayPal webhook: ${event.event_type} had no payer email, skipping`);
+    console.error(
+      `PayPal webhook: no payer email found for order ${orderId ?? "unknown"} (capture ${captureId ?? "unknown"}). ` +
+        `A customer paid but won't get an automatic license email — check this order in the PayPal dashboard and send their key manually.`
+    );
     return res.status(200).send("No email on payment");
   }
 
