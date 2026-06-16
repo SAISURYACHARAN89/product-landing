@@ -272,6 +272,7 @@ export default function Home() {
   const [inside, setInside] = useState(false);
   const [buyOpen, setBuyOpen] = useState(false);
   const [paypalReady, setPaypalReady] = useState(false);
+  const razorpayFormRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (buyOpen && paypalReady && (window as any).paypal) {
@@ -280,6 +281,17 @@ export default function Home() {
       (window as any).paypal.HostedButtons({ hostedButtonId: "92LU4XERGJRJA" }).render("#paypal-container-92LU4XERGJRJA");
     }
   }, [buyOpen, paypalReady]);
+
+  useEffect(() => {
+    if (buyOpen && razorpayFormRef.current) {
+      razorpayFormRef.current.innerHTML = "";
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+      script.setAttribute("data-payment_button_id", "pl_T2H7ZUOXU80U9I");
+      script.async = true;
+      razorpayFormRef.current.appendChild(script);
+    }
+  }, [buyOpen]);
   const demoRef = useRef<HTMLDivElement>(null);
   const isMac = platform === "mac";
 
@@ -316,19 +328,12 @@ export default function Home() {
           onClick={e => { if (e.target === e.currentTarget) setBuyOpen(false); }}
         >
           <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 420, boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I }}>
-            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 8 }}>Get cursur</h2>
-            <p style={{ fontSize: 13, color: "#aaa", fontWeight: 300, marginBottom: 28, lineHeight: 1.6 }}>Choose a payment method. In India, pay with Razorpay — everywhere else, pay with PayPal.</p>
+            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 28 }}>Get cursur</h2>
 
-            <div style={{ marginBottom: 18 }}>
-              <p style={{ fontSize: 12, color: "#bbb", marginBottom: 8, fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase" }}>India</p>
-              <form style={{ display: "block" }}>
-                <script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_T2H7ZUOXU80U9I" async />
-              </form>
-            </div>
-
-            <div>
-              <p style={{ fontSize: 12, color: "#bbb", marginBottom: 8, fontWeight: 500, letterSpacing: "0.02em", textTransform: "uppercase" }}>Rest of the world</p>
-              <div id="paypal-container-92LU4XERGJRJA" />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+              <form ref={razorpayFormRef} style={{ display: "flex", justifyContent: "center", width: "100%" }} />
+              <span style={{ fontSize: 12, color: "#ccc", fontWeight: 300 }}>or</span>
+              <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%" }} />
             </div>
 
             <button onClick={() => setBuyOpen(false)} style={{ marginTop: 24, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I, display: "block", width: "100%", textAlign: "center" }}>
