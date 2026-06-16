@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 export async function sendLicenseEmail(to: string, licenseKey: string) {
   const resend = new Resend(process.env.RESEND_API_KEY);
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: process.env.EMAIL_FROM || "onboarding@resend.dev",
     to,
     subject: "Your cursur license key",
@@ -17,4 +17,5 @@ export async function sendLicenseEmail(to: string, licenseKey: string) {
       </div>
     `,
   });
+  if (error) throw new Error(`Resend failed: ${error.message}`);
 }

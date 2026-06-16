@@ -23,7 +23,12 @@ export async function POST(req: NextRequest) {
   if (!email) return new Response("No email on payment", { status: 400 });
 
   const licenseKey = generateLicenseKey({ email, product: "cursur" });
-  await sendLicenseEmail(email, licenseKey);
+  try {
+    await sendLicenseEmail(email, licenseKey);
+  } catch (err) {
+    console.error("Razorpay webhook: failed to send license email", err);
+    return new Response("Email send failed", { status: 500 });
+  }
 
   return new Response("OK", { status: 200 });
 }

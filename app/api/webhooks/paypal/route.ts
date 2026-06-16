@@ -41,18 +41,24 @@ export async function POST(req: NextRequest) {
   if (!verified) return new Response("Invalid signature", { status: 400 });
 
   const event = JSON.parse(body);
-  if (event.event_type !== "CHECKOUT.ORDER.APPROVED" && event.event_type !== "PAYMENT.SALE.COMPLETED") {
+  const paymentEvents = ["CHECKOUT.ORDER.APPROVED", "PAYMENT.SALE.COMPLETED", "PAYMENT.CAPTURE.COMPLETED"];
+  if (!paymentEvents.includes(event.event_type)) {
     return new Response("Ignored", { status: 200 });
   }
 
-  const email =
-    event.resource?.payer?.email_address ??
-    event.resource?.payer?.email ??
-    event.resource?.purchase_units?.[0]?.payee?.email_address;
-  if (!email) return new Response("No email on payment", { status: 400 });
+  const email = event.resource?.payer?.email_address ?? event.resource?.payer?.email;
+  if (!email) {
+    console.warn(`PayPal webhook: ${event.event_type} had no payer email, skipping`);
+    return new Response("No email on payment", { status: 200 });
+  }
 
   const licenseKey = generateLicenseKey({ email, product: "cursur" });
-  await sendLicenseEmail(email, licenseKey);
+  try {
+    await sendLicenseEmail(email, licenseKey);
+  } catch (err) {
+    console.error("PayPal webhook: failed to send license email", err);
+    return new Response("Email send failed", { status: 500 });
+  }
 
   return new Response("OK", { status: 200 });
 }
