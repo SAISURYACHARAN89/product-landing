@@ -277,10 +277,14 @@ export default function Home() {
   const [licenseKey, setLicenseKey] = useState<string | null>(null);
   const [licensePending, setLicensePending] = useState(false);
   const [licenseCopied, setLicenseCopied] = useState(false);
+  const [licenseTimedOut, setLicenseTimedOut] = useState(false);
+  const [lastPaymentId, setLastPaymentId] = useState<string | null>(null);
 
   function pollForLicenseKey(paymentId: string) {
+    setLastPaymentId(paymentId);
     setLicensePending(true);
     setLicenseKey(null);
+    setLicenseTimedOut(false);
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
     const startedAt = Date.now();
     const tick = async () => {
@@ -297,6 +301,7 @@ export default function Home() {
         setTimeout(tick, 2000);
       } else {
         setLicensePending(false);
+        setLicenseTimedOut(true);
       }
     };
     tick();
@@ -409,6 +414,27 @@ export default function Home() {
                 <p style={{ fontSize: 13, color: "#777", margin: 0 }}>Confirming your payment…</p>
                 <p style={{ fontSize: 12, color: "#bbb", margin: 0 }}>Your license key will appear here in a few seconds.</p>
               </div>
+            ) : licenseTimedOut ? (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "10px 0" }}>
+                <p style={{ fontSize: 13, color: "#777", margin: 0 }}>
+                  Your payment went through, but it's taking longer than usual to confirm. We'll email your license
+                  key as soon as it's ready.
+                </p>
+                {lastPaymentId && (
+                  <p style={{ fontSize: 11, color: "#bbb", margin: 0 }}>
+                    Payment ref: <span style={{ fontFamily: "monospace" }}>{lastPaymentId}</span>
+                  </p>
+                )}
+                <button
+                  onClick={() => lastPaymentId && pollForLicenseKey(lastPaymentId)}
+                  style={{ width: "100%", padding: "11px 0", borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, fontWeight: 600 }}
+                >
+                  Check again
+                </button>
+                <p style={{ fontSize: 11, color: "#bbb", margin: 0 }}>
+                  Still nothing after a few minutes? Email support@cursur.app with the payment ref above.
+                </p>
+              </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
                 <button
@@ -505,7 +531,7 @@ export default function Home() {
             <a href="#free" className="hover:text-neutral-800 transition-colors">Get it free</a>
             <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "inherit", padding: 0 }}>Recovery Key</button>
             <button
-              onClick={() => { setBuyOpen(true); setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); }}
+              onClick={() => { setBuyOpen(true); setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); setLicenseTimedOut(false); setLastPaymentId(null); }}
               className="inline-flex items-center gap-1.5 text-[12px] font-semibold transition-all hover:opacity-75"
               style={{ padding: "7px 16px", borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I }}
             >
