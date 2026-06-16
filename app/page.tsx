@@ -477,7 +477,18 @@ export default function Home() {
               <>
                 <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 8 }}>Recover your key</h2>
                 <p style={{ fontSize: 13, color: "#aaa", fontWeight: 300, marginBottom: 28, lineHeight: 1.6 }}>Enter the email you used to purchase cursur and we will send your license key to it.</p>
-                <form onSubmit={e => { e.preventDefault(); setRecoverySubmitted(true); }}>
+                <form onSubmit={async e => {
+                  e.preventDefault();
+                  setRecoverySubmitted(true);
+                  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
+                  try {
+                    await fetch(`${apiUrl}/api/license/recover`, {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ email: recoveryEmail }),
+                    });
+                  } catch {}
+                }}>
                   <input
                     autoFocus
                     type="email"
@@ -506,7 +517,7 @@ export default function Home() {
                 <div style={{ fontSize: 36, marginBottom: 16 }}>✉️</div>
                 <h2 style={{ fontFamily: G, fontSize: 24, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 10 }}>Check your inbox</h2>
                 <p style={{ fontSize: 13, color: "#888", fontWeight: 300, lineHeight: 1.7 }}>
-                  Your confirmation email will be sent to<br />
+                  If that email made a purchase, we've sent your license key to<br />
                   <span style={{ color: "#111", fontWeight: 500 }}>{recoveryEmail}</span>
                 </p>
                 <button onClick={() => setRecoveryOpen(false)} style={{ marginTop: 24, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I }}>

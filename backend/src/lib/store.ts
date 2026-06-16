@@ -32,3 +32,9 @@ export function appendCustomer(record: CustomerRecord) {
 export function findByPaymentId(paymentId: string): CustomerRecord | undefined {
   return readAll().find(r => r.paymentId === paymentId);
 }
+
+export function findByEmail(email: string): CustomerRecord | undefined {
+  const normalized = email.trim().toLowerCase();
+  const matches = readAll().filter(r => r.email.trim().toLowerCase() === normalized);
+  return matches.sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+}

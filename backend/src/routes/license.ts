@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { verifyLicenseKey } from "../lib/license";
-import { findByPaymentId } from "../lib/store";
+import { findByPaymentId, findByEmail } from "../lib/store";
+import { sendLicenseEmail } from "../lib/email";
 
 const router = Router();
 
@@ -24,6 +25,25 @@ router.get("/lookup", (req, res) => {
   if (!record) return res.status(200).json({ found: false });
 
   return res.status(200).json({ found: true, licenseKey: record.licenseKey, email: record.email });
+});
+
+// "Recovery key" form on the website — re-sends the existing license key to
+// whatever email purchased it. Always responds the same way regardless of
+// whether the email is found, so this can't be used to check who's a customer.
+router.post("/recover", async (req, res) => {
+  const { email } = req.body ?? {};
+  if (!email || typeof email !== "string") return res.status(400).json({ ok: false });
+
+  const record = findByEmail(email);
+  if (record) {
+    try {
+      await sendLicenseEmail(record.email, record.licenseKey);
+    } catch (err) {
+      console.error("License recovery: failed to send email", err);
+    }
+  }
+
+  return res.status(200).json({ ok: true });
 });
 
 export default router;
