@@ -494,11 +494,11 @@ export default function Home() {
                   <div style={{ flex: 1, height: 1, background: "#eee" }} />
                 </div>
 
-                <div style={{ width: "100%", maxWidth: 280, height: 45, display: "flex", justifyContent: "center", position: "relative" }}>
+                <div style={{ width: "100%", maxWidth: 280, minHeight: 45, display: "flex", justifyContent: "center", position: "relative" }}>
                   {!paypalReady && (
-                    <div style={{ position: "absolute", inset: 0, borderRadius: 9, background: "#f3f3f3", animation: "cursur-pulse 1.4s ease-in-out infinite" }} />
+                    <div style={{ position: "absolute", inset: 0, height: 45, borderRadius: 9, background: "#f3f3f3", animation: "cursur-pulse 1.4s ease-in-out infinite" }} />
                   )}
-                  <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%" }} />
+                  <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%", visibility: paypalReady ? "visible" : "hidden" }} />
                 </div>
               </div>
             )}
