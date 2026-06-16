@@ -540,7 +540,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-5 text-[13px] text-neutral-400" style={{ fontFamily: I }}>
             <a href="#free" className="hover:text-neutral-800 transition-colors">Get it free</a>
-            <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "inherit", padding: 0 }}>Recovery Key</button>
+            <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "inherit", padding: 0 }}>License Key</button>
             <button
               onClick={() => { setBuyOpen(true); setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); setLicenseTimedOut(false); setLastPaymentId(null); }}
               className="inline-flex items-center gap-1.5 text-[12px] font-semibold transition-all hover:opacity-75"
