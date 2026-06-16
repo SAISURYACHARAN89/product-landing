@@ -4,6 +4,7 @@ import cors from "cors";
 import razorpayRoute from "./routes/razorpay";
 import paypalRoute from "./routes/paypal";
 import licenseRoute from "./routes/license";
+import createOrderRoute from "./routes/createOrder";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/api/webhooks/paypal", express.raw({ type: "*/*" }), paypalRoute);
 
 app.use(express.json());
 app.use("/api/license", licenseRoute);
+app.use("/api/razorpay/create-order", createOrderRoute);
 
 app.get("/health", (_req, res) => res.status(200).send("ok"));
 

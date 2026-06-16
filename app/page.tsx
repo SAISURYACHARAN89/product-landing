@@ -272,7 +272,8 @@ export default function Home() {
   const [inside, setInside] = useState(false);
   const [buyOpen, setBuyOpen] = useState(false);
   const [paypalReady, setPaypalReady] = useState(false);
-  const razorpayFormRef = useRef<HTMLFormElement>(null);
+  const [razorpayReady, setRazorpayReady] = useState(false);
+  const [razorpayLoading, setRazorpayLoading] = useState(false);
   const [licenseKey, setLicenseKey] = useState<string | null>(null);
   const [licensePending, setLicensePending] = useState(false);
   const [licenseCopied, setLicenseCopied] = useState(false);
@@ -314,16 +315,31 @@ export default function Home() {
     }
   }, [buyOpen, paypalReady]);
 
-  useEffect(() => {
-    if (buyOpen && razorpayFormRef.current) {
-      razorpayFormRef.current.innerHTML = "";
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/payment-button.js";
-      script.setAttribute("data-payment_button_id", "pl_T2H7ZUOXU80U9I");
-      script.async = true;
-      razorpayFormRef.current.appendChild(script);
+  async function payWithRazorpay() {
+    setRazorpayLoading(true);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
+    try {
+      const res = await fetch(`${apiUrl}/api/razorpay/create-order`, { method: "POST" });
+      const order = await res.json();
+      if (!order.orderId) throw new Error("No order id");
+
+      const rzp = new (window as any).Razorpay({
+        key: order.keyId,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.orderId,
+        name: "cursur",
+        handler: (response: { razorpay_payment_id: string }) => {
+          pollForLicenseKey(response.razorpay_payment_id);
+        },
+      });
+      rzp.open();
+    } catch {
+      alert("Couldn't start payment. Please try again in a moment.");
+    } finally {
+      setRazorpayLoading(false);
     }
-  }, [buyOpen]);
+  }
   const demoRef = useRef<HTMLDivElement>(null);
   const isMac = platform === "mac";
 
@@ -350,6 +366,11 @@ export default function Home() {
         crossOrigin="anonymous"
         strategy="lazyOnload"
         onLoad={() => setPaypalReady(true)}
+      />
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="lazyOnload"
+        onLoad={() => setRazorpayReady(true)}
       />
 
       {/* ── Buy Modal ── */}
@@ -390,9 +411,13 @@ export default function Home() {
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
-                <div style={{ width: "100%", height: 41, display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden" }}>
-                  <form ref={razorpayFormRef} style={{ display: "flex", justifyContent: "center" }} />
-                </div>
+                <button
+                  onClick={payWithRazorpay}
+                  disabled={!razorpayReady || razorpayLoading}
+                  style={{ width: "100%", padding: "11px 0", borderRadius: 9, background: "#3395FF", color: "#fff", border: "none", cursor: razorpayReady ? "pointer" : "default", opacity: razorpayReady ? 1 : 0.6, fontFamily: I, fontSize: 14, fontWeight: 600 }}
+                >
+                  {razorpayLoading ? "Starting…" : "Pay ₹399 with Razorpay"}
+                </button>
 
                 <div style={{ display: "flex", alignItems: "center", width: "100%", gap: 10 }}>
                   <div style={{ flex: 1, height: 1, background: "#eee" }} />
