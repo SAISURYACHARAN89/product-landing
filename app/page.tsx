@@ -449,6 +449,8 @@ export default function Home() {
             <video
               id="demo-video"
               src="/demo.mp4"
+              poster="/demo-poster.jpg"
+              preload="auto"
               autoPlay
               loop
               muted
