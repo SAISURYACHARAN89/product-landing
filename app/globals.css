@@ -12,3 +12,8 @@ html, body {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
+
+@keyframes cursur-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}

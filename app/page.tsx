@@ -267,6 +267,7 @@ export default function Home() {
   const [buyOpen, setBuyOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [paypalReady, setPaypalReady] = useState(false);
+  const [paypalRendered, setPaypalRendered] = useState(false);
   const [razorpayReady, setRazorpayReady] = useState(false);
   const [razorpayLoading, setRazorpayLoading] = useState(false);
   const [licenseKey, setLicenseKey] = useState<string | null>(null);
@@ -311,7 +312,11 @@ export default function Home() {
   }, [buyOpen]);
 
   useEffect(() => {
-    if (buyOpen && paypalReady && (window as any).paypal) {
+    if (!buyOpen) {
+      setPaypalRendered(false);
+      return;
+    }
+    if (paypalReady && (window as any).paypal) {
       const container = document.getElementById("paypal-container-92LU4XERGJRJA");
       if (container) container.innerHTML = "";
       (window as any).paypal.HostedButtons({
@@ -319,7 +324,9 @@ export default function Home() {
         onApprove: (data: { orderID: string }) => {
           pollForLicenseKey(data.orderID);
         },
-      }).render("#paypal-container-92LU4XERGJRJA");
+      }).render("#paypal-container-92LU4XERGJRJA").then(() => {
+        requestAnimationFrame(() => setPaypalRendered(true));
+      });
     }
   }, [buyOpen, paypalReady]);
 
@@ -372,12 +379,12 @@ export default function Home() {
       <Script
         src="https://www.paypal.com/sdk/js?client-id=BAANxjkoW5d8mHCzlsIBMPCua8xdTB9HvNVpyqtNP3KWc35bMFmIL9B7FSX_nT3SrKg2FFnZmMch23LUwk&components=hosted-buttons&disable-funding=venmo&currency=USD"
         crossOrigin="anonymous"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => setPaypalReady(true)}
       />
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => setRazorpayReady(true)}
       />
 
@@ -489,10 +496,29 @@ export default function Home() {
                 </div>
 
                 <div style={{ width: "100%", maxWidth: 280, minHeight: 45, display: "flex", justifyContent: "center", position: "relative" }}>
-                  {!paypalReady && (
-                    <div style={{ position: "absolute", inset: 0, height: 45, borderRadius: 9, background: "#f3f3f3", animation: "cursur-pulse 1.4s ease-in-out infinite" }} />
-                  )}
-                  <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%", visibility: paypalReady ? "visible" : "hidden" }} />
+                  <div
+                    style={{
+                      position: "absolute", inset: 0, height: 45, borderRadius: 9,
+                      background: "linear-gradient(90deg, #f3f3f3 25%, #ececec 37%, #f3f3f3 63%)",
+                      backgroundSize: "400% 100%",
+                      animation: "cursur-shimmer 1.4s ease-in-out infinite",
+                      opacity: paypalRendered ? 0 : 1,
+                      pointerEvents: "none",
+                      transition: "opacity 0.35s ease",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      fontSize: 11, color: "#bbb", fontFamily: I,
+                    }}
+                  >
+                    Loading PayPal…
+                  </div>
+                  <div
+                    id="paypal-container-92LU4XERGJRJA"
+                    style={{
+                      width: "100%",
+                      opacity: paypalRendered ? 1 : 0,
+                      transition: "opacity 0.35s ease",
+                    }}
+                  />
                 </div>
               </div>
             )}
