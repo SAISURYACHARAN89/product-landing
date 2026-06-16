@@ -15,7 +15,7 @@ export default function Terms() {
       <section style={{ marginBottom: 40 }}>
         <h2 style={{ fontFamily: "var(--font-garamond)", fontSize: 22, fontWeight: 500, marginBottom: 10 }}>Creator refund programme</h2>
         <p style={{ fontSize: 15, lineHeight: 1.7, color: "#444", fontWeight: 300 }}>
-          If you post a video about Cursur on Instagram, TikTok, or YouTube Shorts and it reaches 10,000 views on any one platform, you are eligible for a full refund of your purchase price. To claim it, email the link to <a href="mailto:cursurapp@gmail.com" style={{ color: "#3b82f6", textDecoration: "none" }}>cursurapp@gmail.com</a>. Refunds are processed within 5 business days of verification. Each account is eligible for one refund. We reserve the right to decline claims where the view count cannot be independently verified.
+          If you post a video about Cursur on Instagram, TikTok, or YouTube Shorts and it reaches 10,000 views on any one platform, you are eligible for a full refund of your purchase price. To claim it, email the link to <a href="mailto:support@cursur.app" style={{ color: "#3b82f6", textDecoration: "none" }}>support@cursur.app</a>. Refunds are processed within 5 business days of verification. Each account is eligible for one refund. We reserve the right to decline claims where the view count cannot be independently verified.
         </p>
       </section>
 
@@ -43,7 +43,7 @@ export default function Terms() {
       <section style={{ marginBottom: 40 }}>
         <h2 style={{ fontFamily: "var(--font-garamond)", fontSize: 22, fontWeight: 500, marginBottom: 10 }}>Contact</h2>
         <p style={{ fontSize: 15, lineHeight: 1.7, color: "#444", fontWeight: 300 }}>
-          Questions? Email us at <a href="mailto:cursurapp@gmail.com" style={{ color: "#3b82f6", textDecoration: "none" }}>cursurapp@gmail.com</a>
+          Questions? Email us at <a href="mailto:support@cursur.app" style={{ color: "#3b82f6", textDecoration: "none" }}>support@cursur.app</a>
         </p>
       </section>
     </div>

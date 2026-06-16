@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
       <section style={{ marginBottom: 40 }}>
         <h2 style={{ fontFamily: "var(--font-garamond)", fontSize: 22, fontWeight: 500, marginBottom: 10 }}>Contact</h2>
         <p style={{ fontSize: 15, lineHeight: 1.7, color: "#444", fontWeight: 300 }}>
-          Questions? Email us at <a href="mailto:cursurapp@gmail.com" style={{ color: "#3b82f6", textDecoration: "none" }}>cursurapp@gmail.com</a>
+          Questions? Email us at <a href="mailto:support@cursur.app" style={{ color: "#3b82f6", textDecoration: "none" }}>support@cursur.app</a>
         </p>
       </section>
     </div>
