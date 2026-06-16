@@ -271,6 +271,7 @@ export default function Home() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [inside, setInside] = useState(false);
   const [buyOpen, setBuyOpen] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [paypalReady, setPaypalReady] = useState(false);
   const [razorpayReady, setRazorpayReady] = useState(false);
   const [razorpayLoading, setRazorpayLoading] = useState(false);
@@ -306,6 +307,14 @@ export default function Home() {
     };
     tick();
   }
+
+  useEffect(() => {
+    if (buyOpen) {
+      const raf = requestAnimationFrame(() => setModalVisible(true));
+      return () => cancelAnimationFrame(raf);
+    }
+    setModalVisible(false);
+  }, [buyOpen]);
 
   useEffect(() => {
     if (buyOpen && paypalReady && (window as any).paypal) {
@@ -382,14 +391,26 @@ export default function Home() {
       {buyOpen && (
         <div
           className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]"
-          style={{ background: "rgba(0,0,0,0.3)", backdropFilter: "blur(8px)" }}
+          style={{
+            background: "rgba(0,0,0,0.3)",
+            backdropFilter: "blur(8px)",
+            opacity: modalVisible ? 1 : 0,
+            transition: "opacity 0.18s ease",
+          }}
           onClick={e => { if (e.target === e.currentTarget) setBuyOpen(false); }}
         >
-          <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 380, boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I, textAlign: "center" }}>
+          <div style={{
+            background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 380,
+            boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I, textAlign: "center",
+            opacity: modalVisible ? 1 : 0,
+            transform: modalVisible ? "scale(1) translateY(0)" : "scale(0.97) translateY(6px)",
+            transition: "opacity 0.18s ease, transform 0.18s ease",
+          }}>
             <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 32 }}>
               {licenseKey ? "You're all set" : "Get cursur"}
             </h2>
 
+            <div style={{ minHeight: 168 }}>
             {licenseKey ? (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
                 <p style={{ fontSize: 13, color: "#777", margin: 0 }}>
@@ -436,14 +457,36 @@ export default function Home() {
                 </p>
               </div>
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
                 <button
                   onClick={payWithRazorpay}
                   disabled={!razorpayReady || razorpayLoading}
-                  style={{ width: "100%", padding: "11px 0", borderRadius: 9, background: "#3395FF", color: "#fff", border: "none", cursor: razorpayReady ? "pointer" : "default", opacity: razorpayReady ? 1 : 0.6, fontFamily: I, fontSize: 14, fontWeight: 600 }}
+                  style={{
+                    width: "100%", height: 48, borderRadius: 11, background: "#111", color: "#fff",
+                    border: "none", cursor: razorpayReady ? "pointer" : "default",
+                    opacity: razorpayReady ? 1 : 0.55, fontFamily: I, fontSize: 14, fontWeight: 600,
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    transition: "opacity 0.15s ease",
+                  }}
                 >
-                  {razorpayLoading ? "Starting…" : "Pay ₹399 with Razorpay"}
+                  {razorpayLoading ? (
+                    "Starting…"
+                  ) : !razorpayReady ? (
+                    "Loading payment…"
+                  ) : (
+                    <>
+                      <span>Pay ₹399</span>
+                      <span style={{ width: 1, height: 14, background: "rgba(255,255,255,0.25)" }} />
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, opacity: 0.85 }}>
+                        <svg viewBox="0 0 32 32" style={{ width: 13, height: 13 }}>
+                          <path d="M9 4h10.5c5.2 0 8 2.7 7.4 7.1-.5 4.1-3.6 6.3-7.9 6.3h-4.4l-1.7 9.6H8.2L9 22.4 13 4z" fill="#fff" opacity="0.95"/>
+                        </svg>
+                        Razorpay
+                      </span>
+                    </>
+                  )}
                 </button>
+                <p style={{ fontSize: 11, color: "#bbb", margin: 0, marginTop: -8 }}>UPI · Cards · Netbanking — secured by Razorpay</p>
 
                 <div style={{ display: "flex", alignItems: "center", width: "100%", gap: 10 }}>
                   <div style={{ flex: 1, height: 1, background: "#eee" }} />
@@ -451,11 +494,15 @@ export default function Home() {
                   <div style={{ flex: 1, height: 1, background: "#eee" }} />
                 </div>
 
-                <div style={{ width: "100%", maxWidth: 280, display: "flex", justifyContent: "center" }}>
+                <div style={{ width: "100%", maxWidth: 280, height: 45, display: "flex", justifyContent: "center", position: "relative" }}>
+                  {!paypalReady && (
+                    <div style={{ position: "absolute", inset: 0, borderRadius: 9, background: "#f3f3f3", animation: "cursur-pulse 1.4s ease-in-out infinite" }} />
+                  )}
                   <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%" }} />
                 </div>
               </div>
             )}
+            </div>
 
             <button onClick={() => setBuyOpen(false)} style={{ marginTop: 28, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I, display: "block", width: "100%", textAlign: "center" }}>
               Close
