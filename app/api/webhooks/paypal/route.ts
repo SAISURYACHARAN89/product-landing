@@ -33,6 +33,14 @@ async function verifyWebhookSignature(headers: Headers, body: string, accessToke
   return data.verification_status === "SUCCESS";
 }
 
+async function getOrderPayerEmail(orderId: string, accessToken: string) {
+  const res = await fetch(`${PAYPAL_API}/v2/checkout/orders/${orderId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const data = await res.json();
+  return data.payer?.email_address as string | undefined;
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const accessToken = await getAccessToken();
@@ -46,7 +54,18 @@ export async function POST(req: NextRequest) {
     return new Response("Ignored", { status: 200 });
   }
 
-  const email = event.resource?.payer?.email_address ?? event.resource?.payer?.email;
+  // PAYMENT.CAPTURE.COMPLETED doesn't carry the payer's email directly —
+  // it has to be looked up via the related order.
+  let email = event.resource?.payer?.email_address ?? event.resource?.payer?.email;
+  const orderId = event.resource?.supplementary_data?.related_ids?.order_id;
+  if (!email && orderId) {
+    try {
+      email = await getOrderPayerEmail(orderId, accessToken);
+    } catch (err) {
+      console.error("PayPal webhook: failed to look up order payer email", err);
+    }
+  }
+
   if (!email) {
     console.warn(`PayPal webhook: ${event.event_type} had no payer email, skipping`);
     return new Response("No email on payment", { status: 200 });

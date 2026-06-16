@@ -35,6 +35,14 @@ async function verifyWebhookSignature(headers: Record<string, string | undefined
   return data.verification_status === "SUCCESS";
 }
 
+async function getOrderPayerEmail(orderId: string, accessToken: string) {
+  const res = await fetch(`${PAYPAL_API}/v2/checkout/orders/${orderId}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const data = (await res.json()) as { payer?: { email_address?: string } };
+  return data.payer?.email_address;
+}
+
 // Mounted with express.raw() in index.ts — PayPal's signature verification call
 // needs the exact raw body re-parsed as JSON, same bytes that were received.
 router.post("/", async (req, res) => {
@@ -50,7 +58,18 @@ router.post("/", async (req, res) => {
     return res.status(200).send("Ignored");
   }
 
-  const email = event.resource?.payer?.email_address ?? event.resource?.payer?.email;
+  // PAYMENT.CAPTURE.COMPLETED doesn't carry the payer's email directly —
+  // it has to be looked up via the related order.
+  let email = event.resource?.payer?.email_address ?? event.resource?.payer?.email;
+  const orderId = event.resource?.supplementary_data?.related_ids?.order_id;
+  if (!email && orderId) {
+    try {
+      email = await getOrderPayerEmail(orderId, accessToken);
+    } catch (err) {
+      console.error("PayPal webhook: failed to look up order payer email", err);
+    }
+  }
+
   if (!email) {
     console.warn(`PayPal webhook: ${event.event_type} had no payer email, skipping`);
     return res.status(200).send("No email on payment");
