@@ -273,12 +273,44 @@ export default function Home() {
   const [buyOpen, setBuyOpen] = useState(false);
   const [paypalReady, setPaypalReady] = useState(false);
   const razorpayFormRef = useRef<HTMLFormElement>(null);
+  const [licenseKey, setLicenseKey] = useState<string | null>(null);
+  const [licensePending, setLicensePending] = useState(false);
+  const [licenseCopied, setLicenseCopied] = useState(false);
+
+  function pollForLicenseKey(paymentId: string) {
+    setLicensePending(true);
+    setLicenseKey(null);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
+    const startedAt = Date.now();
+    const tick = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/api/license/lookup?payment_id=${encodeURIComponent(paymentId)}`);
+        const data = await res.json();
+        if (data.found) {
+          setLicenseKey(data.licenseKey);
+          setLicensePending(false);
+          return;
+        }
+      } catch {}
+      if (Date.now() - startedAt < 30000) {
+        setTimeout(tick, 2000);
+      } else {
+        setLicensePending(false);
+      }
+    };
+    tick();
+  }
 
   useEffect(() => {
     if (buyOpen && paypalReady && (window as any).paypal) {
       const container = document.getElementById("paypal-container-92LU4XERGJRJA");
       if (container) container.innerHTML = "";
-      (window as any).paypal.HostedButtons({ hostedButtonId: "92LU4XERGJRJA" }).render("#paypal-container-92LU4XERGJRJA");
+      (window as any).paypal.HostedButtons({
+        hostedButtonId: "92LU4XERGJRJA",
+        onApprove: (data: { orderID: string }) => {
+          pollForLicenseKey(data.orderID);
+        },
+      }).render("#paypal-container-92LU4XERGJRJA");
     }
   }, [buyOpen, paypalReady]);
 
@@ -328,23 +360,51 @@ export default function Home() {
           onClick={e => { if (e.target === e.currentTarget) setBuyOpen(false); }}
         >
           <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 380, boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I, textAlign: "center" }}>
-            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 32 }}>Get cursur</h2>
+            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 32 }}>
+              {licenseKey ? "You're all set" : "Get cursur"}
+            </h2>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
-              <div style={{ width: "100%", height: 41, display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden" }}>
-                <form ref={razorpayFormRef} style={{ display: "flex", justifyContent: "center" }} />
+            {licenseKey ? (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+                <p style={{ fontSize: 13, color: "#777", margin: 0 }}>
+                  Here's your license key — copy it now and paste it into the app. We've also emailed it to you.
+                </p>
+                <div style={{ width: "100%", background: "#f6f6f6", borderRadius: 10, padding: "12px 14px", fontSize: 12, fontFamily: "monospace", wordBreak: "break-all", textAlign: "left" }}>
+                  {licenseKey}
+                </div>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(licenseKey);
+                    setLicenseCopied(true);
+                    setTimeout(() => setLicenseCopied(false), 2000);
+                  }}
+                  style={{ width: "100%", padding: "11px 0", borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, fontWeight: 600 }}
+                >
+                  {licenseCopied ? "Copied!" : "Copy license key"}
+                </button>
               </div>
+            ) : licensePending ? (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "20px 0" }}>
+                <p style={{ fontSize: 13, color: "#777", margin: 0 }}>Confirming your payment…</p>
+                <p style={{ fontSize: 12, color: "#bbb", margin: 0 }}>Your license key will appear here in a few seconds.</p>
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
+                <div style={{ width: "100%", height: 41, display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden" }}>
+                  <form ref={razorpayFormRef} style={{ display: "flex", justifyContent: "center" }} />
+                </div>
 
-              <div style={{ display: "flex", alignItems: "center", width: "100%", gap: 10 }}>
-                <div style={{ flex: 1, height: 1, background: "#eee" }} />
-                <span style={{ fontSize: 12, color: "#ccc", fontWeight: 300 }}>or</span>
-                <div style={{ flex: 1, height: 1, background: "#eee" }} />
-              </div>
+                <div style={{ display: "flex", alignItems: "center", width: "100%", gap: 10 }}>
+                  <div style={{ flex: 1, height: 1, background: "#eee" }} />
+                  <span style={{ fontSize: 12, color: "#ccc", fontWeight: 300 }}>or</span>
+                  <div style={{ flex: 1, height: 1, background: "#eee" }} />
+                </div>
 
-              <div style={{ width: "100%", maxWidth: 280, display: "flex", justifyContent: "center" }}>
-                <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%" }} />
+                <div style={{ width: "100%", maxWidth: 280, display: "flex", justifyContent: "center" }}>
+                  <div id="paypal-container-92LU4XERGJRJA" style={{ width: "100%" }} />
+                </div>
               </div>
-            </div>
+            )}
 
             <button onClick={() => setBuyOpen(false)} style={{ marginTop: 28, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I, display: "block", width: "100%", textAlign: "center" }}>
               Close
@@ -420,7 +480,7 @@ export default function Home() {
             <a href="#free" className="hover:text-neutral-800 transition-colors">Get it free</a>
             <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "inherit", padding: 0 }}>Recovery Key</button>
             <button
-              onClick={() => setBuyOpen(true)}
+              onClick={() => { setBuyOpen(true); setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); }}
               className="inline-flex items-center gap-1.5 text-[12px] font-semibold transition-all hover:opacity-75"
               style={{ padding: "7px 16px", borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I }}
             >
