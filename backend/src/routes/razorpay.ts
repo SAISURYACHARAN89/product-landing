@@ -2,6 +2,7 @@ import { Router } from "express";
 import crypto from "crypto";
 import { generateLicenseKey } from "../lib/license";
 import { sendLicenseEmail } from "../lib/email";
+import { appendCustomer, findByPaymentId } from "../lib/store";
 
 const router = Router();
 
@@ -24,9 +25,26 @@ router.post("/", async (req, res) => {
 
   const payment = event.payload?.payment?.entity ?? event.payload?.payment_link?.entity;
   const email = payment?.email ?? payment?.customer?.email;
+  const paymentId = payment?.id;
   if (!email) return res.status(400).send("No email on payment");
+  if (!paymentId) return res.status(400).send("No payment id");
 
-  const licenseKey = generateLicenseKey({ email, product: "cursur" });
+  // Razorpay retries webhooks on non-2xx — reuse the existing key on retry
+  // instead of generating a new one and double-storing the customer.
+  const existing = findByPaymentId(paymentId);
+  const licenseKey = existing?.licenseKey ?? generateLicenseKey({ email, product: "cursur" });
+
+  if (!existing) {
+    appendCustomer({
+      email,
+      product: "cursur",
+      paymentMethod: "razorpay",
+      paymentId,
+      licenseKey,
+      createdAt: new Date().toISOString(),
+    });
+  }
+
   try {
     await sendLicenseEmail(email, licenseKey);
   } catch (err) {

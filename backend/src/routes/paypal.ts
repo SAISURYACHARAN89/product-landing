@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { generateLicenseKey } from "../lib/license";
 import { sendLicenseEmail } from "../lib/email";
+import { appendCustomer, findByPaymentId } from "../lib/store";
 
 const router = Router();
 
@@ -80,7 +81,25 @@ router.post("/", async (req, res) => {
     return res.status(200).send("No email on payment");
   }
 
-  const licenseKey = generateLicenseKey({ email, product: "cursur" });
+  const paymentId = orderId ?? captureId;
+  if (!paymentId) return res.status(400).send("No order/capture id");
+
+  // PayPal retries webhooks on non-2xx — reuse the existing key on retry
+  // instead of generating a new one and double-storing the customer.
+  const existing = findByPaymentId(paymentId);
+  const licenseKey = existing?.licenseKey ?? generateLicenseKey({ email, product: "cursur" });
+
+  if (!existing) {
+    appendCustomer({
+      email,
+      product: "cursur",
+      paymentMethod: "paypal",
+      paymentId,
+      licenseKey,
+      createdAt: new Date().toISOString(),
+    });
+  }
+
   try {
     await sendLicenseEmail(email, licenseKey);
   } catch (err) {
