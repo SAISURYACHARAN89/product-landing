@@ -285,6 +285,7 @@ export default function Home() {
     setLicensePending(true);
     setLicenseKey(null);
     setLicenseTimedOut(false);
+    setBuyOpen(true); // show the result modal regardless of how payment was initiated
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
     const startedAt = Date.now();
     const tick = async () => {
@@ -424,7 +425,7 @@ export default function Home() {
               {licenseKey ? "You're all set" : "Get cursur"}
             </h2>
 
-            <div style={{ minHeight: 168 }}>
+            <div>
             {licenseKey ? (
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
                 <p style={{ fontSize: 13, color: "#777", margin: 0 }}>
@@ -621,7 +622,10 @@ export default function Home() {
             <a href="#free" className="hover:text-neutral-800 transition-colors hidden sm:inline">Get it free</a>
             <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors whitespace-nowrap" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: "inherit", color: "inherit", padding: 0 }}>License Key</button>
             <button
-              onClick={() => { setBuyOpen(true); setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); setLicenseTimedOut(false); setLastPaymentId(null); }}
+              onClick={() => {
+                setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); setLicenseTimedOut(false); setLastPaymentId(null);
+                if (isIndia) { payWithRazorpay(); } else { setBuyOpen(true); }
+              }}
               className="inline-flex items-center gap-1.5 text-[11px] sm:text-[12px] font-semibold transition-all hover:opacity-75 px-3 sm:px-4 py-1.5 flex-shrink-0"
               style={{ borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I }}
             >
