@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, forwardRef } from "react";
 import Script from "next/script";
+import { trackEvent } from "@/lib/gtag";
 
 // ─── Emotion cards ───────────────────────────────────────────────
 function CursorSkin({ accessory, size = 52 }: { accessory: string; size?: number }) {
@@ -295,6 +296,7 @@ export default function Home() {
         if (data.found) {
           setLicenseKey(data.licenseKey);
           setLicensePending(false);
+          trackEvent("purchase_complete", { payment_id: paymentId });
           return;
         }
       } catch {}
@@ -436,7 +438,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => {
-                    navigator.clipboard.writeText(licenseKey);
+                    navigator.clipboard.writeText(licenseKey); trackEvent("license_key_copied");
                     setLicenseCopied(true);
                     setTimeout(() => setLicenseCopied(false), 2000);
                   }}
@@ -624,7 +626,7 @@ export default function Home() {
             <button
               onClick={() => {
                 setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); setLicenseTimedOut(false); setLastPaymentId(null);
-                if (isIndia) { payWithRazorpay(); } else { setBuyOpen(true); }
+                if (isIndia) { trackEvent("buy_clicked", { method: "razorpay" }); payWithRazorpay(); } else { trackEvent("buy_clicked", { method: "paypal" }); setBuyOpen(true); }
               }}
               className="inline-flex items-center gap-1.5 text-[11px] sm:text-[12px] font-semibold transition-all hover:opacity-75 px-3 sm:px-4 py-1.5 flex-shrink-0"
               style={{ borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I }}
@@ -690,7 +692,7 @@ export default function Home() {
             {/* Mac download — primary CTA */}
             <a
               href="#"
-              onClick={e => { e.preventDefault(); setPlatform("mac"); }}
+              onClick={e => { e.preventDefault(); setPlatform("mac"); trackEvent("download_clicked", { platform: "mac" }); }}
               className="inline-flex items-center gap-3 font-semibold"
               style={{
                 fontFamily: I, fontSize: 16,

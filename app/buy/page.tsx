@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Script from "next/script";
+import { trackEvent } from "@/lib/gtag";
 
 const G = "var(--font-garamond)";
 const I = "var(--font-inter)";
@@ -27,6 +28,7 @@ function pollForLicenseKey(
         if (data.found && data.licenseKey) {
           setLicensePending(false);
           setLicenseKey(data.licenseKey);
+          trackEvent("purchase_complete", { payment_id: paymentId, page: "buy" });
         } else if (Date.now() < deadline) {
           setTimeout(tick, 2000);
         } else {
@@ -67,7 +69,7 @@ export default function BuyPage() {
       if (container) container.innerHTML = "";
       (window as any).paypal.HostedButtons({
         hostedButtonId: "92LU4XERGJRJA",
-        onApprove: (data: { orderID: string }) => poll(data.orderID),
+        onApprove: (data: { orderID: string }) => { trackEvent("buy_clicked", { method: "paypal", page: "buy" }); poll(data.orderID); },
       }).render("#paypal-buy-container").then(() => {
         requestAnimationFrame(() => setPaypalRendered(true));
       });
@@ -90,6 +92,7 @@ export default function BuyPage() {
         callback_url: "https://cursur.app/payment-success",
         redirect: false,
         handler: (response: { razorpay_payment_id: string }) => {
+          trackEvent("buy_clicked", { method: "razorpay", page: "buy" });
           poll(response.razorpay_payment_id);
         },
       });
@@ -151,7 +154,7 @@ export default function BuyPage() {
                 {licenseKey}
               </div>
               <button
-                onClick={() => { navigator.clipboard.writeText(licenseKey); setLicenseCopied(true); setTimeout(() => setLicenseCopied(false), 2000); }}
+                onClick={() => { navigator.clipboard.writeText(licenseKey); setLicenseCopied(true); setTimeout(() => setLicenseCopied(false), 2000); trackEvent("license_key_copied", { page: "buy" }); }}
                 style={{ width: "100%", padding: "13px 0", borderRadius: 10, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I, fontSize: 14, fontWeight: 600 }}
               >
                 {licenseCopied ? "Copied!" : "Copy license key"}
