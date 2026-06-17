@@ -270,6 +270,10 @@ export default function Home() {
   const [paypalRendered, setPaypalRendered] = useState(false);
   const [razorpayReady, setRazorpayReady] = useState(false);
   const [razorpayLoading, setRazorpayLoading] = useState(false);
+  // Detect Indian timezone once on mount — determines which payment method to show
+  const isIndia = typeof Intl !== "undefined"
+    ? ["Asia/Kolkata", "Asia/Calcutta"].includes(Intl.DateTimeFormat().resolvedOptions().timeZone)
+    : false;
   const [licenseKey, setLicenseKey] = useState<string | null>(null);
   const [licensePending, setLicensePending] = useState(false);
   const [licenseCopied, setLicenseCopied] = useState(false);
@@ -344,6 +348,10 @@ export default function Home() {
         currency: order.currency,
         order_id: order.orderId,
         name: "cursur",
+        // callback_url handles cases where the Razorpay popup closes without
+        // firing handler (e.g. UPI deep-link apps that take the user away).
+        callback_url: "https://cursur.app/payment-success",
+        redirect: false,
         handler: (response: { razorpay_payment_id: string }) => {
           pollForLicenseKey(response.razorpay_payment_id);
         },
@@ -376,17 +384,22 @@ export default function Home() {
   return (
     <div className="bg-white" style={{ cursor: inside ? "none" : "auto" }}>
 
-      <Script
-        src="https://www.paypal.com/sdk/js?client-id=BAANxjkoW5d8mHCzlsIBMPCua8xdTB9HvNVpyqtNP3KWc35bMFmIL9B7FSX_nT3SrKg2FFnZmMch23LUwk&components=hosted-buttons&disable-funding=venmo&currency=USD"
-        crossOrigin="anonymous"
-        strategy="afterInteractive"
-        onLoad={() => setPaypalReady(true)}
-      />
-      <Script
-        src="https://checkout.razorpay.com/v1/checkout.js"
-        strategy="afterInteractive"
-        onLoad={() => setRazorpayReady(true)}
-      />
+      {/* Only load the payment SDK relevant to the user's region */}
+      {!isIndia && (
+        <Script
+          src="https://www.paypal.com/sdk/js?client-id=BAANxjkoW5d8mHCzlsIBMPCua8xdTB9HvNVpyqtNP3KWc35bMFmIL9B7FSX_nT3SrKg2FFnZmMch23LUwk&components=hosted-buttons&disable-funding=venmo&currency=USD"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+          onLoad={() => setPaypalReady(true)}
+        />
+      )}
+      {isIndia && (
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive"
+          onLoad={() => setRazorpayReady(true)}
+        />
+      )}
 
       {/* ── Buy Modal ── */}
       {buyOpen && (
@@ -457,15 +470,16 @@ export default function Home() {
                   Still nothing after a few minutes? Email support@cursur.app with the payment ref above.
                 </p>
               </div>
-            ) : (
+            ) : isIndia ? (
+              /* ── India: Razorpay only ── */
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
                 <button
                   onClick={payWithRazorpay}
                   disabled={!razorpayReady || razorpayLoading}
                   style={{
-                    width: "100%", height: 48, borderRadius: 11, background: "#111", color: "#fff",
+                    width: "100%", height: 52, borderRadius: 11, background: "#111", color: "#fff",
                     border: "none", cursor: razorpayReady ? "pointer" : "default",
-                    opacity: razorpayReady ? 1 : 0.55, fontFamily: I, fontSize: 14, fontWeight: 600,
+                    opacity: razorpayReady ? 1 : 0.55, fontFamily: I, fontSize: 15, fontWeight: 600,
                     display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
                     transition: "opacity 0.15s ease",
                   }}
@@ -473,7 +487,7 @@ export default function Home() {
                   {razorpayLoading ? (
                     "Starting…"
                   ) : !razorpayReady ? (
-                    "Loading payment…"
+                    "Loading…"
                   ) : (
                     <>
                       <span>Pay ₹399</span>
@@ -488,17 +502,15 @@ export default function Home() {
                   )}
                 </button>
                 <p style={{ fontSize: 11, color: "#bbb", margin: 0, marginTop: -8 }}>UPI · Cards · Netbanking — secured by Razorpay</p>
-
-                <div style={{ display: "flex", alignItems: "center", width: "100%", gap: 10 }}>
-                  <div style={{ flex: 1, height: 1, background: "#eee" }} />
-                  <span style={{ fontSize: 12, color: "#ccc", fontWeight: 300 }}>or</span>
-                  <div style={{ flex: 1, height: 1, background: "#eee" }} />
-                </div>
-
-                <div style={{ width: "100%", maxWidth: 280, minHeight: 45, display: "flex", justifyContent: "center", position: "relative" }}>
+              </div>
+            ) : (
+              /* ── International: PayPal only ── */
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+                <p style={{ fontSize: 13, color: "#888", margin: 0 }}>Pay with PayPal — cards accepted too</p>
+                <div style={{ width: "100%", maxWidth: 300, minHeight: 50, display: "flex", justifyContent: "center", position: "relative" }}>
                   <div
                     style={{
-                      position: "absolute", inset: 0, height: 45, borderRadius: 9,
+                      position: "absolute", inset: 0, height: 50, borderRadius: 9,
                       background: "linear-gradient(90deg, #f3f3f3 25%, #ececec 37%, #f3f3f3 63%)",
                       backgroundSize: "400% 100%",
                       animation: "cursur-shimmer 1.4s ease-in-out infinite",
