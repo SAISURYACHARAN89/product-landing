@@ -691,8 +691,9 @@ export default function Home() {
           <div className="flex justify-center mt-6">
             {/* Mac download — primary CTA */}
             <a
-              href="#"
-              onClick={e => { e.preventDefault(); setPlatform("mac"); trackEvent("download_clicked", { platform: "mac" }); }}
+              href="/Cursur_0.1.0_aarch64.dmg"
+              download
+              onClick={() => { setPlatform("mac"); trackEvent("download_clicked", { platform: "mac" }); }}
               className="inline-flex items-center gap-3 font-semibold"
               style={{
                 fontFamily: I, fontSize: 16,
