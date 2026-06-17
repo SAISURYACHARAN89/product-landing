@@ -9,7 +9,7 @@ export type LicensePayload = {
 
 export function generateLicenseKey(payload: LicensePayload): string {
   if (!SECRET) throw new Error("LICENSE_SECRET is not set");
-  return jwt.sign(payload, SECRET, { algorithm: "HS256" });
+  return jwt.sign(payload, SECRET, { algorithm: "HS256", expiresIn: "10y" });
 }
 
 export function verifyLicenseKey(key: string): LicensePayload | null {

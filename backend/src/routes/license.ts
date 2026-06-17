@@ -24,7 +24,7 @@ router.get("/lookup", (req, res) => {
   const record = findByPaymentId(paymentId);
   if (!record) return res.status(200).json({ found: false });
 
-  return res.status(200).json({ found: true, licenseKey: record.licenseKey, email: record.email });
+  return res.status(200).json({ found: true, licenseKey: record.licenseKey });
 });
 
 // "Recovery key" form on the website — re-sends the existing license key to

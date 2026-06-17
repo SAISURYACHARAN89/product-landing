@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
   const secret = process.env.RAZORPAY_WEBHOOK_SECRET as string;
 
   const expected = crypto.createHmac("sha256", secret).update(body).digest("hex");
-  if (!signature || signature !== expected) {
+  if (!signature || !crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))) {
     return res.status(400).send("Invalid signature");
   }
 

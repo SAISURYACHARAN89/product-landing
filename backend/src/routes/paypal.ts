@@ -54,7 +54,8 @@ router.post("/", async (req, res) => {
   if (!verified) return res.status(400).send("Invalid signature");
 
   const event = JSON.parse(body);
-  const paymentEvents = ["CHECKOUT.ORDER.APPROVED", "PAYMENT.SALE.COMPLETED", "PAYMENT.CAPTURE.COMPLETED"];
+  // Only issue keys after money has actually settled — APPROVED fires before capture
+  const paymentEvents = ["PAYMENT.SALE.COMPLETED", "PAYMENT.CAPTURE.COMPLETED"];
   if (!paymentEvents.includes(event.event_type)) {
     return res.status(200).send("Ignored");
   }
