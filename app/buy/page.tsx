@@ -181,19 +181,12 @@ export default function BuyPage() {
           <p style={{ fontSize: 11, fontWeight: 600, color: "#aaa", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 20px" }}>Order summary</p>
 
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-            <div style={{ width: 56, height: 56, background: "#f0f0f0", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <img src="/cursor-hero.png" alt="" style={{ width: 40, height: 40, objectFit: "contain" }} />
-            </div>
+            <img src="/cursor-hero.png" alt="" style={{ width: 52, height: 52, objectFit: "contain", flexShrink: 0 }} />
             <div>
               <div style={{ fontWeight: 600, fontSize: 15, color: "#111" }}>cursur</div>
               <div style={{ fontSize: 12, color: "#aaa", marginTop: 2 }}>macOS · Lifetime license</div>
             </div>
             <div style={{ marginLeft: "auto", fontWeight: 700, fontSize: 18, color: "#111" }}>{price}</div>
-          </div>
-
-          <div style={{ borderTop: "1px solid #ebebeb", paddingTop: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ fontSize: 13, color: "#666" }}>Total</span>
-            <span style={{ fontWeight: 700, fontSize: 18, color: "#111" }}>{price}</span>
           </div>
 
           <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 10 }}>
@@ -266,9 +259,15 @@ export default function BuyPage() {
             </div>
           )}
 
-          <p style={{ fontSize: 11.5, color: "#bbb", textAlign: "center", margin: "14px 0 0" }}>
-            🔒 Secured · no account required
-          </p>
+          <div style={{ marginTop: 16, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <span style={{ fontSize: 10.5, color: "#ccc", marginRight: 4 }}>🔒</span>
+            {/* Apple Pay */}
+            <div style={{ background: "#f5f5f5", borderRadius: 6, padding: "4px 9px", fontSize: 11, fontWeight: 700, color: "#333", letterSpacing: "-0.02em" }}>Apple Pay</div>
+            {/* PayPal */}
+            <div style={{ background: "#f5f5f5", borderRadius: 6, padding: "4px 9px", fontSize: 11, fontWeight: 700, color: "#003087" }}>Pay<span style={{ color: "#009cde" }}>Pal</span></div>
+            {/* Razorpay */}
+            <div style={{ background: "#f5f5f5", borderRadius: 6, padding: "4px 9px", fontSize: 11, fontWeight: 700, color: "#2d68fe" }}>Razorpay</div>
+          </div>
         </div>
       </div>
 

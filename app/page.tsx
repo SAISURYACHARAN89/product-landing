@@ -362,6 +362,8 @@ export default function Home() {
             <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors whitespace-nowrap" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: "inherit", color: "inherit", padding: 0 }}>Recover Key</button>
             <a
               href="/buy"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => trackEvent("buy_clicked", { source: "nav" })}
               className="inline-flex items-center gap-1.5 text-[11px] sm:text-[12px] font-semibold transition-all hover:opacity-75 px-3 sm:px-4 py-1.5 flex-shrink-0"
               style={{ borderRadius: 9, background: "#111", color: "#fff", textDecoration: "none", fontFamily: I }}
