@@ -618,11 +618,9 @@ export default function Home() {
             <span className="text-[22px] sm:text-[33px]" style={{ fontFamily: G, fontWeight: 500, lineHeight: 1, position: "relative", top: -2 }}>
               c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
             </span>
-            <img src="/logo.png" alt="cursur logo" className="w-[18px] h-[18px] sm:w-[26px] sm:h-[26px]" style={{ objectFit: "contain", display: "block" }} />
           </div>
           <div className="flex items-center gap-2 sm:gap-5 text-[11px] sm:text-[13px] text-neutral-400 flex-shrink-0" style={{ fontFamily: I }}>
-            <a href="#free" className="hover:text-neutral-800 transition-colors hidden sm:inline">Get it free</a>
-            <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors whitespace-nowrap" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: "inherit", color: "inherit", padding: 0 }}>License Key</button>
+            <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors whitespace-nowrap" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: "inherit", color: "inherit", padding: 0 }}>Recover Key</button>
             <button
               onClick={() => {
                 setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); setLicenseTimedOut(false); setLastPaymentId(null);
@@ -694,18 +692,18 @@ export default function Home() {
               href="/Cursur_0.1.0_aarch64.dmg"
               download
               onClick={() => { setPlatform("mac"); trackEvent("download_clicked", { platform: "mac" }); }}
-              className="inline-flex items-center gap-3 font-semibold"
+              className="inline-flex items-center gap-2 font-semibold"
               style={{
-                fontFamily: I, fontSize: 16,
-                padding: "16px 36px",
-                borderRadius: 14,
+                fontFamily: I, fontSize: 13,
+                padding: "10px 22px",
+                borderRadius: 10,
                 background: "#111",
                 color: "#fff",
                 whiteSpace: "nowrap",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
+                boxShadow: "0 4px 14px rgba(0,0,0,0.15)",
               }}
             >
-              <svg viewBox="0 0 814 1000" style={{ width: 18, height: 18, fill: "#fff", flexShrink: 0 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
+              <svg viewBox="0 0 814 1000" style={{ width: 12, height: 12, fill: "#fff", flexShrink: 0 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
               Download for Mac
             </a>
           </div>
