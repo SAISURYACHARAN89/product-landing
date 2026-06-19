@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, forwardRef } from "react";
-import Script from "next/script";
 import { trackEvent } from "@/lib/gtag";
 
 // ─── Emotion cards ───────────────────────────────────────────────
@@ -265,107 +264,6 @@ export default function Home() {
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [inside, setInside] = useState(false);
-  const [buyOpen, setBuyOpen] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [paypalReady, setPaypalReady] = useState(false);
-  const [paypalRendered, setPaypalRendered] = useState(false);
-  const [razorpayReady, setRazorpayReady] = useState(false);
-  const [razorpayLoading, setRazorpayLoading] = useState(false);
-  // Detect Indian timezone once on mount — determines which payment method to show
-  const isIndia = typeof Intl !== "undefined"
-    ? ["Asia/Kolkata", "Asia/Calcutta"].includes(Intl.DateTimeFormat().resolvedOptions().timeZone)
-    : false;
-  const [licenseKey, setLicenseKey] = useState<string | null>(null);
-  const [licensePending, setLicensePending] = useState(false);
-  const [licenseCopied, setLicenseCopied] = useState(false);
-  const [licenseTimedOut, setLicenseTimedOut] = useState(false);
-  const [lastPaymentId, setLastPaymentId] = useState<string | null>(null);
-
-  function pollForLicenseKey(paymentId: string) {
-    setLastPaymentId(paymentId);
-    setLicensePending(true);
-    setLicenseKey(null);
-    setLicenseTimedOut(false);
-    setBuyOpen(true); // show the result modal regardless of how payment was initiated
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
-    const startedAt = Date.now();
-    const tick = async () => {
-      try {
-        const res = await fetch(`${apiUrl}/api/license/lookup?payment_id=${encodeURIComponent(paymentId)}`);
-        const data = await res.json();
-        if (data.found) {
-          setLicenseKey(data.licenseKey);
-          setLicensePending(false);
-          trackEvent("purchase_complete", { payment_id: paymentId });
-          return;
-        }
-      } catch {}
-      if (Date.now() - startedAt < 30000) {
-        setTimeout(tick, 2000);
-      } else {
-        setLicensePending(false);
-        setLicenseTimedOut(true);
-      }
-    };
-    tick();
-  }
-
-  useEffect(() => {
-    if (buyOpen) {
-      const raf = requestAnimationFrame(() => setModalVisible(true));
-      return () => cancelAnimationFrame(raf);
-    }
-    setModalVisible(false);
-  }, [buyOpen]);
-
-  useEffect(() => {
-    if (!buyOpen) {
-      setPaypalRendered(false);
-      return;
-    }
-    if (paypalReady && (window as any).paypal) {
-      const container = document.getElementById("paypal-container-92LU4XERGJRJA");
-      if (container) container.innerHTML = "";
-      (window as any).paypal.HostedButtons({
-        hostedButtonId: "92LU4XERGJRJA",
-        onApprove: (data: { orderID: string }) => {
-          pollForLicenseKey(data.orderID);
-        },
-      }).render("#paypal-container-92LU4XERGJRJA").then(() => {
-        requestAnimationFrame(() => setPaypalRendered(true));
-      });
-    }
-  }, [buyOpen, paypalReady]);
-
-  async function payWithRazorpay() {
-    setRazorpayLoading(true);
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
-    try {
-      const res = await fetch(`${apiUrl}/api/razorpay/create-order`, { method: "POST" });
-      const order = await res.json();
-      if (!order.orderId) throw new Error("No order id");
-
-      const rzp = new (window as any).Razorpay({
-        key: order.keyId,
-        amount: order.amount,
-        currency: order.currency,
-        order_id: order.orderId,
-        name: "cursur",
-        // callback_url handles cases where the Razorpay popup closes without
-        // firing handler (e.g. UPI deep-link apps that take the user away).
-        callback_url: "https://cursur.app/payment-success",
-        redirect: false,
-        handler: (response: { razorpay_payment_id: string }) => {
-          pollForLicenseKey(response.razorpay_payment_id);
-        },
-      });
-      rzp.open();
-    } catch {
-      alert("Couldn't start payment. Please try again in a moment.");
-    } finally {
-      setRazorpayLoading(false);
-    }
-  }
   const demoRef = useRef<HTMLDivElement>(null);
   const isMac = platform === "mac";
 
@@ -386,165 +284,6 @@ export default function Home() {
 
   return (
     <div className="bg-white" style={{ cursor: inside ? "none" : "auto" }}>
-
-      {/* Only load the payment SDK relevant to the user's region */}
-      {!isIndia && (
-        <Script
-          src="https://www.paypal.com/sdk/js?client-id=BAANxjkoW5d8mHCzlsIBMPCua8xdTB9HvNVpyqtNP3KWc35bMFmIL9B7FSX_nT3SrKg2FFnZmMch23LUwk&components=hosted-buttons&disable-funding=venmo&currency=USD"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-          onLoad={() => setPaypalReady(true)}
-        />
-      )}
-      {isIndia && (
-        <Script
-          src="https://checkout.razorpay.com/v1/checkout.js"
-          strategy="afterInteractive"
-          onLoad={() => setRazorpayReady(true)}
-        />
-      )}
-
-      {/* ── Buy Modal ── */}
-      {buyOpen && (
-        <div
-          className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]"
-          style={{
-            background: "rgba(0,0,0,0.3)",
-            backdropFilter: "blur(8px)",
-            opacity: modalVisible ? 1 : 0,
-            transition: "opacity 0.18s ease",
-          }}
-          onClick={e => { if (e.target === e.currentTarget) setBuyOpen(false); }}
-        >
-          <div style={{
-            background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 380,
-            boxShadow: "0 24px 60px rgba(0,0,0,0.15)", fontFamily: I, textAlign: "center",
-            opacity: modalVisible ? 1 : 0,
-            transform: modalVisible ? "scale(1) translateY(0)" : "scale(0.97) translateY(6px)",
-            transition: "opacity 0.18s ease, transform 0.18s ease",
-          }}>
-            <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 32 }}>
-              {licenseKey ? "You're all set" : "Get cursur"}
-            </h2>
-
-            <div>
-            {licenseKey ? (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-                <p style={{ fontSize: 13, color: "#777", margin: 0 }}>
-                  Here's your license key — copy it now and paste it into the app. We've also emailed it to you.
-                </p>
-                <div style={{ width: "100%", background: "#f6f6f6", borderRadius: 10, padding: "12px 14px", fontSize: 12, fontFamily: "monospace", wordBreak: "break-all", textAlign: "left" }}>
-                  {licenseKey}
-                </div>
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(licenseKey); trackEvent("license_key_copied");
-                    setLicenseCopied(true);
-                    setTimeout(() => setLicenseCopied(false), 2000);
-                  }}
-                  style={{ width: "100%", padding: "11px 0", borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, fontWeight: 600 }}
-                >
-                  {licenseCopied ? "Copied!" : "Copy license key"}
-                </button>
-              </div>
-            ) : licensePending ? (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "20px 0" }}>
-                <p style={{ fontSize: 13, color: "#777", margin: 0 }}>Confirming your payment…</p>
-                <p style={{ fontSize: 12, color: "#bbb", margin: 0 }}>Your license key will appear here in a few seconds.</p>
-              </div>
-            ) : licenseTimedOut ? (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, padding: "10px 0" }}>
-                <p style={{ fontSize: 13, color: "#777", margin: 0 }}>
-                  Your payment went through, but it's taking longer than usual to confirm. We'll email your license
-                  key as soon as it's ready.
-                </p>
-                {lastPaymentId && (
-                  <p style={{ fontSize: 11, color: "#bbb", margin: 0 }}>
-                    Payment ref: <span style={{ fontFamily: "monospace" }}>{lastPaymentId}</span>
-                  </p>
-                )}
-                <button
-                  onClick={() => lastPaymentId && pollForLicenseKey(lastPaymentId)}
-                  style={{ width: "100%", padding: "11px 0", borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, fontWeight: 600 }}
-                >
-                  Check again
-                </button>
-                <p style={{ fontSize: 11, color: "#bbb", margin: 0 }}>
-                  Still nothing after a few minutes? Email support@cursur.app with the payment ref above.
-                </p>
-              </div>
-            ) : isIndia ? (
-              /* ── India: Razorpay only ── */
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-                <button
-                  onClick={payWithRazorpay}
-                  disabled={!razorpayReady || razorpayLoading}
-                  style={{
-                    width: "100%", height: 52, borderRadius: 11, background: "#111", color: "#fff",
-                    border: "none", cursor: razorpayReady ? "pointer" : "default",
-                    opacity: razorpayReady ? 1 : 0.55, fontFamily: I, fontSize: 15, fontWeight: 600,
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                    transition: "opacity 0.15s ease",
-                  }}
-                >
-                  {razorpayLoading ? (
-                    "Starting…"
-                  ) : !razorpayReady ? (
-                    "Loading…"
-                  ) : (
-                    <>
-                      <span>Pay ₹399</span>
-                      <span style={{ width: 1, height: 14, background: "rgba(255,255,255,0.25)" }} />
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, opacity: 0.85 }}>
-                        <svg viewBox="0 0 32 32" style={{ width: 13, height: 13 }}>
-                          <path d="M9 4h10.5c5.2 0 8 2.7 7.4 7.1-.5 4.1-3.6 6.3-7.9 6.3h-4.4l-1.7 9.6H8.2L9 22.4 13 4z" fill="#fff" opacity="0.95"/>
-                        </svg>
-                        Razorpay
-                      </span>
-                    </>
-                  )}
-                </button>
-                <p style={{ fontSize: 11, color: "#bbb", margin: 0, marginTop: -8 }}>UPI · Cards · Netbanking — secured by Razorpay</p>
-              </div>
-            ) : (
-              /* ── International: PayPal only ── */
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-                <p style={{ fontSize: 13, color: "#888", margin: 0 }}>Pay with PayPal — cards accepted too</p>
-                <div style={{ width: "100%", maxWidth: 300, minHeight: 50, display: "flex", justifyContent: "center", position: "relative" }}>
-                  <div
-                    style={{
-                      position: "absolute", inset: 0, height: 50, borderRadius: 9,
-                      background: "linear-gradient(90deg, #f3f3f3 25%, #ececec 37%, #f3f3f3 63%)",
-                      backgroundSize: "400% 100%",
-                      animation: "cursur-shimmer 1.4s ease-in-out infinite",
-                      opacity: paypalRendered ? 0 : 1,
-                      pointerEvents: "none",
-                      transition: "opacity 0.35s ease",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 11, color: "#bbb", fontFamily: I,
-                    }}
-                  >
-                    Loading PayPal…
-                  </div>
-                  <div
-                    id="paypal-container-92LU4XERGJRJA"
-                    style={{
-                      width: "100%",
-                      opacity: paypalRendered ? 1 : 0,
-                      transition: "opacity 0.35s ease",
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-            </div>
-
-            <button onClick={() => setBuyOpen(false)} style={{ marginTop: 28, fontSize: 13, color: "#bbb", background: "none", border: "none", cursor: "pointer", fontFamily: I, display: "block", width: "100%", textAlign: "center" }}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* ── Recovery Key Modal ── */}
       {recoveryOpen && (
@@ -621,17 +360,15 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-2 sm:gap-5 text-[11px] sm:text-[13px] text-neutral-400 flex-shrink-0" style={{ fontFamily: I }}>
             <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors whitespace-nowrap" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: "inherit", color: "inherit", padding: 0 }}>Recover Key</button>
-            <button
-              onClick={() => {
-                setLicenseKey(null); setLicensePending(false); setLicenseCopied(false); setLicenseTimedOut(false); setLastPaymentId(null);
-                if (isIndia) { trackEvent("buy_clicked", { method: "razorpay" }); payWithRazorpay(); } else { trackEvent("buy_clicked", { method: "paypal" }); setBuyOpen(true); }
-              }}
+            <a
+              href="/buy"
+              onClick={() => trackEvent("buy_clicked", { source: "nav" })}
               className="inline-flex items-center gap-1.5 text-[11px] sm:text-[12px] font-semibold transition-all hover:opacity-75 px-3 sm:px-4 py-1.5 flex-shrink-0"
-              style={{ borderRadius: 9, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I }}
+              style={{ borderRadius: 9, background: "#111", color: "#fff", textDecoration: "none", fontFamily: I }}
             >
               <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: "#fff", display: "block", marginBottom: 1 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
               Buy
-            </button>
+            </a>
           </div>
         </nav>
       </div>
