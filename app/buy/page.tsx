@@ -44,6 +44,7 @@ function pollForLicenseKey(
 
 export default function BuyPage() {
   const [email, setEmail] = useState("");
+  const [tab, setTab] = useState<"card" | "alt">("card");
   const [paypalReady, setPaypalReady] = useState(false);
   const [paypalRendered, setPaypalRendered] = useState(false);
   const [razorpayReady, setRazorpayReady] = useState(false);
@@ -59,6 +60,7 @@ export default function BuyPage() {
     : false;
 
   const price = isIndia ? "₹399" : "$3.99";
+  const altLabel = isIndia ? "Razorpay" : "PayPal";
   const emailOk = isValidEmail(email);
   const paid = licenseKey || licensePending || licenseTimedOut;
 
@@ -111,7 +113,7 @@ export default function BuyPage() {
     return (
       <div style={{ minHeight: "100vh", background: "#161616", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: I }}>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-        <div style={{ background: "#1f1f1f", border: "1px solid #2a2a2a", borderRadius: 16, padding: "40px 36px", width: "100%", maxWidth: 400 }}>
+        <div style={{ background: "#1e1e1e", border: "1px solid #2a2a2a", borderRadius: 16, padding: "40px 36px", width: "100%", maxWidth: 400 }}>
           {licenseKey ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "center", textAlign: "center" }}>
               <div style={{ width: 52, height: 52, background: "rgba(34,197,94,0.12)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: "#22c55e" }}>✓</div>
@@ -151,13 +153,17 @@ export default function BuyPage() {
 
   // ── Checkout ─────────────────────────────────────────────────────────────
   return (
-    <div style={{ minHeight: "100vh", background: "#161616", fontFamily: I, display: "flex", flexDirection: "column" }}>
+    <div style={{ minHeight: "100vh", background: "#161616", fontFamily: I, display: "flex" }}>
       <style>{`
         @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:0 0} }
         @keyframes spin { to { transform: rotate(360deg); } }
         input::placeholder { color: #3a3a3a; }
         input:focus { border-color: #555 !important; outline: none; }
         * { box-sizing: border-box; }
+        @media (max-width: 700px) {
+          .checkout-panels { flex-direction: column !important; }
+          .checkout-left { border-right: none !important; border-bottom: 1px solid #222; }
+        }
       `}</style>
 
       {!isIndia && (
@@ -167,41 +173,33 @@ export default function BuyPage() {
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" onLoad={() => setRazorpayReady(true)} />
       )}
 
-      <div style={{ flex: 1, display: "flex", flexWrap: "wrap" }}>
+      <div className="checkout-panels" style={{ flex: 1, display: "flex", flexWrap: "wrap" }}>
 
         {/* ── Left panel ── */}
-        <div style={{ flex: "1 1 340px", minWidth: 300, maxWidth: 520, padding: "52px 48px", borderRight: "1px solid #222", display: "flex", flexDirection: "column" }}>
-
-          {/* Brand */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 48 }}>
-            <img src="/cursor-hero.png" alt="" style={{ width: 28, height: 28, objectFit: "contain" }} />
-            <span style={{ fontFamily: G, fontSize: 20, fontWeight: 500, color: "#fff", letterSpacing: "-0.02em" }}>
-              c<span style={{ color: "#3b82f6" }}>u</span>rs<span style={{ color: "#3b82f6" }}>u</span>r
-            </span>
-          </div>
+        <div className="checkout-left" style={{ flex: "1 1 320px", padding: "52px 48px", borderRight: "1px solid #222", display: "flex", flexDirection: "column" }}>
 
           {/* Product */}
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 32 }}>
             <div style={{ width: 52, height: 52, background: "#222", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <img src="/cursor-hero.png" alt="" style={{ width: 36, height: 36, objectFit: "contain" }} />
+              <img src="/cursor-hero.png" alt="cursur" style={{ width: 36, height: 36, objectFit: "contain" }} />
             </div>
-            <div style={{ fontSize: 15, fontWeight: 500, color: "#fff" }}>cursur</div>
+            <div style={{ fontSize: 16, fontWeight: 600, color: "#fff" }}>cursur</div>
           </div>
 
           {/* Big price */}
-          <div style={{ fontFamily: G, fontSize: 44, fontWeight: 500, color: "#fff", letterSpacing: "-0.02em", marginBottom: 28, lineHeight: 1 }}>{price}</div>
+          <div style={{ fontFamily: G, fontSize: 48, fontWeight: 500, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 32 }}>{price}</div>
 
           {/* Line items */}
-          <div style={{ borderTop: "1px solid #222", paddingTop: 20, display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#888" }}>
+          <div style={{ borderTop: "1px solid #222", paddingTop: 20, display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#666" }}>
               <span>Subtotal</span>
               <span>{price}</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#888" }}>
-              <span>Tax</span>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#666" }}>
+              <span>Taxes</span>
               <span>$0</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, fontWeight: 600, color: "#fff", borderTop: "1px solid #222", paddingTop: 12, marginTop: 4 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, fontWeight: 600, color: "#fff", borderTop: "1px solid #222", paddingTop: 16, marginTop: 2 }}>
               <span>Total</span>
               <span>{price}</span>
             </div>
@@ -209,26 +207,26 @@ export default function BuyPage() {
 
           {/* Copy */}
           <div style={{ marginTop: "auto", paddingTop: 48 }}>
-            <p style={{ fontSize: 13, color: "#555", lineHeight: 1.6, margin: "0 0 8px" }}>
-              One-time payment. No subscriptions, ever.
+            <p style={{ fontSize: 13, color: "#555", lineHeight: 1.65, margin: "0 0 6px" }}>
+              🔒 One-time payment. No subscriptions, ever.
             </p>
-            <p style={{ fontSize: 13, color: "#444", lineHeight: 1.6, margin: 0 }}>
-              License key delivered instantly after payment.
+            <p style={{ fontSize: 13, color: "#444", lineHeight: 1.65, margin: 0 }}>
+              License key delivered instantly after payment and also sent to your email.
             </p>
           </div>
         </div>
 
         {/* ── Right panel ── */}
-        <div style={{ flex: "1 1 340px", minWidth: 300, padding: "52px 48px", display: "flex", flexDirection: "column" }}>
+        <div style={{ flex: "1 1 320px", padding: "52px 48px", display: "flex", flexDirection: "column" }}>
 
           {/* Email */}
-          <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: "#aaa", marginBottom: 8 }}>Email</label>
+          <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: "#888", marginBottom: 8 }}>Email</label>
           <input
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter" && emailOk && isIndia) payWithRazorpay(); }}
+            onKeyDown={e => { if (e.key === "Enter" && emailOk) { tab === "card" ? payWithRazorpay() : (isIndia ? payWithRazorpay() : undefined); } }}
             style={{
               width: "100%", padding: "13px 16px", borderRadius: 10,
               border: "1.5px solid #2a2a2a", fontSize: 14, color: "#fff",
@@ -237,27 +235,51 @@ export default function BuyPage() {
             }}
           />
 
-          {/* Payment method label */}
-          <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: "#aaa", marginBottom: 12 }}>Payment method</label>
+          {/* Payment method tabs */}
+          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
+            {(["card", "alt"] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                style={{
+                  flex: 1, padding: "11px 0", borderRadius: 10,
+                  background: tab === t ? "#2a2a2a" : "transparent",
+                  border: tab === t ? "1.5px solid #3a3a3a" : "1.5px solid #232323",
+                  color: tab === t ? "#fff" : "#555",
+                  fontFamily: I, fontSize: 13, fontWeight: 600,
+                  cursor: "pointer", transition: "all 0.15s",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
+                }}
+              >
+                {t === "card" ? (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    Card
+                  </>
+                ) : altLabel}
+              </button>
+            ))}
+          </div>
 
-          {isIndia ? (
-            <button
-              onClick={payWithRazorpay}
-              disabled={!razorpayReady || razorpayLoading || !emailOk}
-              style={{
-                width: "100%", height: 52, borderRadius: 10,
-                background: emailOk ? "#fff" : "#232323",
-                color: emailOk ? "#111" : "#444",
-                border: "none",
-                cursor: emailOk && razorpayReady ? "pointer" : "default",
-                fontFamily: I, fontSize: 15, fontWeight: 600,
-                transition: "background 0.2s, color 0.2s",
-              }}
-            >
-              {razorpayLoading ? "Opening…" : !razorpayReady ? "Loading…" : `Pay ₹399`}
-            </button>
-          ) : (
-            <div style={{ pointerEvents: emailOk ? "auto" : "none", opacity: emailOk ? 1 : 0.35, transition: "opacity 0.2s" }}>
+          {/* Payment action */}
+          <div style={{ pointerEvents: emailOk ? "auto" : "none", opacity: emailOk ? 1 : 0.35, transition: "opacity 0.2s" }}>
+            {tab === "card" || isIndia ? (
+              /* Card tab or India always uses Razorpay (supports cards + UPI) */
+              <button
+                onClick={payWithRazorpay}
+                disabled={!razorpayReady || razorpayLoading}
+                style={{
+                  width: "100%", height: 52, borderRadius: 10,
+                  background: "#fff", color: "#111",
+                  border: "none",
+                  cursor: razorpayReady ? "pointer" : "default",
+                  fontFamily: I, fontSize: 15, fontWeight: 600,
+                }}
+              >
+                {razorpayLoading ? "Opening…" : !razorpayReady ? "Loading…" : `Pay now`}
+              </button>
+            ) : (
+              /* Alt tab + international = PayPal widget */
               <div style={{ position: "relative", minHeight: 52, borderRadius: 10, overflow: "hidden" }}>
                 <div style={{
                   position: "absolute", inset: 0,
@@ -271,18 +293,7 @@ export default function BuyPage() {
                 }}>Loading…</div>
                 <div id="paypal-container" style={{ width: "100%", opacity: paypalRendered ? 1 : 0, transition: "opacity 0.3s" }} />
               </div>
-            </div>
-          )}
-
-          {/* Accepted methods */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20 }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span style={{ fontSize: 12, color: "#444" }}>Accepts</span>
-            <span style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Apple Pay</span>
-            <span style={{ color: "#333", fontSize: 12 }}>·</span>
-            <span style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>PayPal</span>
-            <span style={{ color: "#333", fontSize: 12 }}>·</span>
-            <span style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Razorpay</span>
+            )}
           </div>
 
           {/* Legal */}
@@ -290,7 +301,7 @@ export default function BuyPage() {
             <p style={{ fontSize: 11.5, color: "#3a3a3a", lineHeight: 1.7, margin: 0 }}>
               By completing your purchase you agree to our{" "}
               <a href="/terms" style={{ color: "#555", textDecoration: "underline" }}>Terms of Service</a>.
-              This is a one-time charge.
+              {" "}This is a one-time charge.
             </p>
             <div style={{ marginTop: 20 }}>
               <a href="/" style={{ fontSize: 12, color: "#3a3a3a", textDecoration: "none" }}>← Back to cursur.app</a>
