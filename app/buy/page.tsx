@@ -7,6 +7,10 @@ import { trackEvent } from "@/lib/gtag";
 const G = "var(--font-garamond)";
 const I = "var(--font-inter)";
 
+function isValidEmail(v: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+}
+
 function pollForLicenseKey(
   paymentId: string,
   setLicensePending: (v: boolean) => void,
@@ -44,6 +48,7 @@ function pollForLicenseKey(
 }
 
 export default function BuyPage() {
+  const [email, setEmail] = useState("");
   const [paypalReady, setPaypalReady] = useState(false);
   const [paypalRendered, setPaypalRendered] = useState(false);
   const [razorpayReady, setRazorpayReady] = useState(false);
@@ -59,28 +64,32 @@ export default function BuyPage() {
     : false;
 
   const price = isIndia ? "₹399" : "$3.99";
+  const emailOk = isValidEmail(email);
+  const paid = licenseKey || licensePending || licenseTimedOut;
 
   const poll = (id: string) => pollForLicenseKey(
     id, setLicensePending, setLicenseKey, setLicenseTimedOut, setLastPaymentId
   );
 
+  // Re-render PayPal when email becomes valid (so button is active)
   useEffect(() => {
-    if (!isIndia && paypalReady && (window as any).paypal) {
-      const container = document.getElementById("paypal-buy-container");
-      if (container) container.innerHTML = "";
-      (window as any).paypal.HostedButtons({
-        hostedButtonId: "92LU4XERGJRJA",
-        onApprove: (data: { orderID: string }) => {
-          trackEvent("buy_clicked", { method: "paypal" });
-          poll(data.orderID);
-        },
-      }).render("#paypal-buy-container").then(() => {
-        requestAnimationFrame(() => setPaypalRendered(true));
-      });
-    }
-  }, [paypalReady, isIndia]);
+    if (isIndia || !paypalReady || !(window as any).paypal) return;
+    const container = document.getElementById("paypal-buy-container");
+    if (container) container.innerHTML = "";
+    setPaypalRendered(false);
+    (window as any).paypal.HostedButtons({
+      hostedButtonId: "92LU4XERGJRJA",
+      onApprove: (data: { orderID: string }) => {
+        trackEvent("buy_clicked", { method: "paypal" });
+        poll(data.orderID);
+      },
+    }).render("#paypal-buy-container").then(() => {
+      requestAnimationFrame(() => setPaypalRendered(true));
+    });
+  }, [paypalReady, isIndia, emailOk]);
 
   async function payWithRazorpay() {
+    if (!emailOk) return;
     setRazorpayLoading(true);
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.cursur.app";
     try {
@@ -93,6 +102,7 @@ export default function BuyPage() {
         currency: order.currency,
         order_id: order.orderId,
         name: "cursur",
+        prefill: { email: email.trim() },
         callback_url: "https://cursur.app/payment-success",
         redirect: false,
         handler: (response: { razorpay_payment_id: string }) => {
@@ -107,8 +117,6 @@ export default function BuyPage() {
     }
   }
 
-  const paid = licenseKey || licensePending || licenseTimedOut;
-
   return (
     <div style={{ minHeight: "100vh", background: "#fff", fontFamily: I }}>
       <style>{`
@@ -117,6 +125,7 @@ export default function BuyPage() {
           100% { background-position: 0 0; }
         }
         * { box-sizing: border-box; }
+        .paypal-wrapper { pointer-events: ${emailOk ? "auto" : "none"}; opacity: ${emailOk ? 1 : 0.4}; transition: opacity 0.2s; }
       `}</style>
 
       {!isIndia && (
@@ -135,19 +144,9 @@ export default function BuyPage() {
         />
       )}
 
-      {/* Top nav */}
-      <div style={{ padding: "20px 40px", borderBottom: "1px solid #f0f0f0" }}>
-        <a href="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 7 }}>
-          <img src="/logo.png" alt="" style={{ width: 26, height: 26, objectFit: "contain" }} />
-          <span style={{ fontFamily: G, fontSize: 22, fontWeight: 500, color: "#111", lineHeight: 1 }}>
-            c<span style={{ color: "#3b82f6" }}>u</span>rs<span style={{ color: "#3b82f6" }}>u</span>r
-          </span>
-        </a>
-      </div>
-
       {paid ? (
-        /* ── Post-payment: full screen centered ── */
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "calc(100vh - 68px)", padding: 40 }}>
+        /* ── Post-payment ── */
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", padding: 40 }}>
           <div style={{ width: "100%", maxWidth: 360, textAlign: "center" }}>
             {licenseKey ? (
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -185,54 +184,55 @@ export default function BuyPage() {
           </div>
         </div>
       ) : (
-        /* ── Checkout: two column ── */
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          minHeight: "calc(100vh - 68px)",
-        }}
-          className="checkout-cols"
-        >
+        /* ── Checkout ── */
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "100vh" }} className="checkout-cols">
+
           {/* LEFT — form */}
-          <div style={{ padding: "56px 48px 56px 10%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <h1 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, letterSpacing: "-0.015em", margin: "0 0 6px", color: "#111" }}>
-              Contact
-            </h1>
-            <p style={{ fontSize: 13, color: "#aaa", margin: "0 0 28px", fontWeight: 300 }}>
-              Your license key will be sent here.
-            </p>
+          <div style={{ padding: "0 10% 0 10%", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <a href="/" style={{ fontSize: 12, color: "#ccc", textDecoration: "none", marginBottom: 48, display: "block" }}>← Back</a>
+
+            <h2 style={{ fontFamily: I, fontSize: 13, fontWeight: 500, color: "#aaa", letterSpacing: "0.06em", textTransform: "uppercase", margin: "0 0 20px" }}>Contact</h2>
 
             <input
               type="email"
               placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               style={{
                 width: "100%", padding: "14px 16px", borderRadius: 10,
                 border: "1px solid #e0e0e0", fontSize: 14, color: "#111",
-                fontFamily: I, outline: "none", marginBottom: 32,
-                background: "#fff",
+                fontFamily: I, outline: "none", marginBottom: 20,
+                transition: "border-color 0.15s",
               }}
+              onFocus={e => e.target.style.borderColor = "#111"}
+              onBlur={e => e.target.style.borderColor = "#e0e0e0"}
             />
 
+            {/* Payment button */}
             {isIndia ? (
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <button
-                  onClick={payWithRazorpay}
-                  disabled={!razorpayReady || razorpayLoading}
-                  style={{
-                    width: "100%", height: 52, borderRadius: 12,
-                    background: "#111", color: "#fff", border: "none",
-                    cursor: razorpayReady ? "pointer" : "default",
-                    opacity: razorpayReady ? 1 : 0.5,
-                    fontFamily: I, fontSize: 15, fontWeight: 600,
-                    transition: "opacity 0.15s",
-                  }}
-                >
-                  {razorpayLoading ? "Opening…" : !razorpayReady ? "Loading…" : `Pay ₹399`}
-                </button>
-                <p style={{ fontSize: 11, color: "#ccc", margin: 0, textAlign: "center" }}>UPI · Cards · Netbanking</p>
-              </div>
+              <button
+                onClick={payWithRazorpay}
+                disabled={!razorpayReady || razorpayLoading || !emailOk}
+                style={{
+                  width: "100%", height: 52, borderRadius: 12,
+                  background: emailOk ? "#111" : "#e0e0e0",
+                  color: emailOk ? "#fff" : "#bbb",
+                  border: "none",
+                  cursor: emailOk && razorpayReady ? "pointer" : "default",
+                  fontFamily: I, fontSize: 15, fontWeight: 600,
+                  transition: "background 0.2s, color 0.2s",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                }}
+              >
+                {razorpayLoading ? "Opening…" : !razorpayReady ? "Loading…" : (
+                  <>
+                    <span>Pay ₹399</span>
+                    <span style={{ opacity: 0.5, fontSize: 12, fontWeight: 400 }}>· Razorpay</span>
+                  </>
+                )}
+              </button>
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div className="paypal-wrapper">
                 <div style={{ position: "relative", minHeight: 50 }}>
                   <div style={{
                     position: "absolute", inset: 0, borderRadius: 10,
@@ -244,46 +244,44 @@ export default function BuyPage() {
                     transition: "opacity 0.3s",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 12, color: "#bbb",
-                  }}>
-                    Loading…
-                  </div>
+                  }}>Loading…</div>
                   <div id="paypal-buy-container" style={{ width: "100%", opacity: paypalRendered ? 1 : 0, transition: "opacity 0.3s" }} />
                 </div>
-                <p style={{ fontSize: 11, color: "#ccc", margin: 0, textAlign: "center" }}>PayPal · Debit · Credit · Apple Pay</p>
               </div>
+            )}
+
+            {!emailOk && email.length === 0 && (
+              <p style={{ fontSize: 12, color: "#bbb", margin: "10px 0 0", fontWeight: 300 }}>Enter your email to continue.</p>
+            )}
+            {!emailOk && email.length > 0 && (
+              <p style={{ fontSize: 12, color: "#f87171", margin: "10px 0 0", fontWeight: 300 }}>Enter a valid email address.</p>
             )}
           </div>
 
           {/* RIGHT — order summary */}
-          <div style={{ background: "#f7f7f8", borderLeft: "1px solid #efefef", padding: "56px 10% 56px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            {/* Product row */}
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28, paddingBottom: 28, borderBottom: "1px solid #e8e8e8" }}>
-              <div style={{ width: 52, height: 52, borderRadius: 12, background: "#111", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <img src="/logo.png" alt="" style={{ width: 30, height: 30, objectFit: "contain" }} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 500, color: "#111" }}>cursur</div>
-                <div style={{ fontSize: 12, color: "#aaa", fontWeight: 300, marginTop: 2 }}>macOS · Lifetime license</div>
-              </div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: "#111" }}>{price}</div>
+          <div style={{ background: "#f7f7f8", borderLeft: "1px solid #efefef", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "60px 10%" }}>
+            <img src="/cursor-hero.png" alt="cursur" style={{ width: 160, height: 160, objectFit: "contain", marginBottom: 20 }} />
+
+            <div style={{ fontFamily: G, fontSize: 36, fontWeight: 500, color: "#111", letterSpacing: "-0.02em", marginBottom: 4 }}>
+              c<span style={{ color: "#3b82f6" }}>u</span>rs<span style={{ color: "#3b82f6" }}>u</span>r
             </div>
 
-            {/* Total */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: 14, fontWeight: 500, color: "#111" }}>Total</span>
-              <span style={{ fontFamily: G, fontSize: 26, fontWeight: 500, color: "#111", letterSpacing: "-0.01em" }}>{price}</span>
+            <p style={{ fontSize: 13, color: "#aaa", margin: "0 0 32px", fontWeight: 300 }}>macOS · Lifetime license</p>
+
+            <div style={{ width: "100%", borderTop: "1px solid #e8e8e8", paddingTop: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 13, color: "#888" }}>Total</span>
+                <span style={{ fontFamily: G, fontSize: 30, fontWeight: 500, color: "#111", letterSpacing: "-0.02em" }}>{price}</span>
+              </div>
+              <p style={{ fontSize: 11, color: "#ccc", margin: "4px 0 0", textAlign: "right", fontWeight: 300 }}>one-time · no subscription</p>
             </div>
-            <p style={{ fontSize: 12, color: "#aaa", margin: "6px 0 0", fontWeight: 300 }}>One-time payment. No subscription.</p>
           </div>
         </div>
       )}
 
-      {/* Responsive */}
       <style>{`
         @media (max-width: 680px) {
-          .checkout-cols {
-            grid-template-columns: 1fr !important;
-          }
+          .checkout-cols { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
