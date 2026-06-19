@@ -109,38 +109,39 @@ export default function BuyPage() {
   // ── Post-payment ─────────────────────────────────────────────────────────
   if (paid) {
     return (
-      <div style={{ minHeight: "100vh", background: "#f7f7f5", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: I }}>
-        <div style={{ background: "#fff", borderRadius: 20, padding: "40px 36px", width: "100%", maxWidth: 400, boxShadow: "0 2px 24px rgba(0,0,0,0.07)" }}>
+      <div style={{ minHeight: "100vh", background: "#161616", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: I }}>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <div style={{ background: "#1f1f1f", border: "1px solid #2a2a2a", borderRadius: 16, padding: "40px 36px", width: "100%", maxWidth: 400 }}>
           {licenseKey ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 20, alignItems: "center", textAlign: "center" }}>
-              <div style={{ width: 56, height: 56, background: "#f0fdf4", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>✓</div>
+              <div style={{ width: 52, height: 52, background: "rgba(34,197,94,0.12)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: "#22c55e" }}>✓</div>
               <div>
-                <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, margin: "0 0 6px", letterSpacing: "-0.02em" }}>You&apos;re in.</h2>
-                <p style={{ fontSize: 13, color: "#888", margin: 0 }}>Paste this into cursur to activate.</p>
+                <h2 style={{ fontFamily: G, fontSize: 26, fontWeight: 500, margin: "0 0 6px", letterSpacing: "-0.02em", color: "#fff" }}>You&apos;re in.</h2>
+                <p style={{ fontSize: 13, color: "#666", margin: 0 }}>Paste this into cursur to activate.</p>
               </div>
-              <div style={{ width: "100%", background: "#f7f7f5", borderRadius: 10, padding: "14px 16px", fontSize: 11.5, fontFamily: "monospace", wordBreak: "break-all", color: "#333", lineHeight: 1.8, textAlign: "left" }}>
+              <div style={{ width: "100%", background: "#111", border: "1px solid #2a2a2a", borderRadius: 10, padding: "14px 16px", fontSize: 11.5, fontFamily: "monospace", wordBreak: "break-all", color: "#ccc", lineHeight: 1.8, textAlign: "left" }}>
                 {licenseKey}
               </div>
               <button
                 onClick={() => { navigator.clipboard.writeText(licenseKey); setLicenseCopied(true); setTimeout(() => setLicenseCopied(false), 2000); trackEvent("license_key_copied"); }}
-                style={{ width: "100%", padding: "14px 0", borderRadius: 10, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I, fontSize: 14, fontWeight: 600 }}
+                style={{ width: "100%", padding: "14px 0", borderRadius: 10, background: "#fff", color: "#111", border: "none", cursor: "pointer", fontFamily: I, fontSize: 14, fontWeight: 600 }}
               >
                 {licenseCopied ? "✓  Copied!" : "Copy license key"}
               </button>
-              <p style={{ fontSize: 12, color: "#ccc", margin: 0 }}>Also sent to your email.</p>
+              <p style={{ fontSize: 12, color: "#444", margin: 0 }}>Also sent to your email.</p>
             </div>
           ) : licensePending ? (
             <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-              <div style={{ width: 40, height: 40, border: "2.5px solid #e8e8e8", borderTopColor: "#111", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-              <p style={{ fontSize: 15, color: "#444", margin: 0, fontWeight: 500 }}>Confirming payment…</p>
-              <p style={{ fontSize: 13, color: "#aaa", margin: 0 }}>Your key will appear here in a moment.</p>
+              <div style={{ width: 40, height: 40, border: "2.5px solid #2a2a2a", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+              <p style={{ fontSize: 15, color: "#ccc", margin: 0, fontWeight: 500 }}>Confirming payment…</p>
+              <p style={{ fontSize: 13, color: "#555", margin: 0 }}>Your key will appear here in a moment.</p>
             </div>
           ) : (
             <div style={{ textAlign: "center", display: "flex", flexDirection: "column", gap: 14, alignItems: "center" }}>
-              <p style={{ fontSize: 13, color: "#666", margin: 0 }}>Payment went through — key on its way to your email.</p>
-              {lastPaymentId && <p style={{ fontSize: 11, color: "#bbb", margin: 0, fontFamily: "monospace" }}>{lastPaymentId}</p>}
-              <button onClick={() => lastPaymentId && poll(lastPaymentId)} style={{ width: "100%", padding: "13px 0", borderRadius: 10, background: "#111", color: "#fff", border: "none", cursor: "pointer", fontFamily: I, fontSize: 14, fontWeight: 600 }}>Check again</button>
-              <a href="mailto:support@cursur.app" style={{ fontSize: 12, color: "#aaa" }}>support@cursur.app</a>
+              <p style={{ fontSize: 13, color: "#888", margin: 0 }}>Payment went through — key on its way to your email.</p>
+              {lastPaymentId && <p style={{ fontSize: 11, color: "#444", margin: 0, fontFamily: "monospace" }}>{lastPaymentId}</p>}
+              <button onClick={() => lastPaymentId && poll(lastPaymentId)} style={{ width: "100%", padding: "13px 0", borderRadius: 10, background: "#fff", color: "#111", border: "none", cursor: "pointer", fontFamily: I, fontSize: 14, fontWeight: 600 }}>Check again</button>
+              <a href="mailto:support@cursur.app" style={{ fontSize: 12, color: "#555" }}>support@cursur.app</a>
             </div>
           )}
         </div>
@@ -150,11 +151,12 @@ export default function BuyPage() {
 
   // ── Checkout ─────────────────────────────────────────────────────────────
   return (
-    <div style={{ minHeight: "100vh", background: "#f7f7f5", fontFamily: I }}>
+    <div style={{ minHeight: "100vh", background: "#161616", fontFamily: I, display: "flex", flexDirection: "column" }}>
       <style>{`
         @keyframes shimmer { 0%{background-position:100% 0} 100%{background-position:0 0} }
         @keyframes spin { to { transform: rotate(360deg); } }
-        input:focus { border-color: #111 !important; outline: none; }
+        input::placeholder { color: #3a3a3a; }
+        input:focus { border-color: #555 !important; outline: none; }
         * { box-sizing: border-box; }
       `}</style>
 
@@ -165,52 +167,62 @@ export default function BuyPage() {
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" onLoad={() => setRazorpayReady(true)} />
       )}
 
-      {/* Top bar */}
-      <div style={{ borderBottom: "1px solid #ebebeb", background: "#fff", padding: "0 32px", height: 56, display: "flex", alignItems: "center", gap: 8 }}>
-        <img src="/cursor-hero.png" alt="" style={{ width: 28, height: 28, objectFit: "contain" }} />
-        <span style={{ fontFamily: G, fontSize: 20, fontWeight: 500, color: "#111", letterSpacing: "-0.02em" }}>
-          c<span style={{ color: "#3b82f6" }}>u</span>rs<span style={{ color: "#3b82f6" }}>u</span>r
-        </span>
-      </div>
+      <div style={{ flex: 1, display: "flex", flexWrap: "wrap" }}>
 
-      {/* Main */}
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "48px 24px", gap: 24, flexWrap: "wrap" }}>
+        {/* ── Left panel ── */}
+        <div style={{ flex: "1 1 340px", minWidth: 300, maxWidth: 520, padding: "52px 48px", borderRight: "1px solid #222", display: "flex", flexDirection: "column" }}>
 
-        {/* Left: summary */}
-        <div style={{ width: "100%", maxWidth: 340 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, color: "#aaa", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 20px" }}>Order summary</p>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-            <img src="/cursor-hero.png" alt="" style={{ width: 52, height: 52, objectFit: "contain", flexShrink: 0 }} />
-            <div>
-              <div style={{ fontWeight: 600, fontSize: 15, color: "#111" }}>cursur</div>
-              <div style={{ fontSize: 12, color: "#aaa", marginTop: 2 }}>macOS · Lifetime license</div>
-            </div>
-            <div style={{ marginLeft: "auto", fontWeight: 700, fontSize: 18, color: "#111" }}>{price}</div>
+          {/* Brand */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 48 }}>
+            <img src="/cursor-hero.png" alt="" style={{ width: 28, height: 28, objectFit: "contain" }} />
+            <span style={{ fontFamily: G, fontSize: 20, fontWeight: 500, color: "#fff", letterSpacing: "-0.02em" }}>
+              c<span style={{ color: "#3b82f6" }}>u</span>rs<span style={{ color: "#3b82f6" }}>u</span>r
+            </span>
           </div>
 
-          <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
-              ["⚡️", "Instant delivery", "License key shown immediately after payment"],
-              ["📧", "Email backup", "Key also sent to your inbox"],
-              ["♾️", "Lifetime access", "One-time payment, use forever"],
-            ].map(([icon, title, desc]) => (
-              <div key={title} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                <span style={{ fontSize: 16, lineHeight: 1, marginTop: 1 }}>{icon}</span>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#333" }}>{title}</div>
-                  <div style={{ fontSize: 12, color: "#aaa", marginTop: 1 }}>{desc}</div>
-                </div>
-              </div>
-            ))}
+          {/* Product */}
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+            <div style={{ width: 52, height: 52, background: "#222", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <img src="/cursor-hero.png" alt="" style={{ width: 36, height: 36, objectFit: "contain" }} />
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 500, color: "#fff" }}>cursur</div>
+          </div>
+
+          {/* Big price */}
+          <div style={{ fontFamily: G, fontSize: 44, fontWeight: 500, color: "#fff", letterSpacing: "-0.02em", marginBottom: 28, lineHeight: 1 }}>{price}</div>
+
+          {/* Line items */}
+          <div style={{ borderTop: "1px solid #222", paddingTop: 20, display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#888" }}>
+              <span>Subtotal</span>
+              <span>{price}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#888" }}>
+              <span>Tax</span>
+              <span>$0</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, fontWeight: 600, color: "#fff", borderTop: "1px solid #222", paddingTop: 12, marginTop: 4 }}>
+              <span>Total</span>
+              <span>{price}</span>
+            </div>
+          </div>
+
+          {/* Copy */}
+          <div style={{ marginTop: "auto", paddingTop: 48 }}>
+            <p style={{ fontSize: 13, color: "#555", lineHeight: 1.6, margin: "0 0 8px" }}>
+              One-time payment. No subscriptions, ever.
+            </p>
+            <p style={{ fontSize: 13, color: "#444", lineHeight: 1.6, margin: 0 }}>
+              License key delivered instantly after payment.
+            </p>
           </div>
         </div>
 
-        {/* Right: payment card */}
-        <div style={{ background: "#fff", borderRadius: 16, padding: "28px 28px", width: "100%", maxWidth: 380, boxShadow: "0 1px 12px rgba(0,0,0,0.06)", border: "1px solid #ebebeb" }}>
-          <p style={{ fontSize: 11, fontWeight: 600, color: "#aaa", letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 18px" }}>Payment</p>
+        {/* ── Right panel ── */}
+        <div style={{ flex: "1 1 340px", minWidth: 300, padding: "52px 48px", display: "flex", flexDirection: "column" }}>
 
-          <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: "#555", marginBottom: 6 }}>Email address</label>
+          {/* Email */}
+          <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: "#aaa", marginBottom: 8 }}>Email</label>
           <input
             type="email"
             placeholder="you@example.com"
@@ -218,21 +230,24 @@ export default function BuyPage() {
             onChange={e => setEmail(e.target.value)}
             onKeyDown={e => { if (e.key === "Enter" && emailOk && isIndia) payWithRazorpay(); }}
             style={{
-              width: "100%", padding: "11px 14px", borderRadius: 10,
-              border: "1.5px solid #e0e0e0", fontSize: 14, color: "#111",
-              fontFamily: I, marginBottom: 16, transition: "border-color 0.15s",
-              background: "#fff",
+              width: "100%", padding: "13px 16px", borderRadius: 10,
+              border: "1.5px solid #2a2a2a", fontSize: 14, color: "#fff",
+              fontFamily: I, marginBottom: 24, transition: "border-color 0.15s",
+              background: "#1e1e1e",
             }}
           />
+
+          {/* Payment method label */}
+          <label style={{ display: "block", fontSize: 13, fontWeight: 500, color: "#aaa", marginBottom: 12 }}>Payment method</label>
 
           {isIndia ? (
             <button
               onClick={payWithRazorpay}
               disabled={!razorpayReady || razorpayLoading || !emailOk}
               style={{
-                width: "100%", height: 48, borderRadius: 10,
-                background: emailOk ? "#111" : "#f0f0f0",
-                color: emailOk ? "#fff" : "#bbb",
+                width: "100%", height: 52, borderRadius: 10,
+                background: emailOk ? "#fff" : "#232323",
+                color: emailOk ? "#111" : "#444",
                 border: "none",
                 cursor: emailOk && razorpayReady ? "pointer" : "default",
                 fontFamily: I, fontSize: 15, fontWeight: 600,
@@ -242,37 +257,47 @@ export default function BuyPage() {
               {razorpayLoading ? "Opening…" : !razorpayReady ? "Loading…" : `Pay ₹399`}
             </button>
           ) : (
-            <div style={{ pointerEvents: emailOk ? "auto" : "none", opacity: emailOk ? 1 : 0.4, transition: "opacity 0.2s" }}>
-              <div style={{ position: "relative", minHeight: 48, borderRadius: 10, overflow: "hidden" }}>
+            <div style={{ pointerEvents: emailOk ? "auto" : "none", opacity: emailOk ? 1 : 0.35, transition: "opacity 0.2s" }}>
+              <div style={{ position: "relative", minHeight: 52, borderRadius: 10, overflow: "hidden" }}>
                 <div style={{
                   position: "absolute", inset: 0,
-                  background: "linear-gradient(90deg,#f3f3f3 25%,#ececec 37%,#f3f3f3 63%)",
+                  background: "linear-gradient(90deg,#222 25%,#282828 37%,#222 63%)",
                   backgroundSize: "400% 100%",
                   animation: "shimmer 1.4s ease-in-out infinite",
                   opacity: paypalRendered ? 0 : 1,
                   pointerEvents: "none", transition: "opacity 0.3s",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 12, color: "#bbb",
+                  fontSize: 12, color: "#555",
                 }}>Loading…</div>
                 <div id="paypal-container" style={{ width: "100%", opacity: paypalRendered ? 1 : 0, transition: "opacity 0.3s" }} />
               </div>
             </div>
           )}
 
-          <div style={{ marginTop: 16, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-            <span style={{ fontSize: 10.5, color: "#ccc", marginRight: 4 }}>🔒</span>
-            {/* Apple Pay */}
-            <div style={{ background: "#f5f5f5", borderRadius: 6, padding: "4px 9px", fontSize: 11, fontWeight: 700, color: "#333", letterSpacing: "-0.02em" }}>Apple Pay</div>
-            {/* PayPal */}
-            <div style={{ background: "#f5f5f5", borderRadius: 6, padding: "4px 9px", fontSize: 11, fontWeight: 700, color: "#003087" }}>Pay<span style={{ color: "#009cde" }}>Pal</span></div>
-            {/* Razorpay */}
-            <div style={{ background: "#f5f5f5", borderRadius: 6, padding: "4px 9px", fontSize: 11, fontWeight: 700, color: "#2d68fe" }}>Razorpay</div>
+          {/* Accepted methods */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 20 }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span style={{ fontSize: 12, color: "#444" }}>Accepts</span>
+            <span style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Apple Pay</span>
+            <span style={{ color: "#333", fontSize: 12 }}>·</span>
+            <span style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>PayPal</span>
+            <span style={{ color: "#333", fontSize: 12 }}>·</span>
+            <span style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Razorpay</span>
+          </div>
+
+          {/* Legal */}
+          <div style={{ marginTop: "auto", paddingTop: 48 }}>
+            <p style={{ fontSize: 11.5, color: "#3a3a3a", lineHeight: 1.7, margin: 0 }}>
+              By completing your purchase you agree to our{" "}
+              <a href="/terms" style={{ color: "#555", textDecoration: "underline" }}>Terms of Service</a>.
+              This is a one-time charge.
+            </p>
+            <div style={{ marginTop: 20 }}>
+              <a href="/" style={{ fontSize: 12, color: "#3a3a3a", textDecoration: "none" }}>← Back to cursur.app</a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div style={{ textAlign: "center", paddingBottom: 32 }}>
-        <a href="/" style={{ fontSize: 12, color: "#bbb", textDecoration: "none" }}>← Back to cursur.app</a>
       </div>
     </div>
   );
