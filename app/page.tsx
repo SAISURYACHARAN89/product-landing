@@ -492,6 +492,37 @@ export default function Home() {
             c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r<br />
             for <em>free.</em>
           </h2>
+        </div>
+
+        {/* ── Video strip ── */}
+        <div style={{ overflow: "hidden", marginBottom: 48, WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)" }}>
+          <div style={{
+            display: "flex", gap: 12, width: "max-content",
+            animation: "scroll-videos 28s linear infinite",
+          }}>
+            {["/demo1.mp4", "/demo2.mp4", "/demo3.mp4", "/demo4.mp4", "/demo5.mp4",
+              "/demo1.mp4", "/demo2.mp4", "/demo3.mp4", "/demo4.mp4", "/demo5.mp4"].map((src, i) => (
+              <video
+                key={i}
+                src={src}
+                autoPlay
+                loop
+                muted
+                playsInline
+                style={{
+                  height: 280,
+                  width: "auto",
+                  borderRadius: 16,
+                  objectFit: "cover",
+                  flexShrink: 0,
+                  display: "block",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mx-auto" style={{ maxWidth: 600 }}>
           <div className="flex flex-col gap-5" style={{ fontFamily: I }}>
             <div className="flex items-start gap-4 p-5" style={{ background: "#fff", borderRadius: 16, border: "1px solid #ebebeb" }}>
               <span className="text-[28px] leading-none mt-0.5">①</span>
