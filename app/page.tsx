@@ -365,7 +365,7 @@ export default function Home() {
           padding: "10px 14px 10px 18px",
         }}>
           {/* Logo */}
-          <span style={{ fontFamily: G, fontWeight: 500, fontSize: 26, lineHeight: 1, letterSpacing: "-0.02em", flexShrink: 0 }}>
+          <span style={{ fontFamily: G, fontWeight: 500, fontSize: 26, lineHeight: 1, letterSpacing: "-0.02em", flexShrink: 0, display: "flex", alignItems: "center", position: "relative", top: -1 }}>
             c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
           </span>
 
