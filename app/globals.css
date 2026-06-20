@@ -32,7 +32,3 @@ html, body {
   55%      { transform: translateX(-20px) scaleX(1.15); opacity: 0.6; }
 }
 
-@keyframes scroll-videos {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
