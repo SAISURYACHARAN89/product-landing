@@ -274,8 +274,19 @@ export default function BuyPage() {
             )}
           </div>
 
+          {/* Support */}
+          <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 11.5, color: "#3a3a3a" }}>Issues?</span>
+            <a href="mailto:support@cursur.app" style={{ fontSize: 11.5, color: "#555", textDecoration: "none", borderBottom: "1px solid #333" }}>support@cursur.app</a>
+            <span style={{ color: "#2a2a2a", fontSize: 11 }}>·</span>
+            <a href="https://www.instagram.com/cursur.app?igsh=NncyNGpqanFpMWNp&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11.5, color: "#555", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, borderBottom: "1px solid #333" }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              DM on Instagram
+            </a>
+          </div>
+
           {/* Back link */}
-          <div style={{ marginTop: 20 }}>
+          <div style={{ marginTop: 14 }}>
             <a href="/" style={{ fontSize: 12, color: "#3a3a3a", textDecoration: "none" }}>← Back to cursur.app</a>
           </div>
         </div>
