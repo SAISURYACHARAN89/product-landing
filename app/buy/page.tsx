@@ -203,6 +203,9 @@ export default function BuyPage() {
             </div>
           </div>
 
+          {/* One-time note */}
+          <p style={{ fontSize: 12, color: "#444", margin: "20px 0 0", lineHeight: 1.5 }}>🔒 One-time payment. No subscriptions, ever.</p>
+
           {/* Steps */}
           <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 10 }}>
             {[
