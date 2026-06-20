@@ -206,7 +206,7 @@ export default function BuyPage() {
           </div>
 
           {/* Copy */}
-          <div style={{ marginTop: "auto", paddingTop: 48 }}>
+          <div style={{ marginTop: 28 }}>
             <p style={{ fontSize: 13, color: "#555", lineHeight: 1.65, margin: "0 0 6px" }}>
               🔒 One-time payment. No subscriptions, ever.
             </p>
@@ -297,13 +297,13 @@ export default function BuyPage() {
           </div>
 
           {/* Legal */}
-          <div style={{ marginTop: "auto", paddingTop: 48 }}>
+          <div style={{ marginTop: 20 }}>
             <p style={{ fontSize: 11.5, color: "#3a3a3a", lineHeight: 1.7, margin: 0 }}>
               By completing your purchase you agree to our{" "}
               <a href="/terms" style={{ color: "#555", textDecoration: "underline" }}>Terms of Service</a>.
               {" "}This is a one-time charge.
             </p>
-            <div style={{ marginTop: 20 }}>
+            <div style={{ marginTop: 14 }}>
               <a href="/" style={{ fontSize: 12, color: "#3a3a3a", textDecoration: "none" }}>← Back to cursur.app</a>
             </div>
           </div>
