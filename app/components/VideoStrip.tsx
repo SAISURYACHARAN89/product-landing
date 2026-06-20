@@ -28,13 +28,7 @@ export default function VideoStrip() {
         }
       `}</style>
 
-      <div style={{
-        overflow: "hidden",
-        marginBottom: 56,
-        /* Tight vignette using CSS mask — no overlaid divs, no color-matching needed */
-        WebkitMaskImage: "linear-gradient(to right, transparent 0px, #000 48px, #000 calc(100% - 48px), transparent 100%)",
-        maskImage:        "linear-gradient(to right, transparent 0px, #000 48px, #000 calc(100% - 48px), transparent 100%)",
-      }}>
+      <div style={{ overflow: "hidden", marginBottom: 56, borderRadius: 24 }}>
         <div style={{
           display: "flex",
           gap: 18,
