@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, forwardRef } from "react";
 import { trackEvent } from "@/lib/gtag";
 import VideoStrip from "./components/VideoStrip";
+import CursorMascot from "./components/CursorMascot";
 
 // ─── Emotion cards ───────────────────────────────────────────────
 function CursorSkin({ accessory, size = 52 }: { accessory: string; size?: number }) {
@@ -387,42 +388,11 @@ export default function Home() {
         </p>
       </section>
 
-      {/* ── Laptop Demo ── */}
+      {/* ── Hero mascot ── */}
       <section className="px-6 pb-12">
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <div style={{ borderRadius: 16, overflow: "hidden", background: "#000", boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08)", aspectRatio: "16 / 10", position: "relative" }}>
-            <video
-              id="demo-video"
-              src="/demo.mp4"
-              poster="/demo-poster.jpg"
-              preload="auto"
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls
-              style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
-              ref={el => { if (el) el.addEventListener("pause", () => { if (!el.ended) el.play(); }); }}
-            />
-            <button
-              id="unmute-btn"
-              onClick={() => {
-                const v = document.getElementById("demo-video") as HTMLVideoElement;
-                if (v) v.muted = false;
-                const b = document.getElementById("unmute-btn");
-                if (b) b.style.display = "none";
-              }}
-              style={{
-                position: "absolute", bottom: 52, right: 12,
-                background: "rgba(0,0,0,0.6)", color: "#fff",
-                border: "none", borderRadius: 8, padding: "6px 12px",
-                fontSize: 12, fontFamily: "var(--font-inter)", cursor: "pointer",
-                backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 5,
-                zIndex: 10,
-              }}
-            >
-              🔇 Tap to unmute
-            </button>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "32px 0 16px" }}>
+            <CursorMascot />
           </div>
 
           {/* Buttons below laptop */}
@@ -483,25 +453,6 @@ export default function Home() {
         <p className="text-center text-[12px] text-neutral-400 mt-6 px-6" style={{ fontFamily: I, fontWeight: 300, maxWidth: 500, margin: "24px auto 0" }}>
           c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r knows what you&apos;re doing and gives you a relatable animation, like it&apos;s alive and doing it with you.
         </p>
-      </section>
-
-      {/* ── Customization ── */}
-      <section className="py-20 px-6" style={{ borderTop: "1px solid #f0f0f0" }}>
-        <div className="mx-auto" style={{ maxWidth: 720 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "#f0f0f0", borderRadius: 20, overflow: "hidden" }}>
-            {[
-              { icon: "✦", label: "Glow color", desc: "Pick any color for the trail that follows your cursor around." },
-              { icon: "◉", label: "Eye color",  desc: "Change the iris to match your vibe — subtle or loud, your call." },
-              { icon: "⊞", label: "Size",        desc: "Go tiny and discreet, or big enough to own the screen." },
-            ].map(({ icon, label, desc }) => (
-              <div key={label} style={{ background: "#fff", padding: "32px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
-                <span style={{ fontSize: 22, lineHeight: 1 }}>{icon}</span>
-                <p style={{ fontSize: 15, fontWeight: 600, color: "#111", margin: 0, fontFamily: I }}>{label}</p>
-                <p style={{ fontSize: 13, color: "#aaa", margin: 0, fontFamily: I, fontWeight: 300, lineHeight: 1.6 }}>{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* ── Get Cursur for free ── */}
