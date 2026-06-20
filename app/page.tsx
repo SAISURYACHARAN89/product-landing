@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, forwardRef } from "react";
 import { trackEvent } from "@/lib/gtag";
+import VideoStrip from "./components/VideoStrip";
 
 // ─── Emotion cards ───────────────────────────────────────────────
 function CursorSkin({ accessory, size = 52 }: { accessory: string; size?: number }) {
@@ -495,71 +496,7 @@ export default function Home() {
         </div>
 
         {/* ── Video strip ── */}
-        {(() => {
-          const clips = [
-            { src: "/demo1.mp4", views: "18.4K", likes: "1.2K" },
-            { src: "/demo2.mp4", views: "27.1K", likes: "1.9K" },
-            { src: "/demo3.mp4", views: "9.3K",  likes: "642"  },
-            { src: "/demo4.mp4", views: "14.7K", likes: "1.1K" },
-            { src: "/demo5.mp4", views: "5.8K",  likes: "381"  },
-            { src: "/demo6.mp4", views: "22.6K", likes: "1.7K" },
-            { src: "/demo7.mp4", views: "11.2K", likes: "874"  },
-            { src: "/demo8.mp4", views: "7.4K",  likes: "503"  },
-            { src: "/demo9.mp4", views: "19.9K", likes: "1.4K" },
-          ];
-          const doubled = [...clips, ...clips];
-          return (
-            <div style={{ overflow: "hidden", marginBottom: 56, WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)" }}>
-              <div style={{ display: "flex", gap: 18, width: "max-content", animation: "scroll-videos 48s linear infinite" }}>
-                {doubled.map((clip, i) => (
-                  <div key={i} style={{ position: "relative", flexShrink: 0, borderRadius: 20, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.13)" }}>
-                    <video
-                      src={clip.src}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      style={{ height: 360, width: "auto", display: "block", objectFit: "cover" }}
-                    />
-                    {/* Liquid glass overlay */}
-                    <div style={{
-                      position: "absolute", bottom: 0, left: 0, right: 0,
-                      padding: "28px 14px 14px",
-                      background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)",
-                    }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
-                        {/* Views */}
-                        <div style={{
-                          display: "flex", alignItems: "center", gap: 5,
-                          background: "rgba(255,255,255,0.18)",
-                          backdropFilter: "blur(12px) saturate(1.8)",
-                          WebkitBackdropFilter: "blur(12px) saturate(1.8)",
-                          border: "1px solid rgba(255,255,255,0.28)",
-                          borderRadius: 100, padding: "5px 10px",
-                        }}>
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.95)", fontFamily: I, letterSpacing: "0.01em" }}>{clip.views}</span>
-                        </div>
-                        {/* Likes */}
-                        <div style={{
-                          display: "flex", alignItems: "center", gap: 5,
-                          background: "rgba(255,255,255,0.18)",
-                          backdropFilter: "blur(12px) saturate(1.8)",
-                          WebkitBackdropFilter: "blur(12px) saturate(1.8)",
-                          border: "1px solid rgba(255,255,255,0.28)",
-                          borderRadius: 100, padding: "5px 10px",
-                        }}>
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="rgba(255,80,80,0.95)" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.95)", fontFamily: I, letterSpacing: "0.01em" }}>{clip.likes}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        })()}
+        <VideoStrip />
 
         <div className="mx-auto" style={{ maxWidth: 600 }}>
           <div className="flex flex-col gap-5" style={{ fontFamily: I }}>
