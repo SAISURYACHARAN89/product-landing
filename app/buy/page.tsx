@@ -44,7 +44,6 @@ function pollForLicenseKey(
 
 export default function BuyPage() {
   const [email, setEmail] = useState("");
-  const [tab, setTab] = useState<"card" | "alt">("card");
   const [paypalReady, setPaypalReady] = useState(false);
   const [paypalRendered, setPaypalRendered] = useState(false);
   const [razorpayReady, setRazorpayReady] = useState(false);
@@ -60,7 +59,6 @@ export default function BuyPage() {
     : false;
 
   const price = isIndia ? "₹399" : "$3.99";
-  const altLabel = isIndia ? "Razorpay" : "PayPal";
   const emailOk = isValidEmail(email);
   const paid = licenseKey || licensePending || licenseTimedOut;
 
@@ -180,9 +178,7 @@ export default function BuyPage() {
 
           {/* Product */}
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 32 }}>
-            <div style={{ width: 52, height: 52, background: "#222", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <img src="/cursor-hero.png" alt="cursur" style={{ width: 36, height: 36, objectFit: "contain" }} />
-            </div>
+            <img src="/cursor-hero.png" alt="cursur" style={{ width: 44, height: 44, objectFit: "contain", flexShrink: 0 }} />
             <div style={{ fontSize: 16, fontWeight: 600, color: "#fff" }}>cursur</div>
           </div>
 
@@ -207,11 +203,8 @@ export default function BuyPage() {
 
           {/* Copy */}
           <div style={{ marginTop: 28 }}>
-            <p style={{ fontSize: 13, color: "#555", lineHeight: 1.65, margin: "0 0 6px" }}>
-              🔒 One-time payment. No subscriptions, ever.
-            </p>
-            <p style={{ fontSize: 13, color: "#444", lineHeight: 1.65, margin: 0 }}>
-              License key delivered instantly after payment and also sent to your email.
+            <p style={{ fontSize: 13, color: "#555", lineHeight: 1.65, margin: 0 }}>
+              🔒 License key will be immediately shown and also sent to your email.
             </p>
           </div>
         </div>
@@ -226,7 +219,7 @@ export default function BuyPage() {
             placeholder="you@example.com"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            onKeyDown={e => { if (e.key === "Enter" && emailOk) { tab === "card" ? payWithRazorpay() : (isIndia ? payWithRazorpay() : undefined); } }}
+            onKeyDown={e => { if (e.key === "Enter" && emailOk && isIndia) payWithRazorpay(); }}
             style={{
               width: "100%", padding: "13px 16px", borderRadius: 10,
               border: "1.5px solid #2a2a2a", fontSize: 14, color: "#fff",
@@ -235,51 +228,22 @@ export default function BuyPage() {
             }}
           />
 
-          {/* Payment method tabs */}
-          <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-            {(["card", "alt"] as const).map(t => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                style={{
-                  flex: 1, padding: "11px 0", borderRadius: 10,
-                  background: tab === t ? "#2a2a2a" : "transparent",
-                  border: tab === t ? "1.5px solid #3a3a3a" : "1.5px solid #232323",
-                  color: tab === t ? "#fff" : "#555",
-                  fontFamily: I, fontSize: 13, fontWeight: 600,
-                  cursor: "pointer", transition: "all 0.15s",
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: 7,
-                }}
-              >
-                {t === "card" ? (
-                  <>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                    Card
-                  </>
-                ) : altLabel}
-              </button>
-            ))}
-          </div>
-
           {/* Payment action */}
           <div style={{ pointerEvents: emailOk ? "auto" : "none", opacity: emailOk ? 1 : 0.35, transition: "opacity 0.2s" }}>
-            {tab === "card" || isIndia ? (
-              /* Card tab or India always uses Razorpay (supports cards + UPI) */
+            {isIndia ? (
               <button
                 onClick={payWithRazorpay}
                 disabled={!razorpayReady || razorpayLoading}
                 style={{
                   width: "100%", height: 52, borderRadius: 10,
-                  background: "#fff", color: "#111",
-                  border: "none",
+                  background: "#fff", color: "#111", border: "none",
                   cursor: razorpayReady ? "pointer" : "default",
                   fontFamily: I, fontSize: 15, fontWeight: 600,
                 }}
               >
-                {razorpayLoading ? "Opening…" : !razorpayReady ? "Loading…" : `Pay now`}
+                {razorpayLoading ? "Opening…" : !razorpayReady ? "Loading…" : "Pay now"}
               </button>
             ) : (
-              /* Alt tab + international = PayPal widget */
               <div style={{ position: "relative", minHeight: 52, borderRadius: 10, overflow: "hidden" }}>
                 <div style={{
                   position: "absolute", inset: 0,
