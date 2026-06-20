@@ -201,11 +201,20 @@ export default function BuyPage() {
             </div>
           </div>
 
-          {/* Copy */}
-          <div style={{ marginTop: 28 }}>
-            <p style={{ fontSize: 13, color: "#555", lineHeight: 1.65, margin: 0 }}>
-              🔒 License key will be immediately shown and also sent to your email.
-            </p>
+          {/* Steps */}
+          <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 10 }}>
+            {[
+              { n: "1", label: "Download cursur", sub: "Get the app on your Mac" },
+              { n: "2", label: "Enter your license key", sub: "Generated instantly after payment" },
+            ].map(({ n, label, sub }) => (
+              <div key={n} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                <div style={{ width: 26, height: 26, borderRadius: "50%", border: "1px solid #333", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 11, fontWeight: 700, color: "#555", marginTop: 1 }}>{n}</div>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "#ccc", lineHeight: 1.3 }}>{label}</div>
+                  <div style={{ fontSize: 12, color: "#444", marginTop: 2 }}>{sub}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -260,16 +269,9 @@ export default function BuyPage() {
             )}
           </div>
 
-          {/* Legal */}
+          {/* Back link */}
           <div style={{ marginTop: 20 }}>
-            <p style={{ fontSize: 11.5, color: "#3a3a3a", lineHeight: 1.7, margin: 0 }}>
-              By completing your purchase you agree to our{" "}
-              <a href="/terms" style={{ color: "#555", textDecoration: "underline" }}>Terms of Service</a>.
-              {" "}This is a one-time charge.
-            </p>
-            <div style={{ marginTop: 14 }}>
-              <a href="/" style={{ fontSize: 12, color: "#3a3a3a", textDecoration: "none" }}>← Back to cursur.app</a>
-            </div>
+            <a href="/" style={{ fontSize: 12, color: "#3a3a3a", textDecoration: "none" }}>← Back to cursur.app</a>
           </div>
         </div>
 
