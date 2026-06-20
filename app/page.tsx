@@ -393,37 +393,15 @@ export default function Home() {
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <div style={{ borderRadius: 16, overflow: "hidden", background: "#000", boxShadow: "0 8px 40px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.08)", aspectRatio: "16 / 10", position: "relative" }}>
             <video
-              id="demo-video"
               src="/demo.mp4"
-              poster="/demo-poster.jpg"
               preload="auto"
               autoPlay
               loop
               muted
               playsInline
-              controls
               style={{ width: "100%", height: "100%", display: "block", objectFit: "cover" }}
-              ref={el => { if (el) el.addEventListener("pause", () => { if (!el.ended) el.play(); }); }}
+              ref={el => { if (el) { el.play().catch(()=>{}); el.addEventListener("pause", () => { if (!el.ended) el.play().catch(()=>{}); }); } }}
             />
-            <button
-              id="unmute-btn"
-              onClick={() => {
-                const v = document.getElementById("demo-video") as HTMLVideoElement;
-                if (v) v.muted = false;
-                const b = document.getElementById("unmute-btn");
-                if (b) b.style.display = "none";
-              }}
-              style={{
-                position: "absolute", bottom: 52, right: 12,
-                background: "rgba(0,0,0,0.6)", color: "#fff",
-                border: "none", borderRadius: 8, padding: "6px 12px",
-                fontSize: 12, fontFamily: "var(--font-inter)", cursor: "pointer",
-                backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 5,
-                zIndex: 10,
-              }}
-            >
-              🔇 Tap to unmute
-            </button>
           </div>
 
           {/* Buttons below laptop */}
