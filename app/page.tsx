@@ -353,25 +353,41 @@ export default function Home() {
       )}
 
       {/* ── Nav ── */}
-      <div className="sticky top-0 z-50 flex justify-center px-3 sm:px-6 pt-5 pb-3">
-        <nav className="w-full flex items-center justify-between px-3 sm:px-5 py-2.5 gap-2" style={{ maxWidth: 960, borderRadius: 14, border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.65)", backdropFilter: "blur(28px) saturate(180%)", WebkitBackdropFilter: "blur(28px) saturate(180%)", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-          <div className="flex items-center gap-1 flex-shrink-0">
-            <span className="text-[22px] sm:text-[33px]" style={{ fontFamily: G, fontWeight: 500, lineHeight: 1, position: "relative", top: -2 }}>
-              c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
-            </span>
-          </div>
-          <div className="flex items-center gap-2 sm:gap-5 text-[11px] sm:text-[13px] text-neutral-400 flex-shrink-0" style={{ fontFamily: I }}>
-            <button onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }} className="hover:text-neutral-800 transition-colors whitespace-nowrap" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: "inherit", color: "inherit", padding: 0 }}>Recover Key</button>
+      <div className="sticky top-0 z-50 flex justify-center px-4 sm:px-6 pt-4 pb-2">
+        <nav className="w-full flex items-center justify-between gap-3" style={{
+          maxWidth: 740,
+          borderRadius: 18,
+          border: "1px solid rgba(0,0,0,0.07)",
+          background: "rgba(255,255,255,0.72)",
+          backdropFilter: "blur(40px) saturate(200%)",
+          WebkitBackdropFilter: "blur(40px) saturate(200%)",
+          boxShadow: "0 2px 16px rgba(0,0,0,0.07), 0 0 0 0.5px rgba(255,255,255,0.9) inset",
+          padding: "10px 14px 10px 18px",
+        }}>
+          {/* Logo */}
+          <span style={{ fontFamily: G, fontWeight: 500, fontSize: 26, lineHeight: 1, letterSpacing: "-0.02em", flexShrink: 0 }}>
+            c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
+          </span>
+
+          {/* Right side */}
+          <div className="flex items-center gap-3" style={{ fontFamily: I }}>
+            <button
+              onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }}
+              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "#888", padding: "6px 10px", borderRadius: 8, lineHeight: 1 }}
+              className="hover:text-neutral-800 hover:bg-neutral-100 transition-all whitespace-nowrap"
+            >
+              Recover Key
+            </button>
             <a
               href="/buy"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent("buy_clicked", { source: "nav" })}
-              className="inline-flex items-center gap-1.5 text-[11px] sm:text-[12px] font-semibold transition-all hover:opacity-75 px-3 sm:px-4 py-1.5 flex-shrink-0"
-              style={{ borderRadius: 9, background: "#111", color: "#fff", textDecoration: "none", fontFamily: I }}
+              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#111", color: "#fff", textDecoration: "none", fontFamily: I, fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 10, flexShrink: 0, letterSpacing: "-0.01em" }}
+              className="hover:opacity-80 transition-opacity"
             >
-              <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: "#fff", display: "block", marginBottom: 1 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
-              Buy
+              <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: "#fff", flexShrink: 0 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
+              Buy — $3.99
             </a>
           </div>
         </nav>
