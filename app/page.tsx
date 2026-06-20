@@ -485,6 +485,25 @@ export default function Home() {
         </p>
       </section>
 
+      {/* ── Customization ── */}
+      <section className="py-20 px-6" style={{ borderTop: "1px solid #f0f0f0" }}>
+        <div className="mx-auto" style={{ maxWidth: 720 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "#f0f0f0", borderRadius: 20, overflow: "hidden" }}>
+            {[
+              { icon: "✦", label: "Glow color", desc: "Pick any color for the trail that follows your cursor around." },
+              { icon: "◉", label: "Eye color",  desc: "Change the iris to match your vibe — subtle or loud, your call." },
+              { icon: "⊞", label: "Size",        desc: "Go tiny and discreet, or big enough to own the screen." },
+            ].map(({ icon, label, desc }) => (
+              <div key={label} style={{ background: "#fff", padding: "32px 28px", display: "flex", flexDirection: "column", gap: 12 }}>
+                <span style={{ fontSize: 22, lineHeight: 1 }}>{icon}</span>
+                <p style={{ fontSize: 15, fontWeight: 600, color: "#111", margin: 0, fontFamily: I }}>{label}</p>
+                <p style={{ fontSize: 13, color: "#aaa", margin: 0, fontFamily: I, fontWeight: 300, lineHeight: 1.6 }}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Get Cursur for free ── */}
       <section id="free" className="px-6 py-24" style={{ background: "#f9f9f9", borderTop: "1px solid #f0f0f0", borderBottom: "1px solid #f0f0f0" }}>
         <div className="mx-auto" style={{ maxWidth: 600 }}>
