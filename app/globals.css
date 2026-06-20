@@ -18,6 +18,20 @@ html, body {
   100% { background-position: 0 0; }
 }
 
+@keyframes nav-aurora-1 {
+  0%,100% { transform: translateX(0) scaleX(1); opacity: 1; }
+  50%      { transform: translateX(30px) scaleX(1.2); opacity: 0.7; }
+}
+@keyframes nav-aurora-2 {
+  0%,100% { transform: translateX(0) scaleX(1); opacity: 0.8; }
+  40%      { transform: translateX(-24px) scaleX(0.85); opacity: 1; }
+  70%      { transform: translateX(18px) scaleX(1.1); opacity: 0.6; }
+}
+@keyframes nav-aurora-3 {
+  0%,100% { transform: translateX(0); opacity: 0.9; }
+  55%      { transform: translateX(-20px) scaleX(1.15); opacity: 0.6; }
+}
+
 @keyframes scroll-videos {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }

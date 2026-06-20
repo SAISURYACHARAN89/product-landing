@@ -363,14 +363,22 @@ export default function Home() {
           WebkitBackdropFilter: "blur(40px) saturate(200%)",
           boxShadow: "0 2px 16px rgba(0,0,0,0.07), 0 0 0 0.5px rgba(255,255,255,0.9) inset",
           padding: "10px 14px 10px 18px",
+          position: "relative",
+          overflow: "hidden",
         }}>
+          {/* Aurora light blobs */}
+          <span aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}>
+            <span style={{ position: "absolute", top: "-40%", left: "10%",  width: 180, height: 80,  borderRadius: "50%", background: "rgba(99,179,255,0.13)",  filter: "blur(28px)", animation: "nav-aurora-1 8s ease-in-out infinite" }} />
+            <span style={{ position: "absolute", top: "-30%", left: "38%",  width: 140, height: 70,  borderRadius: "50%", background: "rgba(167,139,250,0.11)", filter: "blur(24px)", animation: "nav-aurora-2 11s ease-in-out infinite" }} />
+            <span style={{ position: "absolute", top: "-50%", right: "12%", width: 160, height: 90,  borderRadius: "50%", background: "rgba(52,211,153,0.09)",  filter: "blur(30px)", animation: "nav-aurora-3 9s ease-in-out infinite" }} />
+          </span>
           {/* Logo */}
-          <span style={{ fontFamily: G, fontWeight: 500, fontSize: 26, lineHeight: 1, letterSpacing: "-0.02em", flexShrink: 0, display: "flex", alignItems: "center", position: "relative", top: -3 }}>
+          <span style={{ fontFamily: G, fontWeight: 500, fontSize: 26, lineHeight: 1, letterSpacing: "-0.02em", flexShrink: 0, display: "flex", alignItems: "center", position: "relative", top: -3, zIndex: 1 }}>
             c<span className="text-blue-500">u</span>rs<span className="text-blue-500">u</span>r
           </span>
 
           {/* Right side */}
-          <div className="flex items-center gap-3" style={{ fontFamily: I }}>
+          <div className="flex items-center gap-3" style={{ fontFamily: I, position: "relative", zIndex: 1 }}>
             <button
               onClick={() => { setRecoveryOpen(true); setRecoverySubmitted(false); setRecoveryEmail(""); }}
               style={{ background: "none", border: "none", cursor: "pointer", fontFamily: I, fontSize: 13, color: "#888", padding: "6px 10px", borderRadius: 8, lineHeight: 1 }}
@@ -383,10 +391,9 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent("buy_clicked", { source: "nav" })}
-              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#111", color: "#fff", textDecoration: "none", fontFamily: I, fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 10, flexShrink: 0, letterSpacing: "-0.01em" }}
+              style={{ display: "inline-flex", alignItems: "center", background: "#111", color: "#fff", textDecoration: "none", fontFamily: I, fontSize: 13, fontWeight: 600, padding: "8px 16px", borderRadius: 10, flexShrink: 0, letterSpacing: "-0.01em" }}
               className="hover:opacity-80 transition-opacity"
             >
-              <svg viewBox="0 0 814 1000" style={{ width: 11, height: 11, fill: "#fff", flexShrink: 0 }}><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.7 269-317.7 70.2 0 128.7 46.3 170.7 46.3 40.3 0 107.3-49 185.4-49 29.5 0 108.2 2.6 168.4 74.3zm-234.4-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/></svg>
               Get Licence
             </a>
           </div>
