@@ -178,7 +178,9 @@ export default function BuyPage() {
 
           {/* Product */}
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 32 }}>
-            <img src="/cursor-hero.png" alt="cursur" style={{ width: 44, height: 44, objectFit: "contain", flexShrink: 0 }} />
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, overflow: "hidden" }}>
+              <img src="/cursor-hero.png" alt="cursur" style={{ width: 38, height: 38, objectFit: "contain" }} />
+            </div>
             <div style={{ fontSize: 16, fontWeight: 600, color: "#fff" }}>cursur</div>
           </div>
 
