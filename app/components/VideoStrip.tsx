@@ -46,7 +46,9 @@ export default function VideoStrip() {
   const doubled = [...CLIPS, ...CLIPS];
 
   return (
-    <div style={{ overflow: "hidden", marginBottom: 56 }}>
+    <div style={{ overflow: "hidden", marginBottom: 56, position: "relative" }}>
+      <div style={{ pointerEvents: "none", position: "absolute", left: 0, top: 0, bottom: 0, width: 80, zIndex: 10, background: "linear-gradient(to right, #f9f9f9, transparent)" }} />
+      <div style={{ pointerEvents: "none", position: "absolute", right: 0, top: 0, bottom: 0, width: 80, zIndex: 10, background: "linear-gradient(to left, #f9f9f9, transparent)" }} />
       <div
         ref={trackRef}
         style={{ display: "flex", gap: GAP, width: "max-content", willChange: "transform" }}
